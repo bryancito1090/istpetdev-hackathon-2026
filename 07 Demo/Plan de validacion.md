@@ -25,8 +25,8 @@ Las pruebas se realizan sobre entregas reales de software. **Todavía no se han 
 | V-10 | Dos dispositivos/nueva clave | Duplicado de negocio/conflicto controlado | RNF-02/03 |
 | V-11 | Token/ruta cambiados offline | Cola conservada; reauth/conflicto visible | RF-06 |
 | V-12 | Archivo pendiente/fallido | Reintento separado de estado operativo | RF-09 |
-| V-13 | Acceso cruzado/QR inválido | No exposición ni escritura ajena | RNF-01/11 |
-| V-14 | Chat/reconexión | Historial y permisos recuperados | RF-10 |
+| V-13 | Acceso cruzado/QR inválido | Mismo rol en otra organización o asignación no accede; QR inválido se rechaza y QR público no concede escritura ni evidencia privada | RNF-01/11 |
+| V-14 | Chat/reconexión | Historial recuperado; políticas RBAC impiden entrar/enviar a grupos ajenos y retiran acceso revocado | RF-10, RNF-01 |
 | V-15 | Clientes en dos réplicas | Eventos llegan y reanudan tras reinicio | RNF-07 |
 | V-16 | Timeout/JSON vacío IA | Cálculo y fallback preservados | RF-12 |
 | V-17 | Repetir simulación con seed | Resultados idénticos para misma configuración | RF-14 |
@@ -36,6 +36,7 @@ Las pruebas se realizan sobre entregas reales de software. **Todavía no se han 
 | V-21 | Carga y autoscaling | Volumen, p95, errores y conexiones medidos | RNF-10 |
 | V-22 | Failover/restauración | Recuperación y tiempo medidos | RNF-12 |
 | V-23 | Límites FSD Angular web | Sin imports a capas superiores ni deep imports entre slices; API pública y build/lint válidos | RF-16 |
+| V-24 | Matriz RBAC y revocación | Cada rol permite y deniega acciones implementadas según matriz; cuenta sin rol o rol falsificado se rechaza; revocación antes de sincronizar conserva cola sin efectos en servidor | RNF-01 |
 
 Priorizar invariantes de inventario, autorización, offline y comparación. Usar pruebas unitarias para reglas y de integración con PostgreSQL real para transacciones/concurrencia; recorrido móvil con dispositivo real para persistencia/archivos.
 
@@ -53,8 +54,9 @@ Conservar manifest del run y hash del dataset. Para pruebas sensibles guardar ev
 
 ## Puertas de salida
 
-- **P0:** V-01/02/03/05/07/08/09/10/13/23 y comparación mínima válidas.
+- **P0:** V-01/02/03/05/07/08/09/10/13/23/24 y comparación mínima válidas; completar V-13 para evidencias al implementar RF-09.
 - **P1:** recorrido integrado, evidencia S3, incidente, n8n/IA y simulador; validar V-04/06/11/12/14/16/17/18/19/20.
+- **Nuevas acciones P1:** repetir V-13/V-24 para evidencias, automatización y tiempo real al incorporarlos.
 - **Varias réplicas:** V-15 antes de mostrar escalado SignalR.
 - **Declaración de rendimiento/HA:** V-21/V-22 con condiciones publicables.
 

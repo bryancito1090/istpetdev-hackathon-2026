@@ -50,6 +50,7 @@ Estos indicadores se definen operativamente en [[Simulador y metricas]]. El manu
 - **Experiencia:** amplia en full stack, backend, móvil, frontend, datos y logística.
 - **Forma de trabajo:** todos realizan lo necesario; no enfatizar ni repartir quién hace qué.
 - **Frontend:** adoptar **Feature-Sliced Design (FSD)** y comunicarlo en la bóveda.
+- **Autorización:** usar **RBAC** y agregarlo explícitamente a la bóveda; decisión aceptada el 6 de octubre de 2026 en ADR-14, con permisos por rol y ámbito en [[Seguridad y evidencias]].
 - **Plus:** mantener una nota específica con mejoras para competir; archivo [[Plus para ganar]].
 
 ## Precisión técnica incorporada

@@ -33,7 +33,7 @@ tags: [hackathon, istpetdev]
 | Región/cuenta/límite AWS | Antes de aprovisionar |
 | Motor RDS/PostGIS y generadores UUID | Antes de migraciones |
 | Proveedor vial/costo/almacenamiento permitido | Antes de matrices y comparativa |
-| Identidad/autorización móvil | Antes de recepción autenticada |
+| Proveedor de identidad y sesión móvil/offline (ADR-10) | Antes de recepción autenticada; el modelo RBAC ya está aceptado en ADR-14 |
 | PWA vs nativo para demo | Antes de pruebas en dispositivos |
 | Repositorio del software | Antes de empezar el código; la bóveda ya usa Git/GitHub |
 | Modelo/prompt/cuotas IA | Antes de configurar n8n |

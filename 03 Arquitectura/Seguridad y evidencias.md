@@ -13,7 +13,38 @@ Identidad común web/móvil mediante un proveedor estándar compatible OIDC, pen
 
 El servidor deriva el actor de su sesión. Valida organización, punto, asignación y permiso de acción en cada endpoint y grupo SignalR. El cliente no puede convertir un actorId enviado en autoridad.
 
-Para captura offline: permitir solo asignaciones previamente descargadas. La aceptación en nube requiere sesión válida; una sesión expirada conserva la cola y solicita reautenticación.
+Para captura offline: permitir solo asignaciones previamente descargadas. La aceptación en nube requiere sesión válida y permisos vigentes; una sesión expirada conserva la cola y solicita reautenticación. Si se revoca el permiso o la asignación necesarios, no se aceptan operaciones pendientes, sin borrar su captura local.
+
+## RBAC — control de acceso basado en roles
+
+**Decisión aceptada el 6 de octubre de 2026 por instrucción del usuario; implementación pendiente.** Web, móvil, API y automatización usarán RBAC según ADR-14 en [[Decisiones de arquitectura]]. El proveedor de identidad de ADR-10 sigue pendiente.
+
+Un rol concede acciones; cada acceso requiere además pertenencia activa a la organización y ámbito autorizado sobre el recurso. Tener el rol Conductor no permite recibir cualquier entrega. Aplicar mínimo privilegio y denegar por defecto toda acción sin permiso explícito.
+
+### Matriz inicial de roles y permisos
+
+| Rol | Acciones permitidas | Ámbito obligatorio |
+|---|---|---|
+| Gerencia | Consultar puntos, inventario, riesgos, rutas, indicadores, trazabilidad, evidencias y resultados de simulación; aprobar decisiones de negocio; chat | Su organización; solo conversaciones en las que participa |
+| Planificador | Consultar puntos, inventario, riesgos y trazabilidad; solicitar reposición, reservar stock, calcular/publicar rutas y ejecutar/consultar simulaciones; chat | Su organización y puntos habilitados; solo sus conversaciones |
+| Bodega | Consultar stock y trazabilidad; registrar lotes, preparar unidades QR, reservar y despachar | Almacenes autorizados y entregas que salen de ellos |
+| Conductor | Consultar ruta y trazabilidad; registrar recepción, cargar/consultar evidencia de sus entregas, reportar incidentes y chat | Solo rutas/entregas asignadas y sus conversaciones |
+| Receptor | Registrar consumo y solicitar reposición; consultar resumen de sus entregas y evidencias; aceptar cantidades | Solo puntos y entregas expresamente autorizados |
+| Automatización | Solicitar cálculos de riesgo, consultar snapshots mínimos y adjuntar explicaciones; generar incidentes sintéticos | Organización habilitada; incidentes solo en entorno y escenario demo autorizados |
+
+La consulta pública por QR conserva su contrato limitado: no asigna un rol ni concede permisos de recepción, evidencia privada o escritura. Automatización no puede despachar, recibir, publicar rutas ni administrar accesos.
+
+### Aplicación de permisos
+
+- Mantener un catálogo fijo de roles y acciones en backend para P0, con políticas compartidas por API y SignalR. No crear un editor dinámico de permisos para la demo.
+- Vincular la identidad validada a sus roles por organización; no aceptar roles, actorId o ámbitos enviados por el cliente como autoridad. Una cuenta puede tener varios roles explícitos, sin trasladarlos a otra organización.
+- Administrar asignaciones/revocaciones mediante configuración o seed controlado para la demo, con auditoría; ningún usuario puede concederse roles desde web, móvil o n8n.
+- Validar permiso de acción y recurso en cada consulta, comando, reintento offline, acceso a evidencia y entrada/envío a grupos SignalR. Consultas de trabajos y resultados heredan el ámbito de la operación original.
+- Los guards, menús y botones de web/móvil reflejan permisos para orientar al usuario; el servidor aplica la decisión incluso ante una petición directa.
+- Revalidar permisos al sincronizar y reconectar. Una revocación invalida también el acceso al canal; conservar la cola y mostrar el rechazo sin aplicar cambios parciales.
+- Auditar cambios de roles y rechazos con actor, organización, acción, recurso, fecha y correlationId, sin guardar tokens ni evidencias sensibles.
+
+Roles funcionales en [[Usuarios y flujos]], requisito RNF-01 en [[Requisitos y aceptacion]] y pruebas V-13/V-14/V-24 en [[Plan de validacion]].
 
 ## QR y consulta del jurado
 
@@ -67,4 +98,4 @@ El generador de incidentes solo funciona en entorno de demo y con credencial lim
 
 ## Verificación
 
-Probar acceso ajeno a entrega, modificación del token QR, reutilización de URL expirada, exceso de archivo, actor falsificado y salto a grupos SignalR. Los criterios están en [[Plan de validacion]].
+Probar la matriz RBAC con acciones permitidas y denegadas, revocación antes de sincronizar, acceso ajeno a entrega, modificación del token QR, reutilización de URL expirada, exceso de archivo, actor/rol falsificado y salto a grupos SignalR. Los criterios están en [[Plan de validacion]].

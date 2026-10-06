@@ -18,7 +18,7 @@ Esta nota define **el catálogo y las especificaciones**. Todavía no se han cre
 | Skill                          | Cuándo se activa                             | Debe leer                                                                                       | Resultado esperado                                         |
 | ------------------------------ | -------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
 | istpetdev-contexto             | Inicio de tarea del proyecto                 | [[Contexto maestro]], [[Reto 1 oficial]], [[Alcance y prioridades]]                             | Cambio alineado al reto, sin inventar reglas/resultados    |
-| istpetdev-backend              | Casos de uso C#/inventario/custodia          | [[Backend y tiempo real]], [[Modelo de datos]], [[Contratos API y eventos]]                     | Regla transaccional, autorización e idempotencia correctas |
+| istpetdev-backend              | Casos de uso C#/inventario/custodia          | [[Backend y tiempo real]], [[Modelo de datos]], [[Contratos API y eventos]], [[Seguridad y evidencias]] | Regla transaccional, RBAC por acción/recurso e idempotencia correctos |
 | istpetdev-frontend-fsd         | Páginas, slices y componentes Angular web    | [[Frontend con Feature-Sliced Design]], [[Frontend y componentes]], [[Contratos API y eventos]] | Ubicación FSD, API pública e imports válidos               |
 | istpetdev-mobile-offline       | Captura Ionic, persistencia y sincronización | [[Movil offline y sincronizacion]], [[Usuarios y flujos]], [[Seguridad y evidencias]]           | Operación durable y conflictos explícitos                  |
 | istpetdev-aws-terraform        | Infraestructura y despliegue AWS             | [[AWS y Terraform]], [[Decisiones de arquitectura]], [[Seguridad y evidencias]]                 | Infra reproducible, plan revisable y límites de gasto      |
@@ -47,7 +47,7 @@ Para componentes móviles no imponer automáticamente la misma decisión; aplica
 
 Dominio independiente de infraestructura. Comandos transaccionales y consultas proyectadas. No introducir repositorios genéricos, mediadores o servicios nuevos sin una necesidad concreta.
 
-Toda escritura reintentable comprueba permisos, idempotencia, versión y cantidades. Toda consulta con datos privados limita ámbito y volumen. La skill debe señalar qué invariantes y pruebas existentes afecta el cambio.
+Toda escritura reintentable comprueba permisos, idempotencia, versión y cantidades. Toda consulta con datos privados limita ámbito y volumen. Aplicar RBAC aceptado en ADR-14 con denegación por defecto y políticas compartidas por API/SignalR; validar organización y recurso también al sincronizar. La skill debe señalar qué invariantes y pruebas existentes afecta el cambio.
 
 ## Convención para Terraform
 

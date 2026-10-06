@@ -39,6 +39,7 @@ Fuente: [[Reto 1 oficial]] y [[Evaluacion y entregables]].
 | Móvil | Angular/Ionic; persistencia y operaciones offline | Propuesta del equipo |
 | Nube | AWS ECS Fargate, ALB, RDS, S3 y Terraform | Propuesta del equipo |
 | Comunicación | SignalR para alertas y chat de operación | Propuesta del equipo |
+| Autorización | RBAC con permisos por rol y ámbito de recurso; [[Seguridad y evidencias]] | Aceptado por instrucción del usuario el 6 de octubre; implementación y proveedor de identidad pendientes |
 | Automatización | n8n y DeepSeek para explicar alertas | Propuesta del equipo |
 | Diseño interno | Una API modular, una base de datos, reglas deterministas para inventario | Recomendación técnica inicial |
 | Demo | QR físico, entrega offline, comparación reproducible y trazabilidad pública limitada | Propuesta consolidada |

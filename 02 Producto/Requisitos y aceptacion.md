@@ -34,7 +34,7 @@ Estos requisitos convierten el reto oficial y la propuesta del equipo en comport
 
 | ID | Prioridad | Requisito | Cómo comprobar |
 |---|---|---|---|
-| RNF-01 | P0 | Autorización en servidor | Conductor no puede operar entrega de otra cuenta |
+| RNF-01 | P0 | RBAC y autorización de recursos en servidor | Matriz de [[Seguridad y evidencias]] aplicada; denegación por defecto; rol, organización y asignación validados; revocación comprobada al sincronizar |
 | RNF-02 | P0 | Idempotencia | Misma clave + mismo contenido → un efecto; contenido distinto → conflicto |
 | RNF-03 | P0 | Transacciones | Dos despachos concurrentes no exceden stock |
 | RNF-04 | P0 | Recuperación offline | Cierre/reapertura conserva operación y archivos |

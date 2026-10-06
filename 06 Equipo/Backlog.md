@@ -15,12 +15,13 @@ Backlog compartido de IstpetDev, **sin asignación fija de integrantes**. Todas 
 |---|---|---|---|---|
 | B-01 | Cerrar versiones y contrato | ADRs | Versiones/contrato revisados | Pendiente |
 | B-02 | Fixture de 6 puntos/2 SKU | B-01 | Unidades y balance verificables | Pendiente |
-| B-03 | Catálogo, lotes y saldos | B-02 | RF-01/02, concurrencia válida | Pendiente |
+| B-29 | Identidad y RBAC en servidor | B-01, ADR-10 | RNF-01 online; cuentas demo, políticas por acción/recurso, revocación y casos online de V-13/V-24 | Pendiente |
+| B-03 | Catálogo, lotes y saldos | B-02/29 | RF-01/02, concurrencia válida | Pendiente |
 | B-04 | Consumo y cobertura | B-03 | RF-03, casos cero/desactualizado | Pendiente |
 | B-05 | Planner inicial | B-04, mapas | RF-04, inviables explícitos | Pendiente |
 | B-06 | Unidades QR y custodia | B-03 | RF-05, líneas por lote | Pendiente |
-| B-07 | Despacho/recepción online | B-06 | Cantidades parciales y actor autorizado | Pendiente |
-| B-08 | Persistencia y sincronización móvil | B-07 | RF-06, reinicio/reintento/duplicados | Pendiente |
+| B-07 | Despacho/recepción online | B-06/29 | Cantidades parciales y permisos RBAC/asignación comprobados | Pendiente |
+| B-08 | Persistencia y sincronización móvil | B-07 | RF-06, reinicio/reintento/duplicados y revocación offline de V-24 | Pendiente |
 | B-09 | Panel integrado | B-04/05/07 | RF-07, datos/versiones consistentes | Pendiente |
 | B-10 | Baseline/comparación pequeña | B-05 | RF-08, mismos datos/recursos | Pendiente |
 
@@ -30,7 +31,7 @@ Backlog compartido de IstpetDev, **sin asignación fija de integrantes**. Todas 
 |---|---|---|---|---|
 | B-11 | S3 foto/firma | B-08 | RF-09, privada y reintentable | Pendiente |
 | B-12 | Consulta pública QR | B-06/11 | RF-13, datos limitados y revocación | Pendiente |
-| B-13 | SignalR y chat | B-07 | RF-10, historial y reconexión | Pendiente |
+| B-13 | SignalR y chat | B-07/29 | RF-10, políticas RBAC compartidas, historial y reconexión; V-14 | Pendiente |
 | B-14 | Incidente/replanificación | B-05/13 | RF-11, lo ejecutado se conserva | Pendiente |
 | B-15 | n8n riesgo/explicación | B-04 | RF-12, fallback/JSON/error | Pendiente |
 | B-16 | n8n incidente demo | B-14/15 | Credencial limitada y caso etiquetado | Pendiente |
