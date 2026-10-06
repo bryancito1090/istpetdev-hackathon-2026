@@ -1,0 +1,27 @@
+---
+tipo: inicio
+estado: vigente
+actualizado: 2026-10-06
+tags: [hackathon, equipo]
+---
+
+# IstpetDev — Hackathon Expo Clean Ecuador 2026
+
+Participamos en el **Reto 1: optimización y trazabilidad logística para el abastecimiento de insumos a nivel nacional**, dentro de Gestión Inteligente de Procesos.
+
+Esta es nuestra base compartida para entender el reto, acordar el producto, implementar y demostrar resultados. Las propuestas técnicas todavía no representan software construido ni acuerdos de la organización.
+
+## Empieza aquí
+
+1. Lee [[Contexto maestro]] para entender el problema y las decisiones iniciales.
+2. Revisa [[Reto 1 oficial]] y [[Evaluacion y entregables]] antes de definir funcionalidades.
+3. Consulta [[Alcance y prioridades]], [[Arquitectura del sistema]] y [[Plan de ejecucion]].
+4. Consulta los entregables en [[Backlog]] y los acuerdos en [[Equipo y acuerdos]].
+5. Prepara la demostración con [[Guion del pitch]] y [[Plus para ganar]].
+
+El índice completo está en [[Mapa de la boveda]]. Las reglas para editar están en [[Convenciones y estados]].
+
+> [!important] Próximos hitos
+> Capacitación: **8 de octubre de 2026**. Hackathon: **16 y 17 de octubre de 2026**, hora de Ecuador continental. Consultar las reglas de trabajo previo en [[Consultas para la organizacion]].
+
+El manual original está incluido en [[Manual oficial.pdf]]. El presupuesto, proveedor de mapas y algunas versiones aún requieren definición; revisa [[Riesgos y decisiones pendientes]].

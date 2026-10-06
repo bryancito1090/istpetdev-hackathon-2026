@@ -1,0 +1,65 @@
+---
+tipo: validacion
+estado: propuesta
+actualizado: 2026-10-06
+tags: [demo, validacion, istpetdev]
+---
+
+# Plan de validación
+
+Las pruebas se realizan sobre entregas reales de software. **Todavía no se han ejecutado**; esta nota define qué evidencia necesitamos.
+
+## Matriz de validación
+
+| ID | Caso | Resultado que debe comprobarse | Requisitos |
+|---|---|---|---|
+| V-01 | Lote/movimientos/consumo | Balance por lote/SKU y unidad correcto | RF-01/02 |
+| V-02 | Dos despachos concurrentes | No exceden stock ni dejan saldo negativo | RNF-03 |
+| V-03 | Cobertura cero/ausente/antigua | Cálculo o incertidumbre explícitos | RF-03 |
+| V-04 | Pronóstico sin datos futuros | Solo entradas conocidas antes del corte | RF-03/14 |
+| V-05 | Ruta con capacidad/horarios | Factible o pendientes con motivo | RF-04 |
+| V-06 | Incidente tras entregas | Replanifica pendientes y conserva ejecutado | RF-11 |
+| V-07 | Recepción parcial | Cantidades restantes y custodia conciliables | RF-05/06 |
+| V-08 | Modo avión + reinicio | Captura y archivos recuperables | RNF-04 |
+| V-09 | Respuesta perdida + reintento | Una operación, un movimiento | RNF-02 |
+| V-10 | Dos dispositivos/nueva clave | Duplicado de negocio/conflicto controlado | RNF-02/03 |
+| V-11 | Token/ruta cambiados offline | Cola conservada; reauth/conflicto visible | RF-06 |
+| V-12 | Archivo pendiente/fallido | Reintento separado de estado operativo | RF-09 |
+| V-13 | Acceso cruzado/QR inválido | No exposición ni escritura ajena | RNF-01/11 |
+| V-14 | Chat/reconexión | Historial y permisos recuperados | RF-10 |
+| V-15 | Clientes en dos réplicas | Eventos llegan y reanudan tras reinicio | RNF-07 |
+| V-16 | Timeout/JSON vacío IA | Cálculo y fallback preservados | RF-12 |
+| V-17 | Repetir simulación con seed | Resultados idénticos para misma configuración | RF-14 |
+| V-18 | Baseline/recursos/obligaciones | Comparación justa y denominadores explícitos | RF-08/14 |
+| V-19 | Anomalía etiquetada | Alertas y merma confirmada diferenciadas | RF-15 |
+| V-20 | Uso con usuario/mentor | Entiende alerta, ruta y estado offline | RNF-09 |
+| V-21 | Carga y autoscaling | Volumen, p95, errores y conexiones medidos | RNF-10 |
+| V-22 | Failover/restauración | Recuperación y tiempo medidos | RNF-12 |
+| V-23 | Límites FSD Angular web | Sin imports a capas superiores ni deep imports entre slices; API pública y build/lint válidos | RF-16 |
+
+Priorizar invariantes de inventario, autorización, offline y comparación. Usar pruebas unitarias para reglas y de integración con PostgreSQL real para transacciones/concurrencia; recorrido móvil con dispositivo real para persistencia/archivos.
+
+## Validación de usuario
+
+Realizar una sesión con una persona que conozca abastecimiento/limpieza, si está disponible, o mentor claramente identificado como tal. Pedir que interprete una alerta, revise una ruta y confirme una recepción.
+
+Registrar tiempo, errores, dudas y cambios sin inventar representatividad estadística. Una conversación con mentor no equivale a un piloto de empresa.
+
+## Registro mínimo
+
+Usar [[Plantilla evidencia]]: fecha, versión, entorno, dataset/seed, prerequisitos, acción, resultado esperado/observado, archivo/log/captura y límites.
+
+Conservar manifest del run y hash del dataset. Para pruebas sensibles guardar evidencia anonimizada; no añadir tokens o firmas reales al informe.
+
+## Puertas de salida
+
+- **P0:** V-01/02/03/05/07/08/09/10/13/23 y comparación mínima válidas.
+- **P1:** recorrido integrado, evidencia S3, incidente, n8n/IA y simulador; validar V-04/06/11/12/14/16/17/18/19/20.
+- **Varias réplicas:** V-15 antes de mostrar escalado SignalR.
+- **Declaración de rendimiento/HA:** V-21/V-22 con condiciones publicables.
+
+No repetir pruebas amplias por rutina: repetir lo afectado por cambios y los recorridos críticos antes del cierre. El respaldo del pitch está en [[Checklist y contingencias]].
+
+## Resultados
+
+Sin resultados aún. Crear notas de evidencia reales y enlazarlas aquí cuando existan.

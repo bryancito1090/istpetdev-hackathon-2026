@@ -1,0 +1,15 @@
+# Estado personal y archivos temporales de Obsidian
+.obsidian/workspace*.json
+.obsidian/cache/
+.trash/
+
+# Archivos locales del sistema
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Configuración privada
+.env
+.env.*
+!.env.example
