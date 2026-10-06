@@ -29,6 +29,7 @@ La copia incluida evita depender de la ruta de Downloads de un integrante. La ve
 - [[Informacion inicial del equipo]]: propuesta tecnológica y narrativa recibida.
 - Aclaración del usuario del 6 de octubre: IstpetDev, cinco integrantes, experiencia transversal y sin reparto fijo de especialidades.
 - Aclaración del usuario del 6 de octubre: adoptar Feature-Sliced Design en frontend web.
+- Instrucción del usuario del 6 de octubre: comprobar RBAC y agregarlo si faltaba; modelo aceptado en ADR-14, implementación pendiente.
 - [[Registro de trabajo previo y del evento]]: evolución y autoría.
 - [[Registro de mentorias]]: respuestas y validación futuras.
 
@@ -60,6 +61,7 @@ Estas fuentes verifican límites de plataforma y convenciones; no validan el aho
 | 2026-10-06 | Bóveda base, manual portable, requisitos y arquitectura | Documentación inicial, sin software implementado |
 | 2026-10-06 | Identificación IstpetDev y trabajo flexible | Sin asignación fija de personas |
 | 2026-10-06 | Frontend FSD aceptado y plus de competencia | Contexto, frontend, ADR-13 y catálogo de skills |
+| 2026-10-06 | RBAC aceptado por instrucción del usuario | Matriz de seis roles en seguridad, ADR-14, datos/contratos, RNF-01, B-29 y V-24; sin software implementado |
 | 2026-10-06 | Repositorio privado GitHub creado por instrucción del usuario | bryancito1090/istpetdev-hackathon-2026; README y exclusión de sesiones personales de Obsidian |
 | Pendiente | Respuestas de capacitación | Actualizar reglas/alcance al recibirlas |
 
@@ -72,3 +74,5 @@ Conservar nueva versión sin sobrescribir silenciosamente la anterior. Registrar
 Revisión del 6 de octubre de 2026: **47 notas Markdown**, **252 enlaces internos resueltos**, metadatos YAML válidos, nombres de nota únicos y bloques de código balanceados. El hash de la copia del PDF coincide con el original recibido. Verificados los enlaces y referencias de FSD en contexto, arquitectura, ADR-13, requisitos, backlog, validación y catálogo de skills.
 
 Esta revisión valida la documentación y navegación; las pruebas de software de [[Plan de validacion]] siguen pendientes de implementación.
+
+Actualización RBAC del 6 de octubre: enlaces internos resueltos, metadatos YAML válidos, nombres únicos, bloques de código balanceados e IDs de ADR/backlog/validación sin duplicados. Revisión de formato con `git diff --check` sin errores. Las pruebas de permisos siguen pendientes de software.

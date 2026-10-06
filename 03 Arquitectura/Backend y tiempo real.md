@@ -32,6 +32,12 @@ tests/
 
 Estos directorios son una convención a decidir, no archivos ya creados en la bóveda. Usar EF Core con PostgreSQL y consultas proyectadas; no añadir repositorios genéricos que repitan sus operaciones.
 
+## Autorización RBAC
+
+ADR-14 adopta RBAC con el catálogo de [[Seguridad y evidencias]]. La API vincula la identidad validada a roles por organización y aplica políticas por acción junto con comprobaciones del recurso en consultas y comandos. Denegar por defecto; no confiar en roles o actores del payload.
+
+Reutilizar las mismas políticas en SignalR, evidencias y reintentos offline. Comprobar permisos vigentes antes de devolver un resultado idempotente o efectuar cambios; ningún rol evita restricciones de stock, versión o asignación. Web/móvil reflejan permisos; n8n usa el rol técnico limitado. Cierre: B-29 y RNF-01.
+
 ## CQRS práctico
 
 Comandos: registrar consumo, reservar stock, despachar, recibir, crear incidente y publicar ruta. Consultas: cobertura, dashboard, historial de QR y métricas.

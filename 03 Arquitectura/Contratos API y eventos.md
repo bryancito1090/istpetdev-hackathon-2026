@@ -16,6 +16,7 @@ tags: [arquitectura, contratos]
 - Cliente siempre indica operationId en escrituras reintentables; clave enviada como Idempotency-Key.
 - Actor real derivado de autenticación, nunca confiado desde el payload.
 - organizationId validado contra sesión, aunque exista en una referencia.
+- Cada endpoint privado y acción SignalR exige permiso RBAC para su acción y ámbito del recurso según [[Seguridad y evidencias]]; roles/ámbitos del payload no otorgan acceso. La única excepción de lectura pública es el resumen QR explícito.
 - version/expectedVersion para cambios concurrentes.
 - Paginación y filtros acotados; no devolver todo el historial nacional.
 - correlationId para seguir una operación.

@@ -14,6 +14,8 @@ Modelo lógico inicial. Convertir en migraciones después de resolver versiones;
 | Entidad | Datos esenciales / relación |
 |---|---|
 | Organization | Operación propietaria; inicialmente IstpetDev usa una empresa demo |
+| Account | Identidad externa validada (issuer, subject); cuenta humana o técnica, sin contraseñas propias |
+| OrganizationAccess | Cuenta, organización, roles concedidos, almacenes/puntos autorizados y estado activo/revocado |
 | ServicePoint | Cliente, ubicación, criticidad y ventana; pertenece a organización |
 | Location | Almacén, punto, vehículo o ubicación de cuarentena |
 | Product/SKU | Unidad base, conversión de empaque, peso/volumen por unidad |
@@ -26,7 +28,7 @@ Modelo lógico inicial. Convertir en migraciones después de resolver versiones;
 | ReplenishmentRequest | Punto, cantidades y necesidad temporal |
 | Vehicle | Peso/volumen máximos, disponibilidad y condiciones |
 | RoutePlan/RouteStop | Versión, vehículo, secuencia, ventana y estado |
-| Delivery/DeliveryLine | Punto, ruta, lote, cantidades planificadas/despachadas |
+| Delivery/DeliveryLine | Organización, punto, ruta, conductor asignado, lote y cantidades planificadas/despachadas |
 | Receipt/ReceiptLine | Cantidad aceptada/rechazada, entrega y fecha de aceptación |
 | Evidence | Referencia privada de archivo ligada a recepción |
 | CustodyEvent | Hito, actor, unidad, ubicación y cantidades |
@@ -38,6 +40,8 @@ Modelo lógico inicial. Convertir en migraciones después de resolver versiones;
 | SimulationRun | Seed, dataset, políticas, parámetros y resultados |
 
 Estas entidades no obligan a crear un microservicio por tabla. El dataset y las simulaciones pueden vivir en un esquema separado para impedir mezclas con operación.
+
+El catálogo RBAC de roles/acciones es fijo en backend para P0; OrganizationAccess guarda concesiones por organización, sin requerir un editor dinámico. Toda asignación/revocación conserva actor, fecha y motivo de auditoría. El rol y el ámbito del recurso se validan conjuntamente, según [[Seguridad y evidencias]].
 
 ## Relaciones principales
 

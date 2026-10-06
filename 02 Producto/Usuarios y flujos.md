@@ -15,10 +15,10 @@ tags: [producto, reto-1]
 | Planificador | Revisar riesgo, planificar y publicar rutas | No confirmar recepciones ajenas |
 | Bodega | Registrar lotes, reservar, preparar y despachar | Custodia de su almacén |
 | Conductor | Ver ruta, escanear, reportar incidente y capturar entrega | Solo asignaciones autorizadas |
-| Receptor | Ver resumen permitido y aceptar cantidades | No acceso a inventario general |
+| Receptor | Registrar consumo, solicitar reposición, ver resumen permitido y aceptar cantidades | Solo puntos/entregas autorizados; sin inventario general |
 | Automatización | Solicitar cálculos y registrar explicaciones/incidentes demo | Identidad técnica con permisos limitados |
 
-Los roles son funcionales; una persona puede asumir varios durante la demo con cuentas diferenciadas.
+Estos roles conforman el **RBAC aceptado en ADR-14**. La matriz de permisos y restricciones está en [[Seguridad y evidencias]]; la API la aplica por acción y recurso. Una persona puede asumir varios durante la demo con cuentas diferenciadas, o una cuenta con roles explícitos por organización. El QR público no concede un rol ni permite aceptar entregas.
 
 ## Flujo central
 

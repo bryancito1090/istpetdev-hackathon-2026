@@ -7,7 +7,7 @@ tags: [arquitectura, contratos]
 
 # Decisiones de arquitectura
 
-**Estado:** propuestas consolidadas; ADR-13 (FSD web) fue aceptada por instrucción de IstpetDev el 6 de octubre de 2026. Las demás decisiones siguen pendientes. Una preferencia inicial del equipo es la base de discusión, no evidencia de implementación.
+**Estado:** propuestas consolidadas; ADR-13 (FSD web) y ADR-14 (RBAC) fueron aceptadas por instrucción del usuario el 6 de octubre de 2026. Las demás decisiones siguen pendientes. Una decisión aceptada no es evidencia de implementación.
 
 ## Registro inicial
 
@@ -26,6 +26,7 @@ tags: [arquitectura, contratos]
 | ADR-11 | Auditoría | Trazabilidad «inmutable» | Ledger append-only en aplicación; describir garantías reales |
 | ADR-12 | Repo y colaboración | Bóveda en GitHub personal | Bóveda confirmada en bryancito1090/istpetdev-hackathon-2026; repositorio de software aún pendiente |
 | ADR-13 | Arquitectura frontend | Feature-Sliced Design (FSD) | **Aceptada por el equipo, 2026-10-06**: capas y límites en [[Frontend con Feature-Sliced Design]] |
+| ADR-14 | Autorización | Control de acceso basado en roles (RBAC) | **Aceptada por instrucción del usuario, 2026-10-06**: permisos por rol y ámbito en servidor; [[Seguridad y evidencias]] |
 
 ## ADR-01 — versión de backend
 
@@ -54,3 +55,13 @@ Cerrar ADR-01/03/04/05/06/09/10 y validar una entrega vertical. Después las ski
 ## ADR-13 — FSD en Angular web
 
 **Aceptada, 2026-10-06, por instrucción de IstpetDev.** La estructura web usa app/pages/widgets/features/entities/shared, API pública por slice y dependencias hacia capas inferiores. Standalone Components y Tailwind se conservan. Las versiones siguen pendientes; FSD no decide el modelo de estado ni cambia el backend. Referencia: [[Frontend con Feature-Sliced Design]].
+
+## ADR-14 — RBAC en API, web, móvil y automatización
+
+**Aceptada, 2026-10-06, por instrucción del usuario.** Contexto: ya se describían roles funcionales y autorización por recurso, pero faltaba declarar el modelo que cumple RNF-01.
+
+**Opciones:** reglas aisladas por endpoint o un catálogo compartido de roles/acciones con restricciones por recurso. Se elige **RBAC con validación de organización, almacén, punto y asignación**, para aplicar la misma matriz en API y SignalR. El catálogo inicial usa los seis roles existentes y deniega acciones no concedidas; definición en [[Seguridad y evidencias]].
+
+**Consecuencias:** vincular identidades a roles por organización, centralizar políticas, reflejar permisos en web/móvil y limitar n8n. Para P0, administrar accesos por configuración/seed controlado y auditado. La sincronización offline vuelve a comprobar permisos vigentes. La elección del proveedor OIDC sigue pendiente en ADR-10.
+
+**Verificación pendiente:** B-29 en [[Backlog]]; V-13/V-24 para permisos, aislamiento y revocación; V-14 al incorporar SignalR, según [[Plan de validacion]]. La decisión documenta lo que se implementará, sin afirmar que ya funciona.

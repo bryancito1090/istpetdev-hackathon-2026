@@ -11,7 +11,7 @@ tags: [arquitectura, implementacion]
 
 ## Diseño inicial
 
-Una **API modular** en C# concentra reglas de inventario, rutas, custodia y autorización. Clean Architecture separa dominio, casos de uso, adaptadores y HTTP. CQRS organiza comandos y consultas en la misma aplicación y PostgreSQL inicialmente; bases distintas solo se justificarían con evidencia de carga.
+Una **API modular** en C# concentra reglas de inventario, rutas, custodia y autorización **RBAC con validación por recurso**, según [[Seguridad y evidencias]]. Clean Architecture separa dominio, casos de uso, adaptadores y HTTP. CQRS organiza comandos y consultas en la misma aplicación y PostgreSQL inicialmente; bases distintas solo se justificarían con evidencia de carga.
 
 Angular web usa **Feature-Sliced Design**, descrito en [[Frontend con Feature-Sliced Design]]. Angular web e Ionic móvil consumen el mismo contrato. n8n orquesta tareas externas; la API sigue siendo dueña del estado operativo.
 
