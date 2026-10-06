@@ -33,7 +33,15 @@ Los enlaces internos de las notas están preparados para Obsidian. El manual ofi
 
 ## Compartir cambios
 
-Antes de editar, actualiza tu copia con `git pull --ff-only`. Guarda los cambios de Obsidian, revisa `git status` y publica cambios pequeños:
+Trabajamos los cambios en `develop` y los integramos en `main` cuando están listos. Antes de editar, actualiza tu copia:
+
+```bash
+git fetch origin
+git switch develop
+git pull --ff-only
+```
+
+Guarda los cambios de Obsidian, revisa `git status` y publica cambios pequeños en `develop`:
 
 ```bash
 git add --all
@@ -43,7 +51,7 @@ git push
 
 Si la actualización indica que las ramas divergen, conserva tus cambios y resuelve la integración antes de publicar. Evita editar simultáneamente la misma nota sin coordinarlo.
 
-La configuración común de Obsidian se versiona; las sesiones personales y archivos temporales están excluidos mediante `.gitignore`.
+La configuración común de Obsidian se versiona. `.gitignore` excluye las sesiones personales (`.obsidian/workspace*.json`), las preferencias del grafo (`.obsidian/graph.json`), los logs, las cachés, la papelera y los temporales. Estos archivos permanecen en el disco de cada integrante.
 
 ## Estado del proyecto
 

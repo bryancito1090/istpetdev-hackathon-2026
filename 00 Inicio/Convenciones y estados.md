@@ -46,8 +46,8 @@ Las páginas del manual se cuentan desde la portada, que es la página 1. Sus cu
 - Fórmulas oficiales del equipo: [[Simulador y metricas]].
 - Registrar cambios relevantes en [[Fuente y control documental]] y decisiones en [[Decisiones de arquitectura]].
 - Compartimos la bóveda mediante Git y GitHub en bryancito1090/istpetdev-hackathon-2026. Hacer cambios pequeños y revisar conflictos antes de publicar.
-- Actualizar la copia con `git pull --ff-only` antes de editar. Si hay divergencia, integrar conservando los cambios; no forzar el push para resolverla.
-- `.obsidian/workspace*.json` contiene sesiones personales y está excluido mediante `.gitignore`; la configuración común sí se versiona.
+- Trabajar los cambios en `develop` y actualizarla con `git pull --ff-only` antes de editar. Integrar en `main` cuando estén listos. Si hay divergencia, integrar conservando los cambios; no forzar el push para resolverla.
+- `.obsidian/workspace*.json` guarda sesiones personales y `.obsidian/graph.json` guarda preferencias del grafo. Ambos están excluidos mediante `.gitignore`, junto con logs, cachés, papelera y temporales; la configuración común sí se versiona.
 
 ## Fuentes y evidencia
 

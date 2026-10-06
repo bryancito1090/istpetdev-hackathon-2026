@@ -1,13 +1,23 @@
 # Estado personal y archivos temporales de Obsidian
 .obsidian/workspace*.json
+.obsidian/graph.json
 .obsidian/cache/
+.obsidian/.cache/
+.obsidian/logs/
 .trash/
+
+# Logs generados por aplicaciones y plugins
+*.log
+*.log.*
 
 # Archivos locales del sistema
 .DS_Store
 Thumbs.db
+Desktop.ini
 *.swp
+*.swo
 *.tmp
+*~
 
 # Configuración privada
 .env
