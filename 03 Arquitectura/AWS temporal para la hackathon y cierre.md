@@ -11,7 +11,7 @@ tags: [aws, seguridad, credenciales, hackathon, costos, cierre]
 
 Bryan confirmó que AWS se usará para la hackathon y que después eliminará la infraestructura del proyecto para detener su consumo. Su captura del 7 de octubre muestra USD 100 de créditos y un plan gratuito que termina el 21 de octubre, con 15 días restantes. Es información aportada por Bryan, no un saldo consultado por API ni una fecha de vencimiento de cada crédito verificada en Billing. No se registra el ID de cuenta ni ningún secreto de la captura.
 
-Este escenario modifica la propuesta humana SSO/Organizations y el bootstrap conservado indefinidamente de [[Entornos y operacion acordados]], [[Credenciales y acceso del equipo]] y [[Puesta en marcha del workspace y AWS dev]]. Las decisiones de red privada, PostgreSQL, aislamiento, Secrets Manager, TLS, OIDC de GitHub y Cognito de la aplicación se conservan. Esta nota tiene precedencia para el ensayo temporal. La captura posterior de Review and create confirma que Bryan creó el grupo `IstpetDevHackathonAdmins`; el usuario sigue pendiente de creación en esa captura. El agente solo ha actualizado documentación, sin ejecutar cambios en AWS.
+Este escenario modifica la propuesta humana SSO/Organizations y el bootstrap conservado indefinidamente de [[Entornos y operacion acordados]], [[Credenciales y acceso del equipo]] y [[Puesta en marcha del workspace y AWS dev]]. Las decisiones de red privada, PostgreSQL, aislamiento, Secrets Manager, TLS, OIDC de GitHub y Cognito de la aplicación se conservan. Esta nota tiene precedencia para el ensayo temporal. Las capturas de Bryan muestran el grupo creado `IstpetDevHackathonAdmins` y, posteriormente, el asistente Assign MFA device del usuario existente `istpetdev-bryan`. Bryan respondió «listo» después de las instrucciones de Authenticator; se registra como confirmación verbal de ese paso, sin verificación por API. El primer inicio de sesión con la nueva identidad sigue pendiente de confirmación explícita. El agente solo ha actualizado documentación, sin ejecutar cambios en AWS.
 
 ## 1. Conservar los créditos y elegir el acceso
 
@@ -126,7 +126,7 @@ La captura de **Review and create** del 7 de octubre confirma:
 | Permissions summary | `IAMUserChangePassword` y grupo `IstpetDevHackathonAdmins` |
 | Tags | Todavía ninguno |
 
-`IAMUserChangePassword` es coherente con el cambio obligatorio de contraseña. El resumen muestra la pertenencia al grupo, pero no permite comprobar las políticas adjuntas al grupo. La creación del usuario, el cambio de contraseña y MFA siguen pendientes de confirmación.
+`IAMUserChangePassword` es coherente con el cambio obligatorio de contraseña. El resumen muestra la pertenencia al grupo, pero no permite comprobar las políticas adjuntas al grupo. En esa captura todavía no se había creado el usuario; la captura posterior descrita abajo muestra su existencia. El cambio de contraseña y MFA siguen pendientes de confirmación.
 
 Procedimiento siguiente:
 
@@ -140,3 +140,119 @@ Procedimiento siguiente:
 Este administrador es personal de Bryan; los integrantes tendrán sus propios usuarios y permisos dev limitados. La asignación de MFA protege los nuevos inicios de sesión, por eso se verifica en una sesión nueva. No crear access keys para este flujo.
 
 [Usuarios y contraseña inicial](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html), [políticas del grupo](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_attach-policy.html), [asignación de MFA](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_virtual.html).
+
+## Pantalla Assign MFA device observada
+
+La siguiente captura de Bryan muestra **IAM → IAM users → istpetdev-bryan → Assign MFA device**, con Device name vacío y **Passkey or security key** seleccionado. Confirma que el usuario existe; todavía no demuestra enrolamiento MFA, etiquetas, permisos heredados efectivos ni acceso con la nueva identidad.
+
+Recomendación para esta pantalla:
+
+1. **Device name:** `istpetdev-bryan-mfa`.
+2. Mantener **Passkey or security key** cuando haya un dispositivo o gestor personal compatible disponible. AWS recomienda esta opción por su resistencia al phishing. **Passkey display name — Optional:** `AWS IstpetDev - Bryan`.
+3. Desplazarse hasta el final y pulsar **Next**. Completar el registro mediante el diálogo del navegador y el dispositivo o gestor personal elegido; la interfaz varía según plataforma. Confirmar con huella, rostro, PIN o llave física según el método, y pulsar **Continue** cuando AWS lo ofrezca.
+4. Si no se dispone de una opción compatible, volver a la selección y usar **Authenticator app** con el mismo Device name. Seguir el procedimiento de QR privado y dos códigos consecutivos de la sección anterior; **Passkey display name** no aplica a esta alternativa. **Hardware TOTP token** corresponde a un token físico dedicado.
+5. Verificar que **Security credentials → Multi-factor authentication (MFA)** muestre el dispositivo asignado. Después probar una sesión nueva y el cambio de contraseña como se indicó arriba. La evidencia compartible es el estado de asignación o la confirmación del acceso; nunca QR, claves de configuración, contraseñas ni códigos.
+
+La passkey o aplicación autenticadora pertenece a Bryan. Cada integrante registra su propio MFA para su usuario. No se comparte el segundo factor ni se versiona material de autenticación en ninguno de los repositorios.
+
+[Passkeys en IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_fido.html), [aplicación autenticadora en IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_enable_virtual.html).
+
+### Continuación cuando el navegador solicita una llave física
+
+Bryan indicó que su PC no tiene lector de huellas y mostró el diálogo **Touch your security key**, sin confirmación de registro. Se le indicó continuar con **Authenticator app** en el celular. La ausencia de lector de huellas no impide todas las passkeys, pero el PIN depende del dispositivo o gestor compatible; no se define un PIN independiente en esta pantalla de AWS.
+
+Cerrar primero el diálogo del navegador con su botón **Cancel** y pulsar **Previous** en el asistente cuando esté disponible. Si no permite volver, usar **Cancel** del asistente AWS y abrir de nuevo **Users → istpetdev-bryan → Security credentials → Assign MFA device**. Cancelar el enrolamiento no elimina el usuario.
+
+Conservar el nombre `istpetdev-bryan-mfa`, seleccionar **Authenticator app** y pulsar **Next**. En el teléfono añadir una cuenta en la aplicación autenticadora, escanear privadamente **Show QR code** de AWS, completar los dos códigos consecutivos y pulsar **Add MFA**. Comprobar dispositivo asignado y probar una nueva sesión. La alternativa quedó indicada; activación y login todavía pendientes de confirmación. No guardar QR, claves ni códigos en la documentación.
+
+## Alta individual de los compañeros
+
+Tras responder «listo» al paso de Authenticator, Bryan pidió continuar con los usuarios del equipo. Lo siguiente es un procedimiento preparado, no evidencia de que estos usuarios, grupo o política ya existan en AWS. Si siguen siendo cinco integrantes contando a Bryan, faltan cuatro usuarios personales; usar nombres reales, sin cuentas compartidas.
+
+### Comprobación del acceso administrativo
+
+Si todavía no se probó, mantener la sesión original abierta y acceder en una ventana privada con la URL guardada, `istpetdev-bryan`, la contraseña y MFA. Completar el cambio obligatorio de contraseña. Usar esa sesión personal administrativa para las altas siguientes.
+
+### Política para contraseña y enrolamiento MFA
+
+Desde **IAM → Policies → Create policy → JSON**, pegar el bloque siguiente sin sustituir `${aws:username}`. Pulsar **Next**, usar nombre `IstpetDevSelfServiceMFA`, descripción `Cambio de contrasena y alta de MFA del propio usuario IstpetDev`, revisar los errores del editor y pulsar **Create policy**.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadSecuritySettings",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetAccountPasswordPolicy",
+        "iam:GetAccountSummary",
+        "iam:ListVirtualMFADevices"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ManageOwnPasswordAndEnrollMFA",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetUser",
+        "iam:ChangePassword",
+        "iam:GetMFADevice",
+        "iam:ListMFADevices",
+        "iam:EnableMFADevice",
+        "iam:ResyncMFADevice"
+      ],
+      "Resource": "arn:aws:iam::*:user/${aws:username}"
+    },
+    {
+      "Sid": "CreateOwnAuthenticator",
+      "Effect": "Allow",
+      "Action": "iam:CreateVirtualMFADevice",
+      "Resource": "arn:aws:iam::*:mfa/${aws:username}-mfa"
+    }
+  ]
+}
+```
+
+Esta política propia adapta las operaciones de los ejemplos AWS de autoservicio: lectura de configuración de seguridad, cambio de contraseña propio y enrolamiento/consulta/resincronización de MFA propio. Los usuarios se crean con la ruta IAM predeterminada `/`. Para Authenticator el nombre del dispositivo debe ser exactamente el usuario más `-mfa`; por ejemplo, para el usuario ficticio `istpetdev-ana`, `istpetdev-ana-mfa`. La variable IAM se evalúa para cada usuario y no se sustituye por Bryan al pegar el JSON.
+
+La política no concede creación de access keys, eliminación/desactivación de MFA, edición de permisos, ni acceso a RDS/S3/secretos. El administrador atiende recuperación o enrolamientos fallidos; no ampliar permisos a todo IAM para resolverlos. No es una política global de denegación sin MFA. Esta etapa se limita al alta; antes de conceder acceso operativo, comprobar MFA registrado y nuevo inicio de sesión con MFA por cada integrante. La validación sintáctica local no sustituye probar la política en IAM con el primer usuario. [Autoservicio de MFA](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-mfa-only.html), [operaciones de contraseña y página propia](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_my-sec-creds-self-manage-no-mfa.html).
+
+### Grupo y creación de usuarios
+
+1. **IAM → User groups → Create group**. Nombre `IstpetDevHackathonDevelopers`.
+2. En **Attach permissions policies**, seleccionar exactamente `IstpetDevSelfServiceMFA` y la política AWS managed `SignInLocalDevelopmentAccess`. Revisar que ambas queden seleccionadas y pulsar **Create group**. El segundo permiso habilita el login temporal CLI; no concede acceso a recursos por sí solo.
+3. **IAM → Users → Create user**. Nombre `istpetdev-<nombre>` usando el nombre real de cada persona, sin los signos `< >`. Marcar acceso a consola y, si aparece la elección, **I want to create an IAM user**.
+4. Seleccionar **Autogenerated password** y **Users must create a new password at next sign-in**. Pulsar **Next**.
+5. **Add user to group**: marcar únicamente `IstpetDevHackathonDevelopers`, sin copiar los permisos de Bryan ni seleccionar `IstpetDevHackathonAdmins`. Dejar permissions boundary sin marcar en este alta limitada y pulsar **Next**.
+6. Etiquetar `Project=IstpetDev`, `Environment=hackathon`, `Owner=<nombre-real>`. Revisar el nombre, grupo y cambio obligatorio de contraseña, y pulsar **Create user**. La política automática `IAMUserChangePassword` puede aparecer también y es coherente con esta configuración.
+7. Entregar a esa persona su URL de consola, usuario y contraseña inicial mediante una compartición privada del gestor de contraseñas. No pegar credenciales en GitHub, la bóveda, este chat ni canales grupales. No generar access keys.
+8. Cada integrante entra, cambia la contraseña y abre **su nombre arriba a la derecha → Security credentials → Assign MFA device**. Esta ruta llega a sus propios datos sin necesitar permiso para listar todos los usuarios. Elegir **Authenticator app** y nombre exacto `SU_USUARIO-mfa`; escanear QR y confirmar dos códigos consecutivos en su propio teléfono. Cerrar sesión y volver a entrar con MFA.
+9. Bryan comprueba **Users → usuario → Security credentials → MFA** y confirma con la persona que pudo iniciar una sesión nueva. Completar y probar primero un usuario antes de repetir para los demás.
+
+Las identidades quedan preparadas para el alta y login temporal. El acceso a la base de datos necesita además RDS/red/SSM, roles PostgreSQL y políticas individuales para los ARN exactos de secretos asignados; sigue pendiente. El grupo común no debe recibir lectura de todos los secretos ni permisos administrativos para suplir esa configuración. Registrar después el mapeo de usuarios a `dev_01`…`dev_05`, sin credenciales reales.
+
+[Grupos IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_create.html), [usuarios IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html), [SignInLocalDevelopmentAccess](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/SignInLocalDevelopmentAccess.html).
+
+## Estado comunicado del equipo y siguiente paso: backend de Terraform
+
+Bryan confirmó que todos los integrantes tienen sus usuarios y recibieron las indicaciones de MFA. Esto acredita el alta comunicada, no que cada persona haya completado MFA o probado su sesión. La comprobación individual sigue pendiente antes de asignar permisos de datos; puede realizarse mientras Bryan prepara el backend de Terraform.
+
+La revisión de solo lectura del repositorio local `~/Projects/ISTPETDEV` encontró `docs/aws-dev.md`, `infra/terraform/environments/dev/main.tf`, módulos VPC/security groups/EC2/RDS/S3 y scripts operativos. El entorno dev declara backend S3 y recursos de red/RDS, por lo que se conserva la ruta acordada: **KMS y bucket state por consola; VPC, nodo SSM, RDS y evidencias mediante Terraform**. No crear esos mismos recursos de aplicación manualmente además del código. La existencia de archivos no demuestra un plan, despliegue o pruebas de conexión satisfactorias; esos pasos siguen pendientes.
+
+La guía local del software conserva referencias a `aws sso login`, un rol administrativo SSO y permission sets. Para este ensayo se sustituyen por el usuario IAM `istpetdev-bryan`, `aws login` y políticas IAM individuales, como establece esta nota. El agente de software debe adaptar esas referencias antes del aprovisionamiento; esta revisión no modificó su repositorio ni ejecutó Terraform. El backend se conserva durante el evento y se elimina al final después del resto de los recursos y de exportar una copia privada, según el cierre ya documentado.
+
+### Crear la clave KMS para el state
+
+1. Acceder con `istpetdev-bryan` y MFA. Abrir [KMS en us-east-1](https://us-east-1.console.aws.amazon.com/kms/home?region=us-east-1) y comprobar **United States (N. Virginia) / us-east-1**.
+2. **Customer managed keys**: comprobar primero si ya existe el alias `istpetdev-tfstate`. Si existe, revisar su configuración y reutilizar la clave correspondiente; si no existe, **Create key**.
+3. Elegir **Symmetric** y **Encrypt and decrypt**. Si aparecen opciones avanzadas, conservar material de clave generado en **KMS** y **Single-Region key**. Pulsar **Next**.
+4. Alias `istpetdev-tfstate`; descripción `Cifrado del estado Terraform de IstpetDev para la hackathon`. Tags propuestos: `Project=IstpetDev`, `Environment=bootstrap`, `Owner=bryan`, `ManagedBy=Console`. El alias completo aparecerá como `alias/istpetdev-tfstate`. Pulsar **Next**.
+5. En **Define key administrative permissions**, seleccionar solamente `istpetdev-bryan`. Mantener **Allow key administrators to delete this key** activado para permitir su retirada al cierre; no programa su borrado ahora. Pulsar **Next**.
+6. En **Define key usage permissions**, seleccionar también `istpetdev-bryan`. Dejar **Other AWS accounts** vacío. Los desarrolladores no necesitan acceso al cifrado del state. Pulsar **Next**.
+7. Revisar la política y configuración, avanzar con **Next** si el asistente separa ambas revisiones y pulsar **Finish** para crear la clave. Conservar la política de administración de cuenta que genera AWS; no sustituirla por una política improvisada.
+8. Comprobar alias, región, tipo simétrico, uso Encrypt and decrypt y estado **Enabled**. Guardar el **Key ARN** para configurar S3/backend, sin copiarlo a esta nota. El ARN identifica la clave; no contiene el material criptográfico ni permite descifrar por sí solo.
+
+Este procedimiento es el siguiente paso indicado, todavía sin confirmación de clave creada. Después: bucket S3 privado/versionado/SSE-KMS para state, política TLS y backend local privado; revisión del código y plan Terraform; despliegue; inicialización PostgreSQL/secretos y pruebas de acceso por persona. No indicar `apply` hasta completar esas dependencias y revisar el plan real.
+
+[Crear clave simétrica KMS](https://docs.aws.amazon.com/kms/latest/developerguide/create-symmetric-cmk.html), [bucket S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html), [backend S3 de Terraform](https://developer.hashicorp.com/terraform/language/backend/s3).
