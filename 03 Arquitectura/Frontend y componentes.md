@@ -1,11 +1,14 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [arquitectura, frontend, angular, signals, fsd, ui-ux]
 ---
 
 # Frontend y componentes
+
+> [!warning] Ejemplo no probado
+> Los bloques de código de esta nota (configuración, scripts, YAML, HCL, comandos) son ejemplos de diseño: no se han ejecutado ni probado en un repositorio. No copiarlos como si estuvieran validados; cada uno se verifica al implementarlo y se enlaza su evidencia. Versiones, rutas y puertos vigentes: [[Hechos canonicos]].
 
 Este documento define la arquitectura técnica del frontend de IstpetDev para la aplicación web administrativa y la aplicación móvil del conductor/receptor, estableciendo los estándares de reactividad, estructura monorepo, desacoplamiento de componentes y optimización de rendimiento.
 
@@ -33,20 +36,22 @@ flowchart TD
 
 ---
 
-## 1. Stack Tecnológico y Versiones Oficiales
+## 1. Stack tecnológico propuesto (ADR-04; versiones en revisión)
+
+No son versiones oficiales del evento: son la propuesta registrada en ADR-04. Contradicciones abiertas en [[Hechos canonicos]].
 
 | Herramienta | Versión | Rol Arquitectónico |
 |---|---|---|
 | **Node.js** | `22 LTS` | Entorno de ejecución de herramientas de build y scripts. |
-| **Angular** | `18+` (Standalone) | Framework web base; componentes standalone sin NgModules (*Zoneless-ready*). |
-| **Ionic / Capacitor** | `Ionic 8` / `Capacitor 6` | Framework para experiencia móvil y empaquetado PWA/nativo offline. |
+| **Angular** | `18+` (Standalone) según ADR-04; Angular 18 ya no tiene soporte (solo v20+), revisar | Framework web base; componentes standalone sin NgModules (*Zoneless-ready*). |
+| **Ionic / Capacitor** | `Ionic 8` / `Capacitor 6` | Framework para experiencia móvil y empaquetado PWA/nativo offline. ADR-06 propone PWA primero: contradicción abierta. |
 | **Tailwind CSS** | `3.4+` | Sistema de diseño de utilidades CSS estandarizado con tema personalizado. |
 | **TypeScript** | `5.4+` | Tipado estricto (`strict: true`) en todo el frontend. |
-| **Librería de Mapas** | `Mapbox GL JS` / `Leaflet` | Renderizado cartográfico vectorial acelerado por hardware. |
+| **Librería de Mapas** | PENDIENTE ADR-05 (candidatas: `Mapbox GL JS`, `Leaflet`) | Renderizado cartográfico vectorial acelerado por hardware. |
 
 ---
 
-## 2. Shared Core (`libs/shared-core`): Cero Código Duplicado
+## 2. Shared Core (`libs/shared-core`): contratos compartidos
 
 Para evitar la duplicación de tipos, validaciones y clientes entre `apps/web` y `apps/mobile`:
 
@@ -74,7 +79,7 @@ Tanto el panel web como la app móvil importan directamente desde `@istpetdev/sh
 
 ## 3. Modelo Reactivo Unificado: Angular Signals + RxJS
 
-Se establece una división de responsabilidades estricta entre **Signals** y **RxJS** para maximizar rendimiento y eliminar fugas de memoria:
+Se establece una división de responsabilidades estricta entre **Signals** y **RxJS** para reducir suscripciones manuales y fugas de memoria:
 
 ### 3.1 Angular Signals para Estado Local y UI
 * Todo el estado sincrónico de componentes se gestiona mediante Signals:
@@ -83,12 +88,12 @@ Se establece una división de responsabilidades estricta entre **Signals** y **R
   readonly selectedPointId = signal<string | null>(null);
   readonly filterSeverity = signal<'TODOS' | 'CRITICO' | 'ALERTA'>('TODOS');
 
-  // Valores derivados computados (cero subscripciones manuales)
+  // Valores derivados computados (sin suscripciones manuales)
   readonly criticalRisks = computed(() => 
     this.risks().filter(r => r.coverageDays <= r.thresholdDays)
   );
   ```
-* Uso mandatorio de las nuevas APIs de Angular:
+* Usar las APIs actuales de Angular:
   * `input()` y `input.required()` en lugar de `@Input()`.
   * `output()` en lugar de `@Output()`.
   * `model()` para enlace bidireccional limpio.
@@ -128,7 +133,7 @@ Para evitar que las librerías cartográficas ensucien la lógica de negocio:
 
 ## 5. Optimización de la Consulta Pública QR para el Jurado (`/trace/:id`)
 
-El flujo del jurado requiere escanear un QR físico y ver la trazabilidad de la caja en su teléfono en menos de **1.5 segundos**:
+El flujo del jurado requiere escanear un QR físico y ver la trazabilidad de la caja en su teléfono con un objetivo de menos de 1,5 segundos (sin medir):
 
 1. **Aislamiento por Chunk (Lazy Loading Estricto):**
    * La página `pages/public-trace` se compila en un bundle independiente que no importa librerías pesadas (Mapbox, ApexCharts, SignalR o servicios administrativos).
@@ -136,7 +141,7 @@ El flujo del jurado requiere escanear un QR físico y ver la trazabilidad de la 
 2. **Diseño Visual de Solo Lectura:**
    * Muestra la línea de tiempo de custodia (Bodega → Despacho → En tránsito → Recepción) con estado verificado.
    * Oculta datos privados (sin firmas completas, números telefónicos o coordenadas sensibles de la flota).
-   * Funciona perfectamente sin requerir autenticación ni inicio de sesión.
+   * No requiere autenticación ni inicio de sesión.
 
 ---
 
@@ -164,7 +169,7 @@ export const roleGuard = (allowedRoles: UserRole[]): CanActivateFn => {
 };
 ```
 > [!NOTE]
-> La directiva y los guards orientan la navegación del usuario en el cliente, pero **el backend rechaza transaccionalmente cualquier comando o consulta no autorizada**, garantizando seguridad real independientemente del estado del frontend.
+> La directiva y los guards orientan la navegación del usuario en el cliente, pero **el backend rechaza transaccionalmente cualquier comando o consulta no autorizada**, de modo que la seguridad no depende del estado del frontend.
 
 ---
 

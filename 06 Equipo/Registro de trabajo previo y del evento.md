@@ -1,7 +1,7 @@
 ---
 tipo: ejecucion
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [hackathon, istpetdev]
 ---
 
@@ -25,7 +25,8 @@ Hacer verificables autoría y evolución del proyecto. El equipo quiere llegar c
 
 - Fecha, contribución concreta, referencias de versión y evidencia.
 - Dependencias y recursos de terceros con licencia/proveniencia.
-- Asistencia de herramientas IA cuando sea relevante a las reglas.
+- Asistencia de herramientas IA: herramienta, para qué se usó y qué partes generó. El manual pide usar «recursos de trabajo que puedan utilizar legítimamente» (§16.1, p. 14) y la ficha de inscripción incluye una declaración de originalidad y uso legítimo de recursos (Anexo 4, p. 23).
+- Skills de IA de terceros o adaptadas: origen y licencia. Las skills del equipo están en `.agents/skills/`; su origen se documenta en cada `SKILL.md`.
 - Datos sintéticos separados de datos aportados por empresas.
 - Cambios provocados por mentores o ficha final del reto.
 
@@ -42,7 +43,7 @@ La propiedad intelectual se rige por el manual y los acuerdos específicos que e
 | Fecha | Fase | Resultado | Evidencia | Estado |
 |---|---|---|---|---|
 | 2026-10-07 | Preparación | Repositorio software GitHub privado creado vacío por instrucción de Bryan | [istpetdev-platform](https://github.com/bryancito1090/istpetdev-platform) | Creado; sin commits/ramas materializadas ni colaboradores agregados |
-| 2026-10-07 | Preparación | Esqueleto exclusivamente local de proyectos/infra/automatización | `/home/bryan/Projects/ISTPETDEV`, README/.env.example/directorios | Creado; sin scaffold, instalación, commit o push |
+| 2026-10-07 | Preparación | Esqueleto exclusivamente local de proyectos/infra/automatización | `~/Projects/ISTPETDEV`, README/.env.example/directorios | Creado; sin scaffold, instalación, commit o push |
 | 2026-10-07 | Preparación | Completar acuerdos de infraestructura y ADR-10 conservando el aporte `4c3a9ef` | [[Repositorio de software y versiones]], [[Entornos y operacion acordados]], [[Identidad OIDC y sesiones]] | Documentado; sin apply AWS ni modificación del n8n externo |
 
 Bryan confirmó recursos/versiones y delegó recomendaciones. El compañero implementará Actions/Compose y otro compañero profundizará dominio institucional. Conservar autoría del diseño anterior; la preparación documentada no se presenta como código/pruebas de las jornadas.

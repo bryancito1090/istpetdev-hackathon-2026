@@ -1,7 +1,7 @@
 ---
 tipo: ejecucion
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [hackathon, istpetdev]
 ---
 
@@ -18,6 +18,8 @@ tags: [hackathon, istpetdev]
 | 17 oct. 2026 | Mentoría final prevista | Validación, viabilidad y pitch | Pendiente | Pendiente |
 
 Copiar [[Plantilla mentoria]] para cada interacción real. Registrar cargo/organización si fue compartido y resulta pertinente, evitando datos personales innecesarios.
+
+El manual (§11.5, p. 11) pide que un jurado se abstenga de evaluar un proyecto con el que tuvo relación de mentoría. Si un mentor podría integrar el jurado, anotarlo en la mentoría correspondiente.
 
 ## Preguntas de validación sectorial
 

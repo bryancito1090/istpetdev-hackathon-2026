@@ -1,7 +1,7 @@
 ---
 tipo: estrategia
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [istpetdev, demo, diferenciacion]
 ---
 
@@ -11,7 +11,7 @@ tags: [istpetdev, demo, diferenciacion]
 
 Nuestro plus debe ser visible, útil y demostrable en el Reto 1: **una decisión logística explicable que sigue funcionando cuando cambia la carretera o se pierde la señal, con resultados que el jurado puede verificar**.
 
-El jurado puntúa siete criterios; demo práctica pesa 20% y es el primer desempate. La innovación y el impacto necesitan evidencia, no un listado de tecnologías. Ver [[Evaluacion y entregables]].
+El jurado puntúa siete criterios; demo práctica pesa 20% y es el primer desempate. La innovación y el impacto necesitan evidencia, no un listado de tecnologías. El jurado tiene tres representantes del sector de limpieza, dos técnicos, un académico y uno de LACIF (§11.3): el plus debe entenderse sin conocimientos técnicos. Ver [[Evaluacion y entregables]].
 
 ## Los cuatro plus prioritarios
 

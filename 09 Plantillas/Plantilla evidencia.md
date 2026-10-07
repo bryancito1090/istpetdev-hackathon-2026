@@ -16,6 +16,8 @@ tags: [istpetdev, documentacion]
 - Entorno:
 - DatasetVersion/hash, seed y runId:
 - Requisito/hipótesis:
+- Certeza: ✅ confirmado / ⚠️ a validar
+- Herramienta de IA usada (si aplica) y para qué:
 
 ## Preparación y acción
 

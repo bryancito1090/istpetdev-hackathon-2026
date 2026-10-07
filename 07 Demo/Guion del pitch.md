@@ -1,7 +1,7 @@
 ---
 tipo: demo
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [demo, validacion, istpetdev]
 ---
 
@@ -10,6 +10,10 @@ tags: [demo, validacion, istpetdev]
 **Meta interna:** tres minutos. Duración oficial y tiempo de preguntas pendientes de confirmar en [[Consultas para la organizacion]]. Ajustar este guion a lo que informe la organización.
 
 Protagonista: una empresa de limpieza; objeto conductor: una caja destinada a un hospital. El caso es sintético hasta contar con validación empresarial.
+
+**Estructura oficial (Anexo 5.7, p. 25):** Problema → Solución → Prototipo / demo → Impacto → Viabilidad → Modelo de negocio → Próximo paso. El recorrido de abajo cubre las siete partes; viabilidad, modelo de negocio y próximo paso comparten el cierre de 20 segundos y deben nombrarse los tres.
+
+**Audiencia:** cinco de los siete jurados no son perfiles técnicos (§11.3, p. 10). Cada tecnología mencionada debe ir unida a lo que cambia para la operación.
 
 ## Recorrido de 180 segundos
 
@@ -20,7 +24,7 @@ Protagonista: una empresa de limpieza; objeto conductor: una caja destinada a un
 | 00:45–01:15 | «Planificamos una ruta viable y respondemos a un cierre de vía» | Tradicional/optimizada; incidente y nueva versión |
 | 01:15–02:05 | «Esta caja conserva su custodia aunque el conductor pierda la señal» | QR, despacho, recepción offline y sincronización |
 | 02:05–02:40 | «Comparamos ambas políticas bajo la misma demanda durante 90 días simulados» | KPIs, denominadores y manifiesto del run |
-| 02:40–03:00 | «El siguiente paso es un piloto acotado con una empresa» | Viabilidad, cliente y propuesta de piloto |
+| 02:40–03:00 | «Cuesta [costo verificado] operarlo, lo paga [cliente] y el siguiente paso es un piloto acotado con una empresa» | Viabilidad, modelo de negocio y próximo paso (piloto) |
 
 Total: 180 segundos. Ensayar tiempos reales: si QR/firma tarda más, recortar interacción, no fingir el resultado.
 

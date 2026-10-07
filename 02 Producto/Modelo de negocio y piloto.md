@@ -1,7 +1,7 @@
 ---
 tipo: especificacion-producto
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [producto, reto-1]
 ---
 
@@ -23,7 +23,7 @@ Ingreso propuesto: implementación inicial y suscripción por operación/puntos 
 
 | Componente | Evidencia necesaria |
 |---|---|
-| ECS/ALB/RDS/Redis/n8n | Región, horas, tamaños y configuración |
+| Hosting: Perfil A (EC2 + Docker, demo y piloto según ADR-09) o Perfil B (ECS/ALB/RDS/Redis, operación nacional) y n8n | Región, horas, tamaños y configuración; Perfil A t3.medium ≈ USD 37/mes verificado el 7-oct-2026 en [[AWS y Terraform]] |
 | S3 y transferencia | Cantidad/tamaño de evidencias, retención y tráfico |
 | Mapas | Proveedor, matrices, rutas y llamadas por día |
 | DeepSeek | Modelo, tokens, frecuencia y reintentos |
