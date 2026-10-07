@@ -1,15 +1,18 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [arquitectura, seguridad, infra, sysadmin, hardening]
 ---
 
 # Hardening y seguridad de servidores
 
+> [!warning] Ejemplo no probado
+> Los bloques de código de esta nota (configuración, scripts, YAML, HCL, comandos) son ejemplos de diseño: no se han ejecutado ni probado en un repositorio. No copiarlos como si estuvieran validados; cada uno se verifica al implementarlo y se enlaza su evidencia. Versiones, rutas y puertos vigentes: [[Hechos canonicos]].
+
 Este documento define el estándar técnico de blindaje (*hardening*), aseguramiento perimetral, aislamiento de procesos y gestión de acceso para los servidores Linux de IstpetDev en el marco del Reto 1 de la Hackathon Expo Clean 2026.
 
-Su propósito es garantizar una postura de **Defensa en Profundidad de 6 Capas**, eliminando dependencias de controles únicos y protegiendo la API en .NET 8, la aplicación web/móvil, PostgreSQL con PostGIS, Redis y los flujos de n8n.
+Su propósito es buscar una postura de **Defensa en Profundidad de 6 Capas**, eliminando dependencias de controles únicos y protegiendo la API .NET, la aplicación web/móvil, PostgreSQL con PostGIS, Redis y los flujos de n8n.
 
 ```mermaid
 flowchart TD
@@ -23,7 +26,7 @@ flowchart TD
     Layer2 -->|Autenticación asimétrica + Rate Limiting| Layer3
   end
   subgraph Transporte [Capa 3: Proxy Inverso y Transporte]
-    Layer3[Nginx Reverse Proxy: TLS 1.3 + Cabeceras HTTP<br>Terminación HTTP 444 ante bypass CDN/WAF]
+    Layer3[Nginx Reverse Proxy: TLS 1.2/1.3 + Cabeceras HTTP<br>Terminación HTTP 444 ante bypass CDN/WAF]
     Layer3 -->|Proxy local por Loopback| Layer4
   end
   subgraph Sockets [Capa 4: Aislamiento de Sockets]
@@ -78,7 +81,7 @@ Todo puerto de servicio interno (API .NET, PostgreSQL, Redis, n8n) debe publicar
 ```yaml
 # Correcto: inaccesible desde internet, solo consumible por Nginx local o localhost
 ports:
-  - "127.0.0.1:5000:5000"  # API C# / .NET 8
+  - "127.0.0.1:5000:5000"  # API C# / .NET
   - "127.0.0.1:5432:5432"  # PostgreSQL PostGIS
   - "127.0.0.1:6379:6379"  # Redis
   - "127.0.0.1:5678:5678"  # n8n
@@ -179,6 +182,9 @@ Nginx actúa como el único punto de contacto público expuesto a internet. Gest
 
 ### 3.1 Parámetros Globales de Seguridad (`/etc/nginx/conf.d/security.conf`)
 
+> [!note] TLS
+> Este ejemplo permite TLS 1.2 y TLS 1.3 (`ssl_protocols TLSv1.2 TLSv1.3`). Exigir solo TLS 1.3 es una decisión PENDIENTE de ADR-15; mientras tanto, describirlo como «TLS 1.2/1.3».
+
 ```nginx
 # 1. Ocultar versión del servidor web
 server_tokens off;
@@ -247,7 +253,7 @@ server {
     # Rate limit aplicado a endpoints de API
     limit_req zone=api_req_limit burst=50 nodelay;
 
-    # Proxy a Kestrel (.NET 8 Web API en Loopback)
+    # Proxy a Kestrel (.NET Web API en Loopback)
     location /api/ {
         proxy_pass http://127.0.0.1:5000;
         proxy_http_version 1.1;
@@ -280,7 +286,7 @@ Ningún proceso de backend, microservicio, base de datos o worker debe escuchar 
 
 | Servicio / Runtime | Parámetro de Configuración | Enlace Seguro |
 |---|---|---|
-| **C# / .NET 8 (Kestrel)** | Variable `ASPNETCORE_URLS` o `appsettings.json` | `http://127.0.0.1:5000` |
+| **C# / .NET (Kestrel)** | Variable `ASPNETCORE_URLS` o `appsettings.json` | `http://127.0.0.1:5000` |
 | **PostgreSQL 16+** | `postgresql.conf` | `listen_addresses = 'localhost'` |
 | **Redis 7** | `redis.conf` | `bind 127.0.0.1 -::1` y `protected-mode yes` |
 | **n8n** | Variables de entorno | `N8N_HOST=127.0.0.1` y `N8N_PORT=5678` |

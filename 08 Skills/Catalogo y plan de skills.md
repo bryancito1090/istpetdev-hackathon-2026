@@ -1,93 +1,102 @@
 ---
 tipo: plan-skills
-estado: propuesta
-actualizado: 2026-10-06
-tags: [istpetdev, documentacion]
+estado: vigente
+actualizado: 2026-10-07
+tags: [istpetdev, documentacion, ia]
 ---
 
 # Catálogo y plan de skills
 
-## Objetivo
+Esta nota documenta las skills del equipo y de dónde sale cada una; el contenido completo de cada skill está en su propia nota de esta carpeta (enlaces en el catálogo). **Los archivos `SKILL.md` no se suben a esta bóveda:** la bóveda es documentación y contexto. Cada integrante puede tenerlos en su equipo para su asistente de IA. Todas remiten a [[Hechos canonicos]] para todo dato no cerrado, de modo que ningún asistente complete con suposiciones.
 
-Convertir convenciones reales del proyecto en instrucciones reutilizables para asistentes, de modo que cualquier integrante de IstpetDev obtenga cambios coherentes con la arquitectura y contratos.
+## Dónde están y quién las lee
 
-Esta nota define **el catálogo y las especificaciones**. Todavía no se han creado ni instalado archivos SKILL.md ejecutables. Se generarán después de fijar versiones/infraestructura y verificar la primera entrega, como pidió el equipo.
+| Archivo (local, no versionado) | Para qué | Quién lo lee |
+|---|---|---|
+| `AGENTS.md` | Reglas comunes, orden de lectura e índice de notas | Antigravity, Codex, GitHub Copilot, Cursor y otros compatibles con AGENTS.md |
+| `CLAUDE.md` / `GEMINI.md` | Importan `AGENTS.md`; sin reglas propias | Claude Code / Gemini CLI |
+| `.agents/skills/<nombre>/SKILL.md` | Skills en formato Agent Skills | Antigravity, Codex, VS Code/Copilot, Cursor y otros compatibles |
+| `.claude/skills/` | Copia de `.agents/skills/` | Claude Code |
 
-## Catálogo propuesto
+`.gitignore` excluye estos archivos. Lo que sí se versiona es `.github/scripts/check_vault.py`, el verificador de la bóveda que ejecuta el CI (`.github/workflows/check-vault.yml`).
 
-| Skill                          | Cuándo se activa                             | Debe leer                                                                                       | Resultado esperado                                         |
-| ------------------------------ | -------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| istpetdev-contexto             | Inicio de tarea del proyecto                 | [[Contexto maestro]], [[Reto 1 oficial]], [[Alcance y prioridades]]                             | Cambio alineado al reto, sin inventar reglas/resultados    |
-| istpetdev-backend              | Casos de uso C#/inventario/custodia          | [[Backend y tiempo real]], [[Modelo de datos]], [[Contratos API y eventos]], [[Seguridad y evidencias]] | Regla transaccional, RBAC por acción/recurso e idempotencia correctos |
-| istpetdev-frontend-fsd         | Páginas, slices y componentes Angular web    | [[Frontend con Feature-Sliced Design]], [[Frontend y componentes]], [[Contratos API y eventos]] | Ubicación FSD, API pública e imports válidos               |
-| istpetdev-mobile-offline       | Captura Ionic, persistencia y sincronización | [[Movil offline y sincronizacion]], [[Usuarios y flujos]], [[Seguridad y evidencias]]           | Operación durable y conflictos explícitos                  |
-| istpetdev-aws-terraform        | Infraestructura, CI/CD y despliegue          | [[AWS y Terraform]], [[CI-CD y automatizacion de despliegue]], [[Hardening y seguridad de servidores]], [[Decisiones de arquitectura]] | Infra reproducible, pipeline DAG con rollback instantáneo y hardening verificado |
-| istpetdev-n8n-ia               | Workflows, webhooks y explicaciones          | [[n8n e IA]], [[Contratos API y eventos]]                                                       | Workflow exportable, secretos separados y fallback         |
-| istpetdev-datos-logistica      | Modelo, inventario y rutas                   | [[Modelo de datos]], [[Inventario y prediccion]], [[Rutas y sobrecostos]]                       | Unidades/invariantes y ruta factible                       |
-| istpetdev-simulacion-evidencia | Datos, KPIs y resultados                     | [[Simulador y metricas]], [[Dataset y escenarios]], [[Plan de validacion]]                      | Experimento reproducible y cifras defendibles              |
+**Pendiente (C-06):** comprobar en cada herramienta que use el equipo que descubre las skills desde esa ruta. Si alguna no lo hace, se agrega su ruta como copia generada por el mismo script, nunca como segunda fuente editable.
 
-Si dos skills repiten muchas instrucciones, mover la regla común a una referencia y reducir el catálogo. No crear una skill por cada componente o endpoint.
+## Catálogo
 
-## Convención para frontend FSD
+| Skill | Se activa para | Origen |
+|---|---|---|
+| [[istpetdev-contexto]] | Cualquier tarea; datos faltantes, contradicciones, certeza de afirmaciones | Nueva + `business-analyst-reglas-negocio` + `continuidad-narrativa` + patrón anti-invención de Antigravity |
+| [[istpetdev-docs]] | Editar la bóveda, ADR, mentorías, evidencias, hechos canónicos | `tech-writer` + `product-manager` + `continuidad-narrativa` |
+| [[istpetdev-contrato]] | Endpoints, eventos, DTOs, errores, idempotencia, OpenAPI | `tech-writer` (OpenAPI) |
+| [[istpetdev-backend]] | Código C#/.NET, inventario, custodia, RBAC, tiempo real | `backend-lead-cqrs` + `arquitecto-clean-architecture` |
+| [[istpetdev-datos]] | Modelo de datos, migraciones, riesgo, rutas, simulador, KPIs | `data-architect-dba` + `qa-testing-engineer` |
+| [[istpetdev-frontend]] | Angular web, PWA o app móvil, QR público, estados de UI, accesibilidad | `frontend-lead-personalidad` + `design-tokens-a11y` + `identidad-visual-brand` |
+| [[istpetdev-revision]] | Commits, PR, checklist, pruebas, seguridad | `code-review-assistant` + `qa-testing-engineer` + `devsecops-github-guardian` + `gitlab-workflow-istpet` + `tech-writer` (+ `infra-devops-cloud` y `observability-performance` como referencias) |
+| [[istpetdev-producto-pitch]] | Problema, usuarios, validación, negocio, privacidad, pitch | `product-manager` + `ux-researcher` + `privacidad-legal-compliance` |
 
-La skill frontend incluirá las decisiones **aceptadas** de usar FSD (ADR-13) y el stack Angular 18+ con Signals (ADR-04). Debe:
+Los nombres de la columna «Origen» son skills personales de un integrante (carpeta `~/.gemini/config/skills/` de su equipo), adaptadas para este proyecto. La carpeta personal no se modificó.
 
-- Ubicar código en app/pages/widgets/features/entities/shared según responsabilidad, con adopción pragmática (iniciar en pages/entities y extraer a features/widgets por reutilización real).
-- Consumir contratos, DTOs y modelos compartidos desde `libs/shared-core` para no duplicar código con la app móvil.
-- Usar Angular Signals (`signal()`, `computed()`, `input()`, `output()`) para el estado de UI y componentes; reservar RxJS para flujos asíncronos complejos y SignalR.
-- Desacoplar mapas: `shared/ui/map-view` es puramente visual y agnóstico a lógica de negocio; `widgets/route-map` inyecta las entidades.
-- Mantener la consulta QR (`pages/public-trace`) en lazy loading ultra-ligero (< 150 KB gzip).
-- Respetar imports hacia capas inferiores y límites entre slices, exponiendo API pública limpia sin deep imports.
-- Mantener shared sin reglas específicas de logística y autorización definitiva en backend.
-- Revisar lint/build existentes y el recorrido afectado.
+## Qué se tomó de las skills personales
 
-## Convención para backend
+| Skill personal | Elemento adaptado |
+|---|---|
+| `business-analyst-reglas-negocio` | «Nunca inventar reglas»; certeza ✅ confirmada / ⚠️ a validar; una pregunta a la vez; no borrar reglas, reemplazarlas |
+| `continuidad-narrativa` | Protocolo «⚠️ Contradicción detectada»: hecho nuevo, hecho establecido, impacto, opciones; prohibido reparar en silencio |
+| `product-manager` | ADR con Deciders y estado «reemplazado por»; propuesta (RFC) breve; MoSCoW |
+| `data-architect-dba` | Integridad en la base; índices con `EXPLAIN`; migraciones reversibles y nunca editadas tras aplicarse; respaldo probado; RPO/RTO |
+| `backend-lead-cqrs` | Command separado de Query; DTO siempre; errores tipados; trazar cada handler a un requisito; diffs antes que reescrituras |
+| `arquitecto-clean-architecture` | Dependencias hacia el dominio; dominio sin frameworks |
+| `code-review-assistant` | Conventional Commits; severidades BLOCKER/WARNING/SUGGESTION/INFO; checklist por categorías |
+| `qa-testing-engineer` | Pirámide de pruebas; integración con base real; datos deterministas; prueba por cada defecto; pruebas intermitentes no se ignoran |
+| `devsecops-github-guardian` | Secretos fuera del repositorio; `.env.example`; protección de ramas |
+| `gitlab-workflow-istpet` | Asunto de commit de 10 a 72 caracteres; plantilla de MR adaptada a PR de GitHub |
+| `tech-writer` | Plantilla de PR; OpenAPI documentado por endpoint; no duplicar definiciones |
+| `infra-devops-cloud` | Docker multi-etapa, sin `root`, `.dockerignore`, health checks con dependencias, etiquetado de costos |
+| `observability-performance` | Logs JSON con `correlationId`; p95/p99; no registrar datos sensibles |
+| `frontend-lead-personalidad` | Cinco estados de UI; declarar arquetipo; iconos de un sistema real |
+| `design-tokens-a11y` | No inventar valores de diseño; tokens en tres capas; WCAG 2.2 AA; leyes de UX |
+| `identidad-visual-brand` | Evitar el aspecto genérico de IA; un elemento firma; textos desde el usuario |
+| `ux-researcher` | Personas hipotéticas a validar; JTBD; prueba con cinco usuarios por tareas |
+| `privacidad-legal-compliance` | LOPDP Ecuador: finalidad, consentimiento expreso, eliminación |
 
-Dominio independiente de infraestructura. Comandos transaccionales y consultas proyectadas. No introducir repositorios genéricos, mediadores o servicios nuevos sin una necesidad concreta.
+## Qué no se tomó y por qué
 
-Toda escritura reintentable comprueba permisos, idempotencia, versión y cantidades. Toda consulta con datos privados limita ámbito y volumen. Aplicar RBAC aceptado en ADR-14 con denegación por defecto y políticas compartidas por API/SignalR; validar organización y recurso también al sincronizar. La skill debe señalar qué invariantes y pruebas existentes afecta el cambio.
+| Elemento | Motivo |
+|---|---|
+| Preguntar «¿qué stack usamos?» en cada skill | El stack está en [[Hechos canonicos]]; se pregunta solo lo PENDIENTE |
+| Estructura Angular con NgModules, `src/components/ui/`, Tailwind v4 fijo | Contradice ADR-13 (FSD standalone) y ADR-04 |
+| MediatR y repositorio genérico obligatorios | [[Backend y tiempo real]] los declara opcionales |
+| Catálogo `RN-xxx` obligatorio | La bóveda ya usa RF/RNF/ADR; un segundo catálogo duplica |
+| Un commit por issue con `amend` y `--force-with-lease` | [[Convenciones y estados]] prohíbe forzar el push; se usa squash al fusionar |
+| Sintaxis de subagentes de Antigravity (`00-orquestador-equipo`) | Solo funciona en Antigravity |
+| Ejemplos de otros proyectos institucionales | Contexto ajeno que confunde a los asistentes |
+| Staging obligatorio, despliegue sin interrupción, Sentry | Excede la demo; queda como referencia para el piloto |
+| Plantillas de Spring Boot, Next.js y React Native | No son el stack del equipo |
+| Skills de docencia, narrativa, tiendas de apps y pagos (14) | No aplican al Reto 1 |
+| Skills internas de Antigravity (`builtin`) | Nombran herramientas que solo existen en Antigravity; solo se tomó el patrón anti-invención |
 
-## Convención para infraestructura, CI/CD y Terraform
+## Reglas para mantener las skills
 
-Topología dual: Perfil A (EC2 Hardened + Docker Compose + GHCR para demo y piloto) y Perfil B (ECS Fargate + RDS Multi-AZ para escala nacional). State S3 con `use_lockfile = true`, secretos protegidos y límites explícitos.
+1. Un cambio en una skill se hace en su nota de `08 Skills/` (y en esta si cambia su alcance u origen); los archivos locales de cada integrante se actualizan después copiando ese contenido.
+2. Frontmatter solo con `name` (igual a la carpeta) y `description`. Nada específico de una herramienta: ni comandos con barra, ni subagentes, ni servidores MCP.
+3. Una skill no copia el contenido de la bóveda: indica qué notas leer, qué no se puede inventar, qué hacer si falta información y cómo verificar.
+4. Rutas relativas a la raíz y sin enlaces de Obsidian (otros asistentes no los resuelven).
+5. Al cerrar un ADR o cambiar un hecho canónico, revisar las skills que lo mencionan como PENDIENTE.
+6. Si dos skills repiten instrucciones, mover la regla común a `istpetdev-contexto` o a una referencia.
 
-El pipeline CI/CD debe cumplir ADR-15: compilación en runner, imágenes por SHA, rotación de 3 versiones y rollback en < 30s. El host debe cumplir las 6 capas de hardening de [[Hardening y seguridad de servidores]] (UFW, loopback binding, Fail2ban, SSH Ed25519, Nginx TLS 1.3 / HTTP 444 y Lynis > 80/100). No declarar alta disponibilidad nacional sin pruebas de failover y recuperación efectivas.
+## Validar una skill (C-06)
 
-## Convención para n8n/IA
+Con una tarea pequeña y real, en cada herramienta que use el equipo:
 
-n8n opera a través de API; DeepSeek explica snapshots existentes. Workflow idempotente, exportado sin credenciales, errores y respuesta vacía/incorrecta probados. Registrar modelo/promptVersion y executionId. No generar automatizaciones externas no solicitadas.
+- [ ] La herramienta activa la skill correcta por su descripción.
+- [ ] Lee las notas indicadas y [[Hechos canonicos]].
+- [ ] Ante un dato faltante responde PENDIENTE y pregunta, en vez de inventar.
+- [ ] Ante una contradicción la reporta con el formato acordado.
+- [ ] Ejecuta `python .github/scripts/check_vault.py` y no deja errores.
 
-## Contenido mínimo de una skill real
-
-1. Nombre, descripción y condiciones de activación claras.
-2. Contexto que lee y ruta **real y portable** al proyecto/bóveda.
-3. Convenciones obligatorias y excepciones aceptadas.
-4. Flujo corto de lectura → cambio → verificación.
-5. Comandos reales ya comprobados en el repositorio.
-6. Referencias concisas y límites de alcance.
-7. Ejemplo basado en una entrega existente.
-
-No inventar comandos de build/test ni paths de un repositorio todavía no creado.
-
-## Ubicación futura
-
-Propuesta: versionar skills de proyecto en `.agents/skills/istpetdev-.../SKILL.md` dentro del repositorio de software, siguiendo el formato/herramientas que se acuerden. La bóveda mantiene la especificación; el archivo operativo se crea con la skill de creación disponible en ese momento.
-
-Si la bóveda y el código viven en repositorios distintos, documentar el mecanismo de acceso a referencias sin rutas personales /home/bryan. Los enlaces de Obsidian no se resuelven automáticamente en todos los agentes.
-
-## Orden para generarlas
-
-1. Contexto y frontend FSD, cuya decisión de estructura está aceptada.
-2. Backend y móvil tras la entrega transaccional/offline.
-3. AWS/Terraform y n8n después de fijar entornos.
-4. Datos/simulación cuando haya fixtures, fórmulas y comandos verificados.
-
-## Validación de una skill
-
-Probar con una tarea pequeña de una entrega real. Verificar que selecciona las referencias, modifica el lugar adecuado, respeta contratos y usa checks existentes. Si necesita explicar muchas reglas no relacionadas, reducir su alcance.
-
-Puertas: [[Decisiones de arquitectura]] y [[Plan de ejecucion]].
+Registrar el resultado con [[Plantilla evidencia]]. Puertas relacionadas: [[Decisiones de arquitectura]] y [[Plan de ejecucion]].
 
 ## Fuentes complementarias para implementación — 7 de octubre de 2026
 
-Agregar [[Repositorio de software y versiones]], [[Entornos y operacion acordados]] e [[Identidad OIDC y sesiones]] a las referencias de las futuras skills. .NET 8/Angular 22 fijados por Bryan; perfiles A/B, DAG/GHCR/SSH y FSD/Signals del compañero conservados. Aplicar la distinción host/contenedor, manifest de release/backup/rollback sin pull y n8n externo existente. No generar una skill que repita los ejemplos previos sin estos contratos posteriores. Skills, workflows y aplicaciones aún no están implementados.
+Aporte de bryancito1090 (be0b127): las skills deben usar también [[Repositorio de software y versiones]], [[Entornos y operacion acordados]] e [[Identidad OIDC y sesiones]]. .NET 8 y Angular 22 fijados por Bryan; perfiles A/B, DAG/GHCR/SSH y FSD/Signals del compañero conservados. Aplicar la distinción host/contenedor, manifest de release/backup/rollback sin pull y n8n externo existente. Ninguna skill repite los ejemplos previos sin estos contratos posteriores. Workflows y aplicaciones aún no están implementados.

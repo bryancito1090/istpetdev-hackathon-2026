@@ -22,6 +22,7 @@ Los enlaces internos de las notas están preparados para Obsidian. El manual ofi
 | Tema | Nota |
 |---|---|
 | Contexto común | [Contexto maestro](00%20Inicio/Contexto%20maestro.md) |
+| Datos que no se reinterpretan | [Hechos canónicos](00%20Inicio/Hechos%20canonicos.md) |
 | Reglas del reto | [Reto 1 oficial](01%20Oficial/Reto%201%20oficial.md) |
 | Alcance | [Alcance y prioridades](02%20Producto/Alcance%20y%20prioridades.md) |
 | Arquitectura | [Arquitectura del sistema](03%20Arquitectura/Arquitectura%20del%20sistema.md) |
@@ -31,7 +32,7 @@ Los enlaces internos de las notas están preparados para Obsidian. El manual ofi
 | Frontend FSD | [Feature-Sliced Design](03%20Arquitectura/Frontend%20con%20Feature-Sliced%20Design.md) |
 | Trabajo pendiente | [Backlog](06%20Equipo/Backlog.md) |
 | Diferenciación | [Plus para ganar](07%20Demo/Plus%20para%20ganar.md) |
-| Skills futuras | [Catálogo y plan](08%20Skills/Catalogo%20y%20plan%20de%20skills.md) |
+| Skills del equipo | [Catálogo](08%20Skills/Catalogo%20y%20plan%20de%20skills.md) |
 | Fuente oficial | [Manual PDF](99%20Fuentes/Manual%20oficial.pdf) |
 
 ## Compartir cambios
@@ -56,6 +57,14 @@ Si la actualización indica que las ramas divergen, conserva tus cambios y resue
 
 La configuración común de Obsidian se versiona. `.gitignore` excluye las sesiones personales (`.obsidian/workspace*.json`), las preferencias del grafo (`.obsidian/graph.json`), los logs, las cachés, la papelera y los temporales. Estos archivos permanecen en el disco de cada integrante.
 
+## Asistentes de IA
+
+Las skills y los archivos de configuración de asistentes (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/`, `.claude/`) son locales y no se versionan; están documentados en el [catálogo de skills](08%20Skills/Catalogo%20y%20plan%20de%20skills.md). Antes de publicar cambios, verifica la bóveda:
+
+```bash
+python .github/scripts/check_vault.py
+```
+
 ## Estado del proyecto
 
 Esta es la base documental y de diseño. Los avances de software y las pruebas se registrarán con evidencia. Los datos sintéticos, resultados simulados y requisitos oficiales se distinguen en las notas.
@@ -64,7 +73,7 @@ Capacitación: **8 de octubre de 2026**. Jornadas: **16 y 17 de octubre de 2026*
 
 ## Acuerdos de implementación — 7 de octubre de 2026
 
-El repositorio de software es [istpetdev-platform](https://github.com/bryancito1090/istpetdev-platform), privado y vacío. Su esqueleto está únicamente en `/home/bryan/Projects/ISTPETDEV`; todavía no hay proyectos generados ni archivos publicados allí.
+El repositorio de software es [istpetdev-platform](https://github.com/bryancito1090/istpetdev-platform), privado y vacío. Su esqueleto está únicamente en `~/Projects/ISTPETDEV`; todavía no hay proyectos generados ni archivos publicados allí.
 
 - [Repositorio y versiones](03%20Arquitectura/Repositorio%20de%20software%20y%20versiones.md): .NET 8, Angular 22 y estructura local.
 - [Entornos y operación](03%20Arquitectura/Entornos%20y%20operacion%20acordados.md): aplicaciones locales, RDS compartido privado, AWS para ensayos, red/IAM, backups/S3, n8n existente, observabilidad y releases.

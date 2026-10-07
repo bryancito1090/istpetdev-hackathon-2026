@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [arquitectura, implementacion]
 ---
 
@@ -12,6 +12,8 @@ tags: [arquitectura, implementacion]
 ## Diseño inicial
 
 Una **API modular** en C# concentra reglas de inventario, rutas, custodia y autorización **RBAC con validación por recurso**, según [[Seguridad y evidencias]]. Clean Architecture separa dominio, casos de uso, adaptadores y HTTP. CQRS organiza comandos y consultas en la misma aplicación y PostgreSQL inicialmente; bases distintas solo se justificarían con evidencia de carga.
+
+El diagrama siguiente muestra la topología del **Perfil B** (operación nacional: ALB, ECS, RDS). La demo del hackathon usa el **Perfil A** (EC2 con Docker Compose y Nginx) según ADR-09; su diagrama está en [[AWS y Terraform]].
 
 Angular web usa **Feature-Sliced Design**, descrito en [[Frontend con Feature-Sliced Design]]. Angular web e Ionic móvil consumen el mismo contrato. n8n orquesta tareas externas; la API sigue siendo dueña del estado operativo.
 
@@ -63,7 +65,7 @@ Las evidencias pueden cargarse después. La interfaz distingue recepción acepta
 ## Entornos
 
 - **Local:** Docker Compose para dependencias; endpoints de prueba y datos sintéticos.
-- **Demo AWS (Perfil A):** Instancia EC2 Linux blindada con defensa en 6 capas, Docker Compose, Nginx con TLS 1.3, S3 privado y pipeline CI/CD DAG con rollback instantáneo (< 30s). Costo predecible ($18-$28/mes).
+- **Demo AWS (Perfil A):** Instancia EC2 Linux blindada con defensa en 6 capas, Docker Compose, Nginx con TLS 1.2/1.3, S3 privado y pipeline CI/CD DAG con rollback rápido (objetivo < 30 s, sin medir). Costo verificado el 7-oct-2026: t3.medium ≈ USD 37/mes; t3.small ≈ USD 22/mes (ver [[AWS y Terraform]]).
 - **Operación nacional (Perfil B):** ECS Fargate, ALB HTTPS, Amazon RDS PostgreSQL Multi-AZ y ElastiCache Redis gestionados con Terraform para alta concurrencia.
 
 Ver [[AWS y Terraform]], [[CI-CD y automatizacion de despliegue]], [[Hardening y seguridad de servidores]] y [[Decisiones de arquitectura]].

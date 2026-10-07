@@ -44,3 +44,13 @@ known_hosts.local
 tfplan
 *.tfvars
 *.tfvars.json
+
+# Configuración local de asistentes de IA
+.claude/settings.local.json
+
+# Skills y configuración de asistentes de IA: locales, no se versionan
+.agents/
+.claude/
+AGENTS.md
+CLAUDE.md
+GEMINI.md

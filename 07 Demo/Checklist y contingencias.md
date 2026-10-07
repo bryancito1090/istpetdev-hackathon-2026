@@ -1,7 +1,7 @@
 ---
 tipo: demo
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [demo, validacion, istpetdev]
 ---
 
@@ -46,7 +46,7 @@ tags: [demo, validacion, istpetdev]
 | Cámara/permiso móvil | Dispositivo de respaldo previamente probado | Usar captura real alternativa |
 | Sin acceso cloud | Entorno local preparado o video de respaldo | Declarar modalidad y límites |
 | Caída/bloqueo de backend | Disparo de `restart_only` vía GitHub Actions o `docker compose restart` (< 10s) | Recuperación inmediata sin rebuild |
-| Regresión o bug en demo | Rollback instantáneo vía `rollback.yml` con `target_sha` previo (< 30s) | Retorno transparente a versión estable previa |
+| Regresión o bug en demo | Rollback vía `rollback.yml` con `target_sha` previo (objetivo < 30 s; medir en el ensayo) | Retorno transparente a versión estable previa |
 | Sin sincronización | Mostrar registro local y usar evidencia grabada para el resto | No marcarlo recibido en servidor |
 | Presentación bloqueada | PDF/video local | Evitar depender del navegador |
 | Tiempo reducido | Historia → alerta → recepción → KPIs | Recortar extras y respetar tiempo |

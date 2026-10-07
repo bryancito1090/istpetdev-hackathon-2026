@@ -1,7 +1,7 @@
 ---
 tipo: guia
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-07
 tags: [hackathon, equipo]
 ---
 
@@ -37,10 +37,10 @@ Fuente: [[Reto 1 oficial]] y [[Evaluacion y entregables]].
 | Datos | PostgreSQL/PostGIS; UUID v7 para lotes y operaciones | Propuesta del equipo; versiones pendientes |
 | Web | Angular standalone, Tailwind y Feature-Sliced Design | Stack propuesto; FSD aceptado por instrucción del equipo el 6 de octubre |
 | Móvil | Angular/Ionic; persistencia y operaciones offline | Propuesta del equipo |
-| Nube e infra | Dual: EC2 Hardened + Docker (Demo) / ECS Fargate + RDS + Terraform (P2) | Aceptado el 6 de octubre; ADR-09 y [[AWS y Terraform]] |
-| Despliegue | Pipeline DAG en GitHub Actions con rollback instantáneo y defensa en 6 capas | Aceptado el 6 de octubre; ADR-15, [[CI-CD y automatizacion de despliegue]] y [[Hardening y seguridad de servidores]] |
+| Nube e infra | Dual: EC2 Hardened + Docker (Demo) / ECS Fargate + RDS + Terraform (P2) | Aceptado el 6 de octubre (Deciders pendientes); ADR-09 y [[AWS y Terraform]] |
+| Despliegue | Pipeline DAG en GitHub Actions con rollback rápido y defensa en 6 capas | Aceptado el 6 de octubre (Deciders pendientes); ADR-15, [[CI-CD y automatizacion de despliegue]] y [[Hardening y seguridad de servidores]] |
 | Comunicación | SignalR para alertas y chat de operación | Propuesta del equipo |
-| Autorización | RBAC con permisos por rol y ámbito de recurso; [[Seguridad y evidencias]] | Aceptado por instrucción del usuario el 6 de octubre; implementación y proveedor de identidad pendientes |
+| Autorización | RBAC con permisos por rol y ámbito de recurso; [[Seguridad y evidencias]] | Aceptado el 6 de octubre (registrado por bryancito1090, commit 5905073; Deciders por nombrar); implementación y proveedor de identidad pendientes |
 | Automatización | n8n y DeepSeek para explicar alertas | Propuesta del equipo |
 | Diseño interno | Una API modular, una base de datos, reglas deterministas para inventario | Recomendación técnica inicial |
 | Demo | QR físico, entrega offline, comparación reproducible y trazabilidad pública limitada | Propuesta consolidada |
@@ -57,6 +57,7 @@ La arquitectura completa se diseña desde el inicio; las entregas siguen [[Alcan
 
 ## Reglas para el equipo y los asistentes
 
+- Usar [[Hechos canonicos]] como fuente de versiones, cifras, rutas y nombres. Lo que no esté ahí se escribe PENDIENTE y se pregunta.
 - Leer el reto, el alcance y los contratos antes de implementar.
 - Distinguir requisito oficial, propuesta, supuesto y resultado medido.
 - Registrar decisiones que cambian interfaces, datos o infraestructura.
@@ -72,10 +73,10 @@ La arquitectura completa se diseña desde el inicio; las entregas siguen [[Alcan
 - [ ] Resolver el 8 de octubre las [[Consultas para la organizacion]].
 - [ ] Cerrar versiones y proveedor de mapas en [[Decisiones de arquitectura]].
 - [ ] Construir la primera entrega vertical de [[Plan de ejecucion]].
-- [ ] Generar skills según [[Catalogo y plan de skills]] una vez cerradas las convenciones reales.
+- [x] Documentar las skills del equipo en [[Catalogo y plan de skills]] (7 de octubre de 2026). Los archivos de skills no se versionan en esta bóveda.
 
 ## Acuerdos vigentes del 7 de octubre de 2026
 
-El aporte del compañero del 6 de octubre se conserva y se complementa: .NET 8/Angular 22, software en GitHub privado vacío `istpetdev-platform`, esqueleto local `/home/bryan/Projects/ISTPETDEV`, aplicaciones locales por integrante y RDS dev privado compartido. AWS completo se enciende para ensayos cuando el sistema esté desarrollado; los perfiles A/B siguen vigentes. Cuenta/presupuesto disponibles. n8n utiliza el servidor existente de Bryan; identidad Cognito definida.
+El aporte del compañero del 6 de octubre se conserva y se complementa: .NET 8/Angular 22, software en GitHub privado vacío `istpetdev-platform`, esqueleto local `~/Projects/ISTPETDEV`, aplicaciones locales por integrante y RDS dev privado compartido. AWS completo se enciende para ensayos cuando el sistema esté desarrollado; los perfiles A/B siguen vigentes. Cuenta/presupuesto disponibles. n8n utiliza el servidor existente de Bryan; identidad Cognito definida.
 
 Leer [[Repositorio de software y versiones]], [[Entornos y operacion acordados]] e [[Identidad OIDC y sesiones]] para implementar. Dominio institucional y Actions/Compose los profundizarán los compañeros; credenciales reales y pruebas permanecen pendientes. La bóveda y el esqueleto no certifican despliegue AWS ni aplicaciones funcionales.
