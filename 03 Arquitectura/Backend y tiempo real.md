@@ -78,3 +78,7 @@ Para el outbox, un proceso alojado puede reclamar registros de PostgreSQL con bl
 Endpoints de salud separados para proceso y disponibilidad de dependencias. Logs con correlationId/operationId; no registrar firmas, credenciales o payloads sensibles completos. Migraciones como tarea única del despliegue, no ejecutadas simultáneamente por cada contenedor.
 
 Interfaces y errores en [[Contratos API y eventos]]; validación en [[Plan de validacion]].
+
+## Decisión posterior de implementación — 7 de octubre de 2026
+
+Bryan confirma **.NET 8**, manteniendo la recomendación de actualización para continuidad después del 10 de noviembre. EF Core/Npgsql 8 y PostgreSQL 16/PostGIS compatible; base por integrante y base de integración en RDS dev privado. Migración única por release, pool acotado, fixture idempotente y backups antes de cambios: [[Entornos y operacion acordados]]. Identidad y validación de tokens Cognito en [[Identidad OIDC y sesiones]]. Se conserva SignalR con historial REST; dos réplicas requieren la evidencia de B-30/V-15, no se considera satisfecho por el host único.

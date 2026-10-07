@@ -433,3 +433,9 @@ sudo sysctl --system
 3. **Rotación ante Fuga Accidental:** Si una IP pública se filtra en GitHub, la medida obligatoria es rotar la Elastic IP en AWS, actualizar el DNS y actualizar los secrets en GitHub Actions.
 
 Referencias internas: [[AWS y Terraform]], [[CI-CD y automatizacion de despliegue]], [[Seguridad y evidencias]].
+
+## Aplicación a los entornos acordados — 7 de octubre de 2026
+
+Las seis capas anteriores se conservan. Su implementación debe distinguir loopback del host y sockets de contenedores bridge: publicar API en `127.0.0.1` del host si Nginx está allí, permitir escucha dentro de su contenedor y consumir DB/Redis por red Docker sin publicar sus puertos. El nodo de acceso RDS dev usa SSM sin inbound; el host demo conserva SSH/SCP con acceso acotado del runner.
+
+Validar forwarding/egress Docker tras UFW, privilegios reales docker/sudo del deployer, trusted proxies/real IP, compatibilidad systemd/JIT y permisos de cámara/geolocalización del móvil. Rotar secretos comprometidos; una IP pública no es una credencial. CDN/mTLS/HSTS/ACME se concretarán con el dominio institucional; no dar por activo mTLS comentado en los ejemplos. Controles y excepciones operativas en [[Entornos y operacion acordados]], sección 2. Registrar prueba externa de puertos además de `ss` y Lynis; no hay auditoría real del servidor todavía.

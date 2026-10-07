@@ -25,3 +25,7 @@ El índice completo está en [[Mapa de la boveda]]. Las reglas para editar está
 > Capacitación: **8 de octubre de 2026**. Hackathon: **16 y 17 de octubre de 2026**, hora de Ecuador continental. Consultar las reglas de trabajo previo en [[Consultas para la organizacion]].
 
 El manual original está incluido en [[Manual oficial.pdf]]. El presupuesto, proveedor de mapas y algunas versiones aún requieren definición; revisa [[Riesgos y decisiones pendientes]].
+
+## Actualización del 7 de octubre
+
+Cuenta/presupuesto disponibles; .NET 8 y Angular 22 confirmados. Repositorio software privado creado vacío y esqueleto exclusivamente local. Para las decisiones posteriores leer [[Repositorio de software y versiones]], [[Entornos y operacion acordados]] e [[Identidad OIDC y sesiones]]. Se conserva el trabajo del compañero; dominio y Actions/Compose siguen pendientes de implementación/profundización.

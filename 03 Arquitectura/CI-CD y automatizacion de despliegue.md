@@ -192,3 +192,11 @@ Cada ejecución del pipeline genera automáticamente un reporte en el resumen de
 ```
 
 Referencias internas: [[AWS y Terraform]], [[Hardening y seguridad de servidores]], [[Decisiones de arquitectura]].
+
+## Contrato de implementación — complemento del 7 de octubre de 2026
+
+Se conserva el DAG, GHCR, SSH/SCP, quick-restart y rollback del compañero. Él implementará workflows y contenedores de desarrollo: **pendiente**. Runners construyen/prueban stacks efímeros; no alojan desarrollo permanente. Cada integrante ejecuta localmente y AWS se despliega manualmente cuando se necesite probar el sistema completo.
+
+Aplicar [[Entornos y operacion acordados]], sección 9, al convertir los ejemplos anteriores en workflows: rutas `src/**` y `libs/shared-core/**`; ambas imágenes por release o manifest independiente si hay builds selectivos; jobs omitidos tratados explícitamente; `dotnet test -c Release --no-build`; backup externo obligatorio con pipefail; readiness con reintentos y fallo real; exclusión mutua deploy/rollback; manifest persistido y tres releases verificadas; rollback precargado con `--pull never`, compatible con schema. El objetivo <30 s se mide en el host y separadamente de la espera del runner. No atribuir atomicidad/zero downtime a Compose sin prueba.
+
+SSH desde runner requiere regla `/32` temporal vía OIDC y limpieza garantizada, más known_hosts confiable. Mantener GITHUB_TOKEN/GHCR y secretos SSH del diseño; completar permisos/variables por entorno. Credenciales y workflows todavía no se han creado. Ver [[Repositorio de software y versiones]] e [[Identidad OIDC y sesiones]].

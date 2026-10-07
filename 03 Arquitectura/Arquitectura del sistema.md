@@ -80,3 +80,7 @@ Ver [[AWS y Terraform]], [[CI-CD y automatizacion de despliegue]], [[Hardening y
 | IA predice los días | Modelo numérico comprobable primero; LLM explica y contextualiza |
 
 Estas precisiones sustentan el diseño, no reducen el alcance solicitado.
+
+## Entornos de ejecución concretados — 7 de octubre de 2026
+
+Se mantiene el diagrama objetivo anterior para Perfil B. El primer entorno completo AWS usa Perfil A; desarrollo ejecuta API/web/móvil por integrante con RDS compartido privado, sin desplegar toda la plataforma constantemente. n8n es externo en el servidor existente de Bryan. Identidad: Cognito OIDC y políticas RBAC de ADR-14. Topología de desarrollo, networking de contenedores y operación en [[Entornos y operacion acordados]]; versiones/rutas en [[Repositorio de software y versiones]]. No existe implementación cloud de estos diseños todavía.

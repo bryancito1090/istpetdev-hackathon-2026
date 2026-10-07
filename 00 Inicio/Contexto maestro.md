@@ -73,3 +73,9 @@ La arquitectura completa se diseña desde el inicio; las entregas siguen [[Alcan
 - [ ] Cerrar versiones y proveedor de mapas en [[Decisiones de arquitectura]].
 - [ ] Construir la primera entrega vertical de [[Plan de ejecucion]].
 - [ ] Generar skills según [[Catalogo y plan de skills]] una vez cerradas las convenciones reales.
+
+## Acuerdos vigentes del 7 de octubre de 2026
+
+El aporte del compañero del 6 de octubre se conserva y se complementa: .NET 8/Angular 22, software en GitHub privado vacío `istpetdev-platform`, esqueleto local `/home/bryan/Projects/ISTPETDEV`, aplicaciones locales por integrante y RDS dev privado compartido. AWS completo se enciende para ensayos cuando el sistema esté desarrollado; los perfiles A/B siguen vigentes. Cuenta/presupuesto disponibles. n8n utiliza el servidor existente de Bryan; identidad Cognito definida.
+
+Leer [[Repositorio de software y versiones]], [[Entornos y operacion acordados]] e [[Identidad OIDC y sesiones]] para implementar. Dominio institucional y Actions/Compose los profundizarán los compañeros; credenciales reales y pruebas permanecen pendientes. La bóveda y el esqueleto no certifican despliegue AWS ni aplicaciones funcionales.

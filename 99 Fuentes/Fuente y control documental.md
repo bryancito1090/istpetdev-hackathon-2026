@@ -76,3 +76,21 @@ Revisión del 6 de octubre de 2026: **47 notas Markdown**, **252 enlaces interno
 Esta revisión valida la documentación y navegación; las pruebas de software de [[Plan de validacion]] siguen pendientes de implementación.
 
 Actualización RBAC del 6 de octubre: enlaces internos resueltos, metadatos YAML válidos, nombres únicos, bloques de código balanceados e IDs de ADR/backlog/validación sin duplicados. Revisión de formato con `git diff --check` sin errores. Las pruebas de permisos siguen pendientes de software.
+
+## Fuente y actualización del 7 de octubre de 2026
+
+Fuente de decisiones: instrucción directa de Bryan en la conversación del 7 de octubre. Confirmó cuenta/presupuesto, trabajo local con DB AWS compartida, .NET 8/Angular 22, n8n propio y creación de GitHub vacío/esqueleto local; delegó recomendaciones y pidió conservar el contenido incorporado por su compañero en `4c3a9ef`.
+
+Se agregan [[Repositorio de software y versiones]], [[Entornos y operacion acordados]] e [[Identidad OIDC y sesiones]], con fuentes técnicas primarias fechadas y estados explícitos. Las notas anteriores se conservan y reciben complementos fechados; los ejemplos originales no sustituyen las condiciones posteriores de implementación. El repositorio software remoto se verifica vacío y el esqueleto permanece local. La validación documental revisa conservación del contenido anterior, enlaces, bloques y formato; no afirma pruebas reales de aplicaciones/AWS/n8n.
+
+## Credenciales del equipo — 7 de octubre de 2026
+
+Bryan pide usar AWS e integraciones en equipo sin exponer valores en la bóveda ni en el repositorio de software. Se agrega [[Credenciales y acceso del equipo]], con fuentes oficiales AWS/GitHub/Microsoft enlazadas junto a las decisiones: SSO/MFA, tipos de instancia Identity Center, acceso a Secrets Manager, configuración local y OIDC de Actions. Se documenta la verificación del subject con IDs inmutables indicado por GitHub para repositorios recientes. Se amplían exclusiones de Git y se agregan B-35/V-32; sin crear cuentas cloud, leer/cargar credenciales reales ni ejecutar pruebas AWS en esta actualización.
+
+## Guía de preparación y aprovisionamiento — 7 de octubre de 2026
+
+Se agrega [[Puesta en marcha del workspace y AWS dev]] por solicitud de Bryan: prompt del agente limitado a instalaciones locales, proyectos, IaC/scripts y publicación en develop; luego pasos de consola/terminal para identidad/bootstrap persistente, Terraform dev, PostgreSQL y acceso del equipo. Flujo propuesto y ejecución pendiente. Versiones npm seleccionadas verificadas en el registro oficial; pasos de consola contrastados con documentación primaria AWS/GitHub. No se crearon recursos ni se ejecutó el prompt durante esta entrega.
+
+## Créditos y cierre temporal — 7 de octubre de 2026
+
+Bryan aclara que quiere usar los USD 100 mostrados y retirar infraestructura después de la hackathon. Se agrega [[AWS temporal para la hackathon y cierre]], con advertencia de la consola/fuentes oficiales sobre expiración al crear Organizations, alternativa IAM/MFA con `aws login` y limpieza final. Captura indica término del plan gratuito el 21 de octubre, no prueba de expiración de cada crédito. Se actualiza precedencia de guías/prompt y B-35/V-32, con B-36/V-33 para cierre. No se registra ID de cuenta, no se accede a credenciales ni se ejecuta ninguna operación cloud.

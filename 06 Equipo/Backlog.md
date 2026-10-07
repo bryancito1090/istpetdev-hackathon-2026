@@ -66,3 +66,33 @@ Una fila se marca completa cuando cumple su criterio y tiene enlace a resultado.
 ## Convención frontend FSD
 
 B-09 implementa el panel con [[Frontend con Feature-Sliced Design]]. RF-16 y V-23 verifican estructura, dependencias y API pública; la decisión está aceptada por IstpetDev y no depende de seleccionar versiones.
+
+## Complemento de entregas de infraestructura — 7 de octubre de 2026
+
+Se conservan B-20 y B-21 del compañero. Cuenta/presupuesto, .NET 8/Angular 22, repositorio vacío y propuestas operativas ya se definieron; B-01 sigue pendiente hasta validar contratos/compatibilidad. B-29 tiene proveedor decidido (Cognito), pero implementación y pruebas siguen pendientes. No marcar B-20/B-21 completos por documentación.
+
+| ID | Entrega | Prioridad/dependencia | Criterio de cierre | Estado |
+|---|---|---|---|---|
+| B-30 | Prueba de dos API y backplane | Al habilitar varias réplicas; B-13/20; RNF-07 se conserva | V-15 con eventos/reconexión y afinidad; ALB probado en Perfil B antes de declarar escalado AWS | Pendiente |
+| B-31 | RDS compartido y acceso dev | Antes de trabajo conjunto contra DB | SSM/TLS verificados, bases/credenciales aisladas y migraciones de integración controladas; V-30 | Pendiente |
+| B-32 | Backup externo y restauración | Antes de depender de demo; B-20 | RPO/RTO medidos, backup obligatorio y V-26 aprobado | Pendiente |
+| B-33 | Dominio institucional y HTTPS | Antes de demo en teléfono; gestión por compañero | DNS/TLS/renovación, orígenes y CDN si aplica probados | Pendiente |
+| B-34 | Configurar n8n existente | B-15/16 y API accesible | Workflows exportados, credenciales cargadas por Bryan, M2M y fallback; sin nueva instancia obligatoria | Pendiente |
+
+B-20 incorpora V-25/V-29 y los entornos de [[Entornos y operacion acordados]]. B-21 implementará el compañero: manifest, respaldo obligatorio, health checks que fallan, retención por releases y V-27/V-28; meta rollback <30 s con imágenes precargadas. El esqueleto local no contiene estos workflows.
+
+## Acceso seguro del equipo — 7 de octubre de 2026
+
+| ID | Entrega | Prioridad/dependencia | Criterio de cierre | Estado |
+|---|---|---|---|---|
+| B-35 | Acceso individual y gestión de credenciales | Antes de B-31/34; OIDC de Actions al implementar B-21 | SSO/MFA, permisos individuales, secretos dev por persona/servicio, sin claves AWS estáticas compartidas; V-32 con revocación y sin fugas en ambos repositorios | Pendiente |
+
+La política y exclusiones de Git se documentaron en [[Credenciales y acceso del equipo]]. Crear roles/usuarios/secretos, cargar valores y validar permisos no se consideran completados por esta documentación.
+
+## Ensayo temporal y cierre — 7 de octubre de 2026
+
+B-35 usa ahora la propuesta de [[AWS temporal para la hackathon y cierre]]: IAM individual/MFA y login temporal, sin Organizations para conservar créditos. El criterio de aislamiento y ausencia de claves AWS compartidas permanece.
+
+| ID | Entrega | Prioridad/dependencia | Criterio de cierre | Estado |
+|---|---|---|---|---|
+| B-36 | Cierre de infraestructura de la hackathon | Preparar antes del ensayo; ejecutar al finalizar | Exportación privada verificada, retiro del stack y residuos de DB/backups/EBS/S3/logs/secrets, backend/KMS al final y V-33; sin afectar n8n ni recursos personales | Pendiente |

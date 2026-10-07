@@ -81,3 +81,9 @@ Instancia principal única para demo; no autoescalar varios principales independ
 - Modelo, prompt y ejecución enlazados a cada explicación.
 
 Ver [[Contratos API y eventos]] y [[Catalogo y plan de skills]].
+
+## Hosting confirmado y configuración posterior — 7 de octubre de 2026
+
+Bryan ya tiene servidor **https://n8n.bryan-bano.com/** y cargará las credenciales. Esta integración usa ese servidor y no añade una segunda instancia obligatoria al host demo. Workflows exportados sin credenciales en `automation/n8n/workflows/`; la DB/clave de cifrado del servidor permanece administrada por Bryan.
+
+API técnica autenticada con Cognito M2M/rol Automatización, cron `America/Guayaquil`, límites/reintentos y pausa cuando AWS esté apagado: [[Identidad OIDC y sesiones]] y [[Entornos y operacion acordados]], sección 7. Un n8n externo no alcanza el localhost del portátil: integración contra API demo HTTPS o túnel temporal autenticado; el cálculo/fallback local funciona sin n8n. Modelo/prompt/credenciales se cargan por Bryan; no se ha accedido ni modificado el servidor en esta entrega.

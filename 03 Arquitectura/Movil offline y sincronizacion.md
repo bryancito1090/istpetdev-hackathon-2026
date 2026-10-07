@@ -71,3 +71,7 @@ No prometer GPS continuo con app cerrada sin probar permisos y limitaciones del 
 - Abrir desde HTTPS en teléfono real; HTTP por IP de red local no equivale a localhost.
 
 Usar [[Plan de validacion]] y [[Checklist y contingencias]].
+
+## Sesión y versión acordadas — 7 de octubre de 2026
+
+PWA primero con Angular 22/Ionic 8 e IndexedDB; Capacitor 8 recomendado para el empaquetado nativo posterior. Cognito con PKCE; tokens no forman parte de la cola durable. Expiración, logout o rechazo de permisos conserva capturas y archivos aislados por identidad. Subida S3 privada después de reautenticación y autorización vigente. Ver [[Repositorio de software y versiones]], [[Identidad OIDC y sesiones]] y [[Entornos y operacion acordados]]; pruebas reales Android/iOS y HTTPS continúan pendientes.

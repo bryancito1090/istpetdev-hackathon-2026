@@ -67,3 +67,15 @@ Un video de respaldo no se presenta como ejecución en vivo. No modificar a mano
 Documentos personales y bancarios del premio permanecen en el expediente privado del equipo.
 
 Ver [[Evaluacion y entregables]] y [[Registro de trabajo previo y del evento]].
+
+## Preparación operativa acordada — 7 de octubre de 2026
+
+- [ ] Encender demo con antelación, esperar DB/health checks y pausar alarmas solo en apagados planificados.
+- [ ] Confirmar manifest actual/anterior, tres imágenes precargadas y rollback compatible sin download.
+- [ ] Confirmar backup S3 verificado y restauración ensayada, sin depender del disco EC2.
+- [ ] Verificar login Cognito y asignaciones descargadas antes de modo avión.
+- [ ] Usar n8n de Bryan con API HTTPS alcanzable y cron/credencial demo; pausar sus workflows al apagar AWS.
+- [ ] Guardar tiempos reales de restart/rollback por separado de cola GitHub; los tiempos de la tabla anterior son metas pendientes de medida.
+- [ ] Registrar endpoint institucional, certificado y renovación una vez resueltos por el compañero.
+
+Runbooks de referencia: [[Entornos y operacion acordados]] e [[Identidad OIDC y sesiones]].

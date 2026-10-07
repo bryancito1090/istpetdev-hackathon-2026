@@ -61,3 +61,23 @@ La configuración común de Obsidian se versiona. `.gitignore` excluye las sesio
 Esta es la base documental y de diseño. Los avances de software y las pruebas se registrarán con evidencia. Los datos sintéticos, resultados simulados y requisitos oficiales se distinguen en las notas.
 
 Capacitación: **8 de octubre de 2026**. Jornadas: **16 y 17 de octubre de 2026**. Las consultas sobre trabajo previo y entrega están en [Consultas para la organización](01%20Oficial/Consultas%20para%20la%20organizacion.md).
+
+## Acuerdos de implementación — 7 de octubre de 2026
+
+El repositorio de software es [istpetdev-platform](https://github.com/bryancito1090/istpetdev-platform), privado y vacío. Su esqueleto está únicamente en `/home/bryan/Projects/ISTPETDEV`; todavía no hay proyectos generados ni archivos publicados allí.
+
+- [Repositorio y versiones](03%20Arquitectura/Repositorio%20de%20software%20y%20versiones.md): .NET 8, Angular 22 y estructura local.
+- [Entornos y operación](03%20Arquitectura/Entornos%20y%20operacion%20acordados.md): aplicaciones locales, RDS compartido privado, AWS para ensayos, red/IAM, backups/S3, n8n existente, observabilidad y releases.
+- [Identidad OIDC](03%20Arquitectura/Identidad%20OIDC%20y%20sesiones.md): ADR-10 Cognito y sesiones offline.
+
+El contenido del compañero incorporado en `4c3a9ef` se conserva; las notas reciben complementos fechados con los acuerdos posteriores. Cuenta/presupuesto confirmados. Dominio institucional y workflows/Compose siguen a cargo de los compañeros indicados; credenciales por cargar por Bryan. Documentación y esqueleto no representan un despliegue real.
+
+## Credenciales y acceso del equipo — 7 de octubre de 2026
+
+La guía de [credenciales y acceso del equipo](03%20Arquitectura/Credenciales%20y%20acceso%20del%20equipo.md) aplica a esta bóveda y al repositorio de software. Cada integrante usa su propia sesión AWS SSO/MFA; los secretos de desarrollo necesarios se obtienen de Secrets Manager con permisos individuales. `.env.example` y la documentación incluyen solo nombres/valores públicos. No compartir claves AWS, contraseñas PostgreSQL ni tokens de integraciones mediante commits, issues o conversaciones.
+
+Se ampliaron las exclusiones locales de Git; no sustituyen revisar el contenido antes de publicar ni revocar una credencial si se filtró. El alta AWS, los secretos y la configuración OIDC del CI siguen pendientes de implementación (B-35/V-32).
+
+La [guía de puesta en marcha](03%20Arquitectura/Puesta%20en%20marcha%20del%20workspace%20y%20AWS%20dev.md) incluye el prompt para preparar/publicar ISTPETDEV y los pasos de consola/terminal para aprovisionar dev. Se propone bootstrap persistente de state por consola y red/RDS desde Terraform; scripts, instalaciones y recursos siguen pendientes de ejecución.
+
+**Escenario posterior vigente:** leer [AWS temporal y cierre](03%20Arquitectura/AWS%20temporal%20para%20la%20hackathon%20y%20cierre.md) antes del prompt/guía anterior. Para aprovechar créditos, se propone IAM individual/MFA con `aws login` en la cuenta independiente, sin crear Organizations, y retiro de la infraestructura del proyecto al terminar la hackathon, incluido bootstrap al final. Configuración y cierre siguen pendientes de ejecución.

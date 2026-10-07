@@ -110,3 +110,7 @@ Detalles completos en [[Hardening y seguridad de servidores]] y [[CI-CD y automa
 ## Verificación
 
 Probar la matriz RBAC con acciones permitidas y denegadas, revocación antes de sincronizar, acceso ajeno a entrega, modificación del token QR, reutilización de URL expirada, exceso de archivo, actor/rol falsificado y salto a grupos SignalR. Los criterios están en [[Plan de validacion]].
+
+## Identidad y almacenamiento concretados — 7 de octubre de 2026
+
+Se conserva la matriz RBAC aceptada y sus restricciones por recurso. ADR-10 selecciona Cognito; configuración completa en [[Identidad OIDC y sesiones]]. Buckets separados por entorno, upload acotado a 10 MiB/imagen, checksum, CORS, URLs temporales, retención demo y roles están definidos en [[Entornos y operacion acordados]]. El hardening se aplica conservando las seis capas y distinguiendo host/red Docker; estas notas no demuestran todavía controles activos ni acceso a evidencias reales.

@@ -48,3 +48,26 @@ El manual exige un representante/responsable de equipo para inscripción/adminis
 Revisar brevemente: qué entrega funciona, qué interfaz cambia, qué bloquea la integración y qué evidencia falta. Los cambios de implementación se registran en [[Registro de trabajo previo y del evento]].
 
 Entradas operativas: [[Plan de ejecucion]], [[Backlog]] y [[Riesgos y decisiones pendientes]].
+
+## Recursos confirmados por Bryan — 7 de octubre de 2026
+
+Este registro complementa la tabla inicial sin sustituir el aporte del compañero.
+
+| Recurso | Estado actualizado |
+|---|---|
+| Cuenta AWS y presupuesto | Disponibles y confirmados por Bryan; valores privados por cargar al aprovisionar |
+| Región | `us-east-1` seleccionada para el diseño; latencia y recursos reales por verificar |
+| Repositorio software | [istpetdev-platform](https://github.com/bryancito1090/istpetdev-platform), privado y vacío; Bryan añadirá integrantes |
+| Esqueleto | Local en `/home/bryan/Projects/ISTPETDEV`; sin commits/push de software |
+| Backend / frontend | .NET 8 y Angular 22 confirmados; recomendaciones en [[Repositorio de software y versiones]] |
+| Trabajo diario | Cada integrante ejecuta sus aplicaciones; RDS dev privado compartido con aislamiento y una base de integración |
+| Dominio | Se solicitará a la institución; un compañero profundizará DNS/TLS/CDN |
+| GitHub Actions/Compose | Implementación pendiente del compañero que aportó CI/CD a develop |
+| n8n | Servidor existente https://n8n.bryan-bano.com/; Bryan cargará credenciales |
+| Identidad | Cognito definido en [[Identidad OIDC y sesiones]]; aún no provisionado |
+
+No cambia el trabajo flexible por entregables. Configuración detallada, pruebas y campos privados pendientes en [[Entornos y operacion acordados]].
+
+## Acceso y credenciales — 7 de octubre de 2026
+
+Se acepta [[Credenciales y acceso del equipo]] para ambos repositorios: cuentas GitHub individuales, AWS SSO/MFA y secretos dev autorizados por persona/servicio. Bryan carga las credenciales reales en su almacén correspondiente; el equipo recibe acceso limitado, sin compartir su token AWS, usuario root, master PostgreSQL ni cuenta administrativa n8n. Alta/baja y rotación se registran sin valores secretos. La configuración efectiva y las pruebas siguen pendientes en B-35/V-32.

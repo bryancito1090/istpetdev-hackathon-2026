@@ -65,3 +65,19 @@ tags: [hackathon, equipo]
 | Móvil | Usuarios → offline → contratos → seguridad → validación |
 | Nube y automatización | AWS/Terraform → backend/SignalR → n8n/IA → riesgos |
 | Producto y presentación | Evaluación → negocio/piloto → validación → plus → guion |
+
+## Acuerdos operativos del 7 de octubre
+
+- [[Repositorio de software y versiones]] — GitHub vacío, estructura local y toolchain.
+- [[Entornos y operacion acordados]] — desarrollo/RDS compartido, red/IAM, backups/S3, n8n, observabilidad y deploy/rollback.
+- [[Identidad OIDC y sesiones]] — ADR-10 Cognito, sesiones web/PWA y cliente de automatización.
+
+Estas notas complementan el diseño incorporado por el compañero y registran decisiones posteriores de Bryan.
+
+## Acceso seguro del equipo — 7 de octubre de 2026
+
+- [[Credenciales y acceso del equipo]] — AWS por SSO/MFA, Secrets Manager, configuración local, OIDC de Actions y alta/baja de integrantes; aplica a los dos repositorios.
+
+- [[Puesta en marcha del workspace y AWS dev]] — prompt para el agente de software y secuencia de consola/terminal para aprovisionar dev y conectar a los integrantes; ejecución pendiente.
+
+- [[AWS temporal para la hackathon y cierre]] — escenario posterior vigente: conservar créditos en cuenta independiente, IAM/MFA con login temporal y eliminación de recursos del proyecto al terminar; leer antes de seguir los pasos SSO anteriores.

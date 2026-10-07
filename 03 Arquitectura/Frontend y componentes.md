@@ -180,3 +180,9 @@ export const roleGuard = (allowedRoles: UserRole[]): CanActivateFn => {
 | **Consulta Pública QR** | `pages/public-trace` | Página ultra-ligera y pública para lectura del pasaporte logístico por el jurado. |
 
 Referencias internas: [[Frontend con Feature-Sliced Design]], [[Movil offline y sincronizacion]], [[Contratos API y eventos]], [[Seguridad y evidencias]].
+
+## Versiones y entornos concretados — 7 de octubre de 2026
+
+Bryan fija **Angular 22** y .NET 8. Se conservan Signals/RxJS, standalone, FSD, shared-core, mapas desacoplados y QR ligero. Versiones verificadas y selección de Ionic/Tailwind/Capacitor: [[Repositorio de software y versiones]]. Angular 22 requiere TypeScript 6.0 compatible; la tabla anterior es la base recibida, este complemento concreta la implementación posterior.
+
+Cada integrante ejecuta web/móvil localmente; la autenticación usa Cognito según [[Identidad OIDC y sesiones]]. Configuración frontend solo pública; no distribuir `.env` backend ni secretos. Compatibilidad de componentes/dispositivos y presupuestos de bundle todavía debe probarse. Dominio HTTPS institucional continúa pendiente de profundización del compañero.

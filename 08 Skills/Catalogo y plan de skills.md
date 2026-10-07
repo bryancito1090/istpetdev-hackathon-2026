@@ -87,3 +87,7 @@ Si la bóveda y el código viven en repositorios distintos, documentar el mecani
 Probar con una tarea pequeña de una entrega real. Verificar que selecciona las referencias, modifica el lugar adecuado, respeta contratos y usa checks existentes. Si necesita explicar muchas reglas no relacionadas, reducir su alcance.
 
 Puertas: [[Decisiones de arquitectura]] y [[Plan de ejecucion]].
+
+## Fuentes complementarias para implementación — 7 de octubre de 2026
+
+Agregar [[Repositorio de software y versiones]], [[Entornos y operacion acordados]] e [[Identidad OIDC y sesiones]] a las referencias de las futuras skills. .NET 8/Angular 22 fijados por Bryan; perfiles A/B, DAG/GHCR/SSH y FSD/Signals del compañero conservados. Aplicar la distinción host/contenedor, manifest de release/backup/rollback sin pull y n8n externo existente. No generar una skill que repita los ejemplos previos sin estos contratos posteriores. Skills, workflows y aplicaciones aún no están implementados.

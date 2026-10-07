@@ -228,3 +228,9 @@ Para cumplir con la captura de firmas y fotos de entrega descrita en [[Seguridad
    Ejecución del runbook de [[Hardening y seguridad de servidores]] para verificar que UFW, Fail2ban, SSH, Nginx y sysctl cumplan con el índice Lynis > 80/100.
 
 Referencias internas: [[Hardening y seguridad de servidores]], [[CI-CD y automatizacion de despliegue]], [[Seguridad y evidencias]], [[Decisiones de arquitectura]].
+
+## Complemento operativo — acuerdos del 7 de octubre de 2026
+
+El modelo dual anterior se conserva íntegro. Cuenta y presupuesto AWS confirmados por Bryan; se selecciona `us-east-1` para el diseño. Desarrollo: aplicaciones locales y RDS dev privado compartido, con túnel SSM, bases aisladas por integrante y base de integración. Demo: Perfil A encendido manualmente para ensayos; Perfil B reservado para producción nacional. n8n utiliza el servidor externo existente de Bryan.
+
+La configuración vigente de CIDRs/SG, IAM/OIDC, state, PostgreSQL/migraciones, backups, S3, encendido/apagado y observabilidad está en [[Entornos y operacion acordados]]. Las referencias de costos mensuales anteriores no son una cotización para uso intermitente; incluir RDS dev, storage, IPs y servicios que permanecen aun con cómputo parado. Dominio institucional/DNS/certificados sigue pendiente del compañero responsable. Terraform sigue por implementar; el esqueleto local no contiene recursos provisionados.

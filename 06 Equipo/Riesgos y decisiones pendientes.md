@@ -54,3 +54,9 @@ No faltan nombres ni especialidades del equipo: IstpetDev ya confirmó cinco int
 | Está validado por empresa | Entrevista/piloto real documentado |
 
 Revisar [[Plan de validacion]] y [[Plus para ganar]].
+
+## Estado actualizado — 7 de octubre de 2026
+
+Cuenta/presupuesto disponibles, repositorio software creado vacío, .NET 8 y Angular 22 confirmados y n8n existente. Red/IAM/Cognito/migraciones/backups/S3/observabilidad/rollback quedaron definidos para implementación en [[Entornos y operacion acordados]], [[Identidad OIDC y sesiones]] y [[Repositorio de software y versiones]].
+
+Siguen pendientes: dominio institucional y su DNS/TLS/CDN, ejecución de Actions/Compose por el compañero, carga privada de credenciales/identificadores, ADR-05 mapas, reglas del evento y evidencia real de compatibilidad, seguridad, offline y recuperación. R-08 pasa de cuenta/presupuesto desconocidos a controlar horas/recursos persistentes; R-06 conserva su prueba de dos réplicas B-30; R-09 mantiene .NET 8 elegido y actualización posterior al evento. Los acuerdos no equivalen a recursos o pruebas realizados.

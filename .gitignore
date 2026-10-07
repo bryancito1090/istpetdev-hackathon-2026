@@ -23,3 +23,24 @@ Desktop.ini
 .env
 .env.*
 !.env.example
+
+# Credenciales y copias privadas: aplica también a la bóveda documental
+.aws/
+.private/
+secrets/
+credentials.local.*
+secrets.local.*
+*.pem
+*.key
+*.pfx
+*.p12
+known_hosts.local
+
+# State y planes Terraform pueden contener secretos
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+*.tfvars
+*.tfvars.json

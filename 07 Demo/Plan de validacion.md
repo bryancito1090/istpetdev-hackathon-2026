@@ -65,3 +65,35 @@ No repetir pruebas amplias por rutina: repetir lo afectado por cambios y los rec
 ## Resultados
 
 Sin resultados aún. Crear notas de evidencia reales y enlazarlas aquí cuando existan.
+
+## Verificación de infraestructura complementaria — 7 de octubre de 2026
+
+| ID | Caso | Evidencia requerida |
+|---|---|---|
+| V-25 | Aprovisionamiento reproducible | Plan revisado, versions/digests/variables sin secrets y entorno recuperado desde IaC |
+| V-26 | Restauración de backup externo | DB nueva, checksum/roles/migraciones/saldos/recibos/evidencias comprobados; RPO/RTO reales |
+| V-27 | Deploy con fallo de backup/salud | Job rojo, backup obligatorio, no migrar sin respaldo y recuperar última release compatible |
+| V-28 | Rollback sin descarga | Tres manifests/imágenes locales, `--pull never`, schema compatible y tiempo host <30 s; espera runner separada |
+| V-29 | Red y hardening funcional | Scan externo de puertos, DB/Redis privados, egress/bridge válidos, SSH acotado/SSM y salud tras reinicio |
+| V-30 | RDS dev aislado | Túnel SSM con TLS hostname validado, usuario no accede a otra base y migración personal no altera integración |
+| V-31 | Toolchain y dispositivos | .NET 8 y Angular 22/Ionic 8/Node/TS acordados compilan y funcionan en el dispositivo objetivo |
+
+V-15/RNF-07 siguen vigentes en B-30; no se eliminan por reemplazar la antigua B-21. Incorporar V-25/26/27/28/29 al cierre de B-20/21/32 según corresponda. Estos casos no se han ejecutado; la revisión del esqueleto/documentación no es prueba de software ni de AWS.
+
+## Validación de credenciales — 7 de octubre de 2026
+
+| ID | Caso | Evidencia requerida |
+|---|---|---|
+| V-32 | Acceso individual y secretos sin exposición | Dos identidades SSO/MFA: cada una lee su secreto personal y recibe denegación sobre el ajeno/prod; DB propia por SSM/TLS; API local sin claves AWS estáticas; workflow OIDC con subject real y permisos acotados al implementar B-21; revocación/rotación efectiva; sin valores secretos en repositorios, exportaciones n8n, logs o artefactos |
+
+Pendiente de ejecución para B-35 y la parte correspondiente de B-21. Registrar identidad/entorno/resultado anonimizado; nunca capturar respuestas completas de Secrets Manager, contraseñas, connection strings ni tokens. Criterios y alta/baja en [[Credenciales y acceso del equipo]].
+
+## Escenario temporal y cierre — 7 de octubre de 2026
+
+V-32 se realiza con dos identidades IAM/MFA y credenciales temporales de `aws login`, según [[AWS temporal para la hackathon y cierre]]; no exige Organizations/SSO durante este ensayo. Se conserva la prueba de aislamiento y acceso limitado.
+
+| ID | Caso | Evidencia requerida |
+|---|---|---|
+| V-33 | Retiro completo del proyecto | Exportación privada comprobada, inventario por tags/state y regiones, recursos del stack eliminados, sin snapshots/backups/volúmenes/versiones S3 facturables olvidados, secretos/KMS en eliminación documentada, bootstrap retirado al final y facturación revisada; sin tocar n8n/recursos ajenos |
+
+Pendiente de ejecución al terminar la hackathon; documentar residuos con espera obligatoria y no afirmar factura cero por apagar EC2/RDS.
