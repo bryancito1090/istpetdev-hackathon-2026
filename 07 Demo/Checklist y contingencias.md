@@ -45,6 +45,8 @@ tags: [demo, validacion, istpetdev]
 | QR no enfoca | Segundo QR o apertura del enlace en dispositivo del equipo | Conservar mismo ID |
 | Cámara/permiso móvil | Dispositivo de respaldo previamente probado | Usar captura real alternativa |
 | Sin acceso cloud | Entorno local preparado o video de respaldo | Declarar modalidad y límites |
+| Caída/bloqueo de backend | Disparo de `restart_only` vía GitHub Actions o `docker compose restart` (< 10s) | Recuperación inmediata sin rebuild |
+| Regresión o bug en demo | Rollback instantáneo vía `rollback.yml` con `target_sha` previo (< 30s) | Retorno transparente a versión estable previa |
 | Sin sincronización | Mostrar registro local y usar evidencia grabada para el resto | No marcarlo recibido en servidor |
 | Presentación bloqueada | PDF/video local | Evitar depender del navegador |
 | Tiempo reducido | Historia → alerta → recepción → KPIs | Recortar extras y respetar tiempo |

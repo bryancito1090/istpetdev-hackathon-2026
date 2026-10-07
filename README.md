@@ -25,6 +25,9 @@ Los enlaces internos de las notas están preparados para Obsidian. El manual ofi
 | Reglas del reto | [Reto 1 oficial](01%20Oficial/Reto%201%20oficial.md) |
 | Alcance | [Alcance y prioridades](02%20Producto/Alcance%20y%20prioridades.md) |
 | Arquitectura | [Arquitectura del sistema](03%20Arquitectura/Arquitectura%20del%20sistema.md) |
+| Infraestructura AWS | [AWS y Terraform](03%20Arquitectura/AWS%20y%20Terraform.md) |
+| Pipeline CI/CD | [CI/CD y despliegue](03%20Arquitectura/CI-CD%20y%20automatizacion%20de%20despliegue.md) |
+| Hardening Host | [Seguridad de servidores](03%20Arquitectura/Hardening%20y%20seguridad%20de%20servidores.md) |
 | Frontend FSD | [Feature-Sliced Design](03%20Arquitectura/Frontend%20con%20Feature-Sliced%20Design.md) |
 | Trabajo pendiente | [Backlog](06%20Equipo/Backlog.md) |
 | Diferenciación | [Plus para ganar](07%20Demo/Plus%20para%20ganar.md) |

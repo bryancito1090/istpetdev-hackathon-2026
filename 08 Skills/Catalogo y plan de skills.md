@@ -21,7 +21,7 @@ Esta nota define **el catálogo y las especificaciones**. Todavía no se han cre
 | istpetdev-backend              | Casos de uso C#/inventario/custodia          | [[Backend y tiempo real]], [[Modelo de datos]], [[Contratos API y eventos]], [[Seguridad y evidencias]] | Regla transaccional, RBAC por acción/recurso e idempotencia correctos |
 | istpetdev-frontend-fsd         | Páginas, slices y componentes Angular web    | [[Frontend con Feature-Sliced Design]], [[Frontend y componentes]], [[Contratos API y eventos]] | Ubicación FSD, API pública e imports válidos               |
 | istpetdev-mobile-offline       | Captura Ionic, persistencia y sincronización | [[Movil offline y sincronizacion]], [[Usuarios y flujos]], [[Seguridad y evidencias]]           | Operación durable y conflictos explícitos                  |
-| istpetdev-aws-terraform        | Infraestructura y despliegue AWS             | [[AWS y Terraform]], [[Decisiones de arquitectura]], [[Seguridad y evidencias]]                 | Infra reproducible, plan revisable y límites de gasto      |
+| istpetdev-aws-terraform        | Infraestructura, CI/CD y despliegue          | [[AWS y Terraform]], [[CI-CD y automatizacion de despliegue]], [[Hardening y seguridad de servidores]], [[Decisiones de arquitectura]] | Infra reproducible, pipeline DAG con rollback instantáneo y hardening verificado |
 | istpetdev-n8n-ia               | Workflows, webhooks y explicaciones          | [[n8n e IA]], [[Contratos API y eventos]]                                                       | Workflow exportable, secretos separados y fallback         |
 | istpetdev-datos-logistica      | Modelo, inventario y rutas                   | [[Modelo de datos]], [[Inventario y prediccion]], [[Rutas y sobrecostos]]                       | Unidades/invariantes y ruta factible                       |
 | istpetdev-simulacion-evidencia | Datos, KPIs y resultados                     | [[Simulador y metricas]], [[Dataset y escenarios]], [[Plan de validacion]]                      | Experimento reproducible y cifras defendibles              |
@@ -30,18 +30,16 @@ Si dos skills repiten muchas instrucciones, mover la regla común a una referenc
 
 ## Convención para frontend FSD
 
-La skill frontend incluirá la decisión **aceptada por el usuario** de usar FSD. Debe:
+La skill frontend incluirá las decisiones **aceptadas** de usar FSD (ADR-13) y el stack Angular 18+ con Signals (ADR-04). Debe:
 
-- Ubicar código en app/pages/widgets/features/entities/shared según responsabilidad.
-- Mantener standalone y Tailwind con versiones acordadas.
-- Respetar imports hacia capas inferiores y límites entre slices.
-- Exponer API pública de slice, sin deep imports externos.
-- Mantener shared sin reglas específicas de logística.
-- No crear capas/slices vacías ni extraer una feature solo por existir una acción.
-- Mantener autorización y saldos críticos en backend.
+- Ubicar código en app/pages/widgets/features/entities/shared según responsabilidad, con adopción pragmática (iniciar en pages/entities y extraer a features/widgets por reutilización real).
+- Consumir contratos, DTOs y modelos compartidos desde `libs/shared-core` para no duplicar código con la app móvil.
+- Usar Angular Signals (`signal()`, `computed()`, `input()`, `output()`) para el estado de UI y componentes; reservar RxJS para flujos asíncronos complejos y SignalR.
+- Desacoplar mapas: `shared/ui/map-view` es puramente visual y agnóstico a lógica de negocio; `widgets/route-map` inyecta las entidades.
+- Mantener la consulta QR (`pages/public-trace`) en lazy loading ultra-ligero (< 150 KB gzip).
+- Respetar imports hacia capas inferiores y límites entre slices, exponiendo API pública limpia sin deep imports.
+- Mantener shared sin reglas específicas de logística y autorización definitiva en backend.
 - Revisar lint/build existentes y el recorrido afectado.
-
-Para componentes móviles no imponer automáticamente la misma decisión; aplicar primero persistencia y sincronización de la app Ionic.
 
 ## Convención para backend
 
@@ -49,11 +47,11 @@ Dominio independiente de infraestructura. Comandos transaccionales y consultas p
 
 Toda escritura reintentable comprueba permisos, idempotencia, versión y cantidades. Toda consulta con datos privados limita ámbito y volumen. Aplicar RBAC aceptado en ADR-14 con denegación por defecto y políticas compartidas por API/SignalR; validar organización y recurso también al sincronizar. La skill debe señalar qué invariantes y pruebas existentes afecta el cambio.
 
-## Convención para Terraform
+## Convención para infraestructura, CI/CD y Terraform
 
-Versiones/proveedor fijados, state protegido, secretos externos, variables y límites explícitos. El resultado debe incluir un plan revisable y costos/configuración del entorno. No declarar alta disponibilidad únicamente por la existencia de archivos Terraform.
+Topología dual: Perfil A (EC2 Hardened + Docker Compose + GHCR para demo y piloto) y Perfil B (ECS Fargate + RDS Multi-AZ para escala nacional). State S3 con `use_lockfile = true`, secretos protegidos y límites explícitos.
 
-La capacidad de ejecutar apply depende de autorización, cuenta y presupuesto de la tarea concreta; una skill no sustituye ese contexto.
+El pipeline CI/CD debe cumplir ADR-15: compilación en runner, imágenes por SHA, rotación de 3 versiones y rollback en < 30s. El host debe cumplir las 6 capas de hardening de [[Hardening y seguridad de servidores]] (UFW, loopback binding, Fail2ban, SSH Ed25519, Nginx TLS 1.3 / HTTP 444 y Lynis > 80/100). No declarar alta disponibilidad nacional sin pruebas de failover y recuperación efectivas.
 
 ## Convención para n8n/IA
 

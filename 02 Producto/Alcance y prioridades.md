@@ -29,7 +29,7 @@ Diseñamos el sistema completo propuesto por el equipo. Lo construimos en entreg
 - Alertas en vivo y chat gerencia–conductor con historial.
 - Incidente controlado, replanificación y explicación del cambio.
 - n8n para procesos programados y DeepSeek para explicar alertas.
-- Despliegue con Terraform, ECS/ALB y RDS; perfil de alta disponibilidad si presupuesto y tiempo permiten activarlo.
+- Despliegue cloud del Perfil A (EC2 blindado con defensa en 6 capas, Docker Compose, Nginx TLS 1.3 y pipeline CI/CD DAG con rollback instantáneo); especificación Terraform de Perfil B (ECS Fargate/RDS Multi-AZ).
 - Ensayo grabado y paquete final de entregables.
 
 ## P2 — madurez para operación nacional

@@ -30,7 +30,7 @@ tags: [hackathon, equipo]
 - [[Arquitectura del sistema]], [[Decisiones de arquitectura]].
 - [[Backend y tiempo real]], [[Contratos API y eventos]].
 - [[Frontend y componentes]], [[Frontend con Feature-Sliced Design]], [[Movil offline y sincronizacion]].
-- [[AWS y Terraform]], [[Seguridad y evidencias]].
+- [[AWS y Terraform]], [[CI-CD y automatizacion de despliegue]], [[Hardening y seguridad de servidores]], [[Seguridad y evidencias]].
 
 ## Datos y algoritmos
 

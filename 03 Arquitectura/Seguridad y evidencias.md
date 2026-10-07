@@ -96,6 +96,17 @@ Mantener separados:
 
 El generador de incidentes solo funciona en entorno de demo y con credencial limitada. No publicar una interfaz para inyectar incidentes a operación real.
 
+## Seguridad en infraestructura y defensa en profundidad
+
+La seguridad de la aplicación (RBAC, tokens QR y URLs presignadas) se complementa con el estándar de **Defensa en Profundidad de 6 Capas** a nivel de sistema operativo y perímetro de red:
+- **Perímetro y Sockets:** Firewall UFW con Default Deny y mitigación obligatoria de la trampa de Docker vinculando todos los contenedores a loopback `127.0.0.1`.
+- **Acceso:** OpenSSH con llaves Ed25519 (sin contraseñas ni root) y Fail2ban con jail recidive.
+- **Transporte:** Nginx con TLS 1.3, HSTS, OCSP Stapling, rate limiting y cierre de sockets TCP `HTTP 444` ante peticiones que intenten evadir el proxy o CDN.
+- **Host e Integridad:** Sandboxing systemd, particiones `/tmp` `noexec/nosuid`, sysctl endurecido (ASLR 2, syncookies) y auditoría con Lynis (> 80/100).
+- **CI/CD:** Cero IPs públicas ni secretos en Git; compilación en runners efímeros.
+
+Detalles completos en [[Hardening y seguridad de servidores]] y [[CI-CD y automatizacion de despliegue]].
+
 ## Verificación
 
 Probar la matriz RBAC con acciones permitidas y denegadas, revocación antes de sincronizar, acceso ajeno a entrega, modificación del token QR, reutilización de URL expirada, exceso de archivo, actor/rol falsificado y salto a grupos SignalR. Los criterios están en [[Plan de validacion]].

@@ -63,10 +63,10 @@ Las evidencias pueden cargarse después. La interfaz distingue recepción acepta
 ## Entornos
 
 - **Local:** Docker Compose para dependencias; endpoints de prueba y datos sintéticos.
-- **Demo AWS:** configuración medida y acotada; restricciones explícitas.
-- **Operación nacional:** perfil con varias zonas, respaldo, límites y recuperación probados.
+- **Demo AWS (Perfil A):** Instancia EC2 Linux blindada con defensa en 6 capas, Docker Compose, Nginx con TLS 1.3, S3 privado y pipeline CI/CD DAG con rollback instantáneo (< 30s). Costo predecible ($18-$28/mes).
+- **Operación nacional (Perfil B):** ECS Fargate, ALB HTTPS, Amazon RDS PostgreSQL Multi-AZ y ElastiCache Redis gestionados con Terraform para alta concurrencia.
 
-Ver [[AWS y Terraform]] y [[Decisiones de arquitectura]].
+Ver [[AWS y Terraform]], [[CI-CD y automatizacion de despliegue]], [[Hardening y seguridad de servidores]] y [[Decisiones de arquitectura]].
 
 ## Correcciones a la propuesta inicial
 

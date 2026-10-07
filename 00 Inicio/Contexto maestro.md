@@ -37,7 +37,8 @@ Fuente: [[Reto 1 oficial]] y [[Evaluacion y entregables]].
 | Datos | PostgreSQL/PostGIS; UUID v7 para lotes y operaciones | Propuesta del equipo; versiones pendientes |
 | Web | Angular standalone, Tailwind y Feature-Sliced Design | Stack propuesto; FSD aceptado por instrucción del equipo el 6 de octubre |
 | Móvil | Angular/Ionic; persistencia y operaciones offline | Propuesta del equipo |
-| Nube | AWS ECS Fargate, ALB, RDS, S3 y Terraform | Propuesta del equipo |
+| Nube e infra | Dual: EC2 Hardened + Docker (Demo) / ECS Fargate + RDS + Terraform (P2) | Aceptado el 6 de octubre; ADR-09 y [[AWS y Terraform]] |
+| Despliegue | Pipeline DAG en GitHub Actions con rollback instantáneo y defensa en 6 capas | Aceptado el 6 de octubre; ADR-15, [[CI-CD y automatizacion de despliegue]] y [[Hardening y seguridad de servidores]] |
 | Comunicación | SignalR para alertas y chat de operación | Propuesta del equipo |
 | Autorización | RBAC con permisos por rol y ámbito de recurso; [[Seguridad y evidencias]] | Aceptado por instrucción del usuario el 6 de octubre; implementación y proveedor de identidad pendientes |
 | Automatización | n8n y DeepSeek para explicar alertas | Propuesta del equipo |

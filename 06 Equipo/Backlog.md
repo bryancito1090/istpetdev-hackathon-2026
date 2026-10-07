@@ -38,8 +38,8 @@ Backlog compartido de IstpetDev, **sin asignación fija de integrantes**. Todas 
 | B-17 | Dataset 80 puntos/90 días | B-02 | Escenarios, seed y hash | Pendiente |
 | B-18 | Simulador/KPIs/exportaciones | B-10/17 | RF-14, balance y denominadores | Pendiente |
 | B-19 | Anomalía/investigación | B-04/17 | RF-15, alerta distinta de merma | Pendiente |
-| B-20 | Terraform/hosting HTTPS | B-01, recursos | RNF-06, entorno reproducible | Pendiente |
-| B-21 | Prueba dos réplicas/backplane | B-13/20 | RNF-07, mensajes cruzados | Pendiente |
+| B-20 | Hosting HTTPS y Hardening Linux | B-01, recursos | RNF-06, Perfil A aprovisionado con UFW, Nginx TLS 1.3, Fail2ban, loopback binding y Lynis > 80/100 | Pendiente |
+| B-21 | Pipeline CI/CD DAG y Rollback Instantáneo | B-20 | ADR-15, GitHub Actions DAG con GHCR, retención de 3 versiones y rollback < 30s probado en vivo | Pendiente |
 | B-22 | Ensayo físico y contingencias | B-08/12/14/18/20 | Recorrido completo y video | Pendiente |
 | B-23 | Evidencia de usuario/mentor | B-09/22 | Validación documentada y cambios | Pendiente |
 | B-24 | Paquete/pitch final | B-18/22/23 | Entregables consistentes con evidencia | Pendiente |

@@ -17,20 +17,23 @@ Orden de arriba hacia abajo: **app → pages → widgets → features → entiti
 
 | Capa | Aplicación propuesta a nuestro producto |
 |---|---|
-| app | Arranque Angular, providers, rutas, shell y configuración global |
-| pages | Dashboard operativo, planificación, inventario, entrega y simulador |
-| widgets | Bloques completos como mapa de ruta o panel de riesgo |
-| features | Acciones reutilizadas: registrar consumo, publicar ruta, recibir entrega |
-| entities | Tipos, estado/API y presentación de punto, producto, lote, ruta y entrega |
-| shared | Cliente HTTP base, UI genérica, configuración y utilidades sin reglas logísticas |
+| app | Arranque Angular 18+, providers, rutas, shell y configuración global |
+| pages | Dashboard operativo, planificación, inventario, entrega, simulador y consulta QR |
+| widgets | Bloques compuestos complejos como mapa interactivo de rutas o resumen de riesgos |
+| features | Acciones de usuario reutilizadas entre pantallas: registrar consumo, publicar ruta, recibir entrega |
+| entities | Modelos de negocio, estado y DTOs específicos: punto, producto, lote, ruta y entrega |
+| shared | Utilidades de UI genéricas, clientes HTTP base y contratos importados desde `libs/shared-core` |
 
-Las capas inferiores no importan superiores. No crear la capa obsoleta processes. No todas las capas necesitan existir desde el primer día. App y shared se dividen directamente por segmentos; el resto por slices. [Capas de FSD](https://feature-sliced.design/docs/reference/layers).
+Las capas inferiores no importan superiores. No crear la capa obsoleta `processes`. App y shared se dividen directamente por segmentos; el resto por slices. [Capas de FSD](https://feature-sliced.design/docs/reference/layers).
 
-## Slices y segmentos
+> [!TIP]
+> **Adopción Progresiva sin Fricción:** Para acelerar el desarrollo y evitar parálisis ceremonial, los componentes inician en su respectiva `page` o `entity`. Solo se extraen a `features` o `widgets` cuando existe reutilización efectiva en más de una pantalla o cuando la complejidad visual lo exige.
 
-En pages/widgets/features/entities, cada slice agrupa una responsabilidad de producto. Segmentos habituales: ui, model, api, lib y config, según necesidad. Evitar carpetas vacías y una estructura ceremonial para un único componente.
+## Slices, segmentos y Monorepo Shared Core
 
-Ejemplos propios: pages/route-planning, widgets/route-map, features/publish-route, entities/delivery. Una acción que solo existe dentro de una página puede permanecer allí; promover a feature cuando el uso y la responsabilidad lo justifiquen.
+En pages/widgets/features/entities, cada slice agrupa una responsabilidad de producto. Segmentos habituales: ui, model, api, lib y config.
+
+Para evitar duplicar interfaces TypeScript, DTOs de API y utilidades entre el panel web Angular y la aplicación móvil Ionic, el código base de contratos se centraliza en **`libs/shared-core`** (o `@istpetdev/shared-core`). La capa `shared/api` de la web consume y extiende directamente este núcleo.
 
 Slices distintas de una misma capa no se importan directamente por defecto. La composición ocurre arriba. Para una relación excepcional entre entidades, preferir IDs/contratos simples; cualquier excepción se documenta. [Slices y segmentos](https://feature-sliced.design/docs/reference/slices-segments).
 
