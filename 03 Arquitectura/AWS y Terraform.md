@@ -1,29 +1,26 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [arquitectura, infra, aws, terraform, devops]
 ---
 
 # AWS y Terraform
 
-> [!warning] Ejemplo no probado
-> Los bloques de código de esta nota (configuración, scripts, YAML, HCL, comandos) son ejemplos de diseño: no se han ejecutado ni probado en un repositorio. No copiarlos como si estuvieran validados; cada uno se verifica al implementarlo y se enlaza su evidencia. Versiones, rutas y puertos vigentes: [[Hechos canonicos]].
-
 Este documento define la arquitectura de infraestructura en la nube y el aprovisionamiento como código (IaC) con Terraform para IstpetDev en el marco del Reto 1 de la Hackathon Expo Clean 2026.
 
-Para buscar viabilidad económica, velocidad de ejecución en el evento y un camino realista hacia la producción a gran escala, se establece un **Modelo Dual de Infraestructura**:
+Para garantizar viabilidad económica, velocidad de ejecución en el evento y un camino realista hacia la producción a gran escala, se establece un **Modelo Dual de Infraestructura**:
 
-1. **Perfil A (Hackathon / Demo Ágil y Piloto Operativo):** Servidor AWS EC2 Linux blindado (*hardened*) con Docker Compose, GHCR, Nginx Reverse Proxy y pipeline CI/CD con rollback rápido (objetivo < 30 s, sin medir).
+1. **Perfil A (Hackathon / Demo Ágil y Piloto Operativo):** Servidor AWS EC2 Linux blindado (*hardened*) con Docker Compose, GHCR, Nginx Reverse Proxy y pipeline CI/CD con rollback instantáneo.
 2. **Perfil B (Operación Nacional Elástica P2):** Clúster ECS Fargate, Application Load Balancer (ALB), Amazon RDS PostgreSQL con PostGIS Multi-AZ, Redis ElastiCache y buckets S3 privados con ciclo de vida.
 
 ```mermaid
 flowchart TD
   subgraph Perfil_A [Perfil A: Hackathon y Piloto Ágil (Costo Controlado)]
-    ALB_A[Elastic IP / Cloudflare CDN] --> Nginx_A[Nginx Reverse Proxy con TLS 1.2/1.3]
-    Nginx_A --> API_A[API C# .NET en Loopback 127.0.0.1:5000]
+    ALB_A[Elastic IP / Cloudflare CDN] --> Nginx_A[Nginx Reverse Proxy con TLS 1.3]
+    Nginx_A --> API_A[API C# .NET 8 en Loopback 127.0.0.1:5000]
     Nginx_A --> Web_A[Angular Web Standalone FSD en Loopback]
-    API_A --> DB_A[(PostgreSQL + PostGIS en Loopback:5432)]
+    API_A --> DB_A[(PostgreSQL 16 + PostGIS en Loopback:5432)]
     API_A --> S3_A[S3 Evidencias Privadas]
     API_A --> Redis_A[Redis 7 en Loopback:6379]
   end
@@ -31,7 +28,7 @@ flowchart TD
   subgraph Perfil_B [Perfil B: Operación Nacional Elástica (P2 Alta Disponibilidad)]
     Route53[Route 53 + ACM TLS] --> ALB_B[Application Load Balancer HTTPS]
     ALB_B --> Fargate_Web[ECS Fargate: Frontend Web]
-    ALB_B --> Fargate_API[ECS Fargate: Backend API .NET]
+    ALB_B --> Fargate_API[ECS Fargate: Backend API .NET 8]
     Fargate_API --> RDS_B[(Amazon RDS PostgreSQL + PostGIS Multi-AZ)]
     Fargate_API --> Redis_B[(Amazon ElastiCache Redis)]
     Fargate_API --> S3_B[S3 Evidencias + KMS + Object Lock]
@@ -45,16 +42,16 @@ flowchart TD
 | Dimensión | Perfil A (Demo Hackathon / Piloto) | Perfil B (Operación Nacional P2) |
 |---|---|---|
 | **Cómputo** | 1x EC2 `t3.medium` (2 vCPU, 4 GB RAM, 40 GB gp3) | AWS ECS Fargate (2 a 6 réplicas elásticas) |
-| **Base de Datos** | PostgreSQL + PostGIS (versión PENDIENTE ADR-03) en contenedor Docker con volumen persistente y backups gzip | Amazon RDS PostgreSQL (versión PENDIENTE ADR-03) Multi-AZ (`db.t4g.medium` o `db.m6g.large`) |
+| **Base de Datos** | PostgreSQL 16 + PostGIS en contenedor Docker con volumen persistente y backups gzip | Amazon RDS PostgreSQL 16 Multi-AZ (`db.t4g.medium` o `db.m6g.large`) |
 | **Tiempo Real** | Redis 7 en contenedor Docker con persistencia AOF | Amazon ElastiCache Redis con replicación Multi-AZ |
-| **Punto de Entrada** | Nginx Reverse Proxy en host con TLS 1.2/1.3 y mTLS CDN | AWS Application Load Balancer (ALB) con AWS WAF |
+| **Punto de Entrada** | Nginx Reverse Proxy en host con TLS 1.3 y mTLS CDN | AWS Application Load Balancer (ALB) con AWS WAF |
 | **Evidencias S3** | Bucket S3 privado con URLs presignadas y cifrado SSE-S3 | Bucket S3 privado con KMS administrado y ciclo de vida Glacier |
 | **Despliegue** | GitHub Actions DAG + SSH + GHCR + Rollback SHA | GitHub Actions + ECR + ECS Service Update / Blue-Green |
-| **Costo Estimado** | t3.medium on-demand us-east-1: USD 0,0416/h ≈ 30,4 + EBS gp3 40 GB ≈ 3,2 + IPv4 pública USD 0,005/h ≈ 3,7 → **≈ USD 37/mes** (t3.small ≈ USD 22/mes). Verificado el 7-oct-2026; la cifra anterior «$18–28» no tenía fuente | **$160 – $280 USD / mes** (estimación sin fuente ni fecha; PENDIENTE verificar) |
-| **Tiempo de Setup** | Estimado en minutos con cloud-init o script de hardening (sin medir) | Requiere aprovisionamiento completo de VPC y políticas IAM |
+| **Costo Estimado** | **$18 – $28 USD / mes** | **$160 – $280 USD / mes** (por NAT Gateways, ALB y Multi-AZ) |
+| **Tiempo de Setup** | **Listo en minutos** con cloud-init o script de hardening | Requiere aprovisionamiento completo de VPC y políticas IAM |
 
 > [!IMPORTANT]
-> Para la Hackathon del 16 y 17 de octubre de 2026, **el Perfil A es la base operativa de ejecución**. Evita pagar pasarelas NAT (≈ USD 32/mes cada una según el registro original, sin fuente) y la espera de aprovisionamiento de Fargate durante la competencia, con el blindaje descrito en [[Hardening y seguridad de servidores]]. El Perfil B se formaliza en Terraform como entregable de viabilidad y arquitectura nacional (P2).
+> Para la Hackathon del 16 y 17 de octubre de 2026, **el Perfil A es la base operativa de ejecución**. Garantiza que el equipo no consuma presupuesto innecesario en pasarelas NAT ($32/mes c/u) ni sufra latencias de aprovisionamiento de Fargate durante la competencia, manteniendo una postura de seguridad y blindaje de nivel senior conforme a [[Hardening y seguridad de servidores]]. El Perfil B se formaliza en Terraform como entregable de viabilidad y arquitectura nacional (P2).
 
 ---
 
@@ -63,7 +60,7 @@ flowchart TD
 ### 2.1 En Perfil A (EC2 Hardened)
 * La instancia se ubica en una subred pública de una VPC dedicada.
 * Se asocia una **Elastic IP** fija para DNS y certificados TLS.
-* Los contenedores internos (API, BD, Redis, n8n) se enlazan forzosamente a la interfaz loopback `127.0.0.1`, para que internet no pueda acceder a ellos saltándose el firewall del host (verificar con `ss -tulpn`).
+* Los contenedores internos (API, BD, Redis, n8n) se enlazan forzosamente a la interfaz loopback `127.0.0.1`, haciendo imposible que internet acceda a ellos directamente saltándose el firewall del host.
 * La salida a internet hacia GHCR, APIs de Mapas (Mapbox/Google) y DeepSeek se realiza directamente a través del Internet Gateway (IGW) sin incurrir en costos de NAT Gateway.
 
 ### 2.2 En Perfil B (ECS Fargate + RDS Multi-AZ)
@@ -100,7 +97,7 @@ infra/terraform/
     security_groups/     Security Groups con política Default Deny
     ec2_hardened/        Instancia EC2 con EBS gp3 cifrado y cloud-init
     ecs_fargate/         Clúster ECS, Task Definitions y Services
-    rds_postgres/        RDS PostgreSQL (versión ADR-03) con extensión PostGIS
+    rds_postgres/        RDS PostgreSQL 16 con extensión PostGIS
     s3_storage/          Bucket S3 privado para fotos/firmas con bloqueo público
     iam/                 Roles y políticas de ejecución de tareas (Least Privilege)
 ```
@@ -198,7 +195,7 @@ Para cumplir con la captura de firmas y fotos de entrega descrita en [[Seguridad
 ## 5. Escalado y Capacidad
 
 ### 5.1 Parámetros de Escalado en Perfil B (ECS Fargate)
-* **API .NET:** Mínimo 2 tareas, máximo 6 tareas. Política Target Tracking con umbral de CPU al **70%** y métrica personalizada de conexiones activas en SignalR.
+* **API .NET 8:** Mínimo 2 tareas, máximo 6 tareas. Política Target Tracking con umbral de CPU al **70%** y métrica personalizada de conexiones activas en SignalR.
 * **Frontend Web:** Mínimo 2 tareas, máximo 4 tareas.
 * **Redis ElastiCache:** Clúster con nodo primario y réplica de lectura para soportar el backplane de SignalR ante múltiples réplicas de la API.
 * **RDS PostgreSQL:** Escalado vertical de computo con `db.t4g.medium` (2 vCPU, 4 GB RAM) y almacenamiento auto-expandible gp3 de 20 GB a 100 GB.

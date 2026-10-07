@@ -1,7 +1,7 @@
 ---
 tipo: ejecucion
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [hackathon, istpetdev]
 ---
 
@@ -23,14 +23,13 @@ tags: [hackathon, istpetdev]
 | R-10 | Historial llamado inmutable sin garantía | Pérdida de credibilidad técnica | Describir append-only y protección probada |
 | R-11 | QR/evidencias exponen información | Acceso indebido | Vista pública limitada y S3 privado |
 | R-12 | Evento exige restricciones nuevas | Cambios tardíos | Parámetros versionados y fixture adaptable |
-| R-13 | Asistentes de IA reciben datos contradictorios o incompletos | Código y documentos con datos inventados | [[Hechos canonicos]], `AGENTS.md`, skills en `.agents/skills/` y `check_vault.py` en CI |
 
 ## Decisiones pendientes
 
 | Tema | Momento de resolución |
 |---|---|
 | Trabajo previo, entrega y tiempo de pitch | Capacitación del 8 de octubre |
-| Versiones .NET (ADR-01) y PostgreSQL (ADR-03); revisar Angular, Ionic y Capacitor fijados en ADR-04 (Angular 18 sin soporte) y Terraform | Antes del primer scaffold |
+| Versiones .NET/Angular/Ionic/Node/Terraform | Antes del primer scaffold |
 | Región/cuenta/límite AWS | Antes de aprovisionar |
 | Motor RDS/PostGIS y generadores UUID | Antes de migraciones |
 | Proveedor vial/costo/almacenamiento permitido | Antes de matrices y comparativa |

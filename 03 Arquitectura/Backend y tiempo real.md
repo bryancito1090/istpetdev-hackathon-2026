@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [arquitectura, implementacion]
 ---
 
@@ -30,7 +30,7 @@ tests/
   integration/
 ```
 
-Estos directorios son una convención a decidir, no archivos ya creados en la bóveda. **No coinciden** con las rutas que filtra el diseño de [[CI-CD y automatizacion de despliegue]] (`backend/**`, `apps/web/**`): la estructura definitiva es PENDIENTE de ADR-12 y se registra en [[Hechos canonicos]]. Usar EF Core con PostgreSQL y consultas proyectadas; no añadir repositorios genéricos que repitan sus operaciones.
+Estos directorios son una convención a decidir, no archivos ya creados en la bóveda. Usar EF Core con PostgreSQL y consultas proyectadas; no añadir repositorios genéricos que repitan sus operaciones.
 
 ## Autorización RBAC
 

@@ -58,7 +58,7 @@ Este registro complementa la tabla inicial sin sustituir el aporte del compañer
 | Cuenta AWS y presupuesto | Disponibles y confirmados por Bryan; valores privados por cargar al aprovisionar |
 | Región | `us-east-1` seleccionada para el diseño; latencia y recursos reales por verificar |
 | Repositorio software | [istpetdev-platform](https://github.com/bryancito1090/istpetdev-platform), privado y vacío; Bryan añadirá integrantes |
-| Esqueleto | Local en `~/Projects/ISTPETDEV`; sin commits/push de software |
+| Esqueleto | Local en `/home/bryan/Projects/ISTPETDEV`; sin commits/push de software |
 | Backend / frontend | .NET 8 y Angular 22 confirmados; recomendaciones en [[Repositorio de software y versiones]] |
 | Trabajo diario | Cada integrante ejecuta sus aplicaciones; RDS dev privado compartido con aislamiento y una base de integración |
 | Dominio | Se solicitará a la institución; un compañero profundizará DNS/TLS/CDN |

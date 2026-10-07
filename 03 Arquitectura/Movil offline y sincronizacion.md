@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [arquitectura, implementacion]
 ---
 
@@ -9,7 +9,7 @@ tags: [arquitectura, implementacion]
 
 ## Plataforma y alcance
 
-Angular/Ionic. **PWA con IndexedDB** como primer objetivo compartible por teléfono; SQLite se incorpora en un empaquetado nativo con plugin/versiones comprobados. No asumir que ambas opciones tienen el mismo soporte. ADR-04 fija Ionic 8 y Capacitor 6 mientras ADR-06 propone PWA primero: contradicción abierta en [[Hechos canonicos]].
+Angular/Ionic. **PWA con IndexedDB** como primer objetivo compartible por teléfono; SQLite se incorpora en un empaquetado nativo con plugin/versiones comprobados. No asumir que ambas opciones tienen el mismo soporte.
 
 La primera descarga requiere conexión. Antes de salir, el conductor descarga ruta/versiones, entregas asignadas, catálogo mínimo y QR necesarios. Un QR nunca descargado no puede consultar mágicamente la nube sin red.
 

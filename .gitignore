@@ -44,6 +44,3 @@ known_hosts.local
 tfplan
 *.tfvars
 *.tfvars.json
-
-# Configuración local de asistentes de IA
-.claude/settings.local.json

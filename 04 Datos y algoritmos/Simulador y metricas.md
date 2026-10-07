@@ -1,7 +1,7 @@
 ---
 tipo: especificacion-datos
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [datos, algoritmo, validacion]
 ---
 
@@ -71,12 +71,12 @@ Para trazabilidad, usar líneas de entrega como unidad inicial. No contar «un l
 
 | Experimento | Qué compara |
 |---|---|
-| EXP-01 | Orden tradicional vs optimizado para las mismas paradas |
-| EXP-02 | Reposición reactiva/fija vs cobertura sobre demanda común |
-| EXP-03 | Resultado de 90 días con ambas políticas |
-| EXP-04 | Sensibilidad: demanda +20%, menos vehículo y lead time mayor |
-| EXP-05 | Incidente vial común y reacción de cada política |
-| EXP-06 | Semillas múltiples para evitar elegir solo el mejor resultado |
+| R-01 | Orden tradicional vs optimizado para las mismas paradas |
+| I-01 | Reposición reactiva/fija vs cobertura sobre demanda común |
+| E-01 | Resultado de 90 días con ambas políticas |
+| E-02 | Sensibilidad: demanda +20%, menos vehículo y lead time mayor |
+| E-03 | Incidente vial común y reacción de cada política |
+| E-04 | Semillas múltiples para evitar elegir solo el mejor resultado |
 
 Los porcentajes de sensibilidad son parámetros de prueba del equipo, no observaciones reales. Usar varias seeds y mostrar distribución/rango, no solo la más favorable.
 

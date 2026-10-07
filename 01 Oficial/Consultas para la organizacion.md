@@ -1,7 +1,7 @@
 ---
 tipo: preguntas
 estado: pendiente
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [oficial, hackathon]
 ---
 
@@ -13,7 +13,7 @@ Resolver en la capacitación del **8 de octubre** y conservar quién respondió,
 
 | ID | Consulta | Motivo | Respuesta / evidencia |
 |---|---|---|---|
-| O-01 | ¿Qué código, infraestructura, diseños y datasets propios podemos desarrollar antes del 16 y cómo declararlos? | Queremos llegar avanzados. El manual (§10, p. 9) dice que el 20% práctico sirve «para diferenciar las soluciones efectivamente desarrolladas y demostradas durante el Hackathon de aquellas que permanezcan principalmente en el nivel conceptual», sin definir límites de preparación | Pendiente |
+| O-01 | ¿Qué código, infraestructura, diseños y datasets propios podemos desarrollar antes del 16 y cómo declararlos? | Queremos llegar avanzados; el manual valora desarrollo práctico durante el evento, sin definir límites de preparación | Pendiente |
 | O-02 | ¿Cómo se distingue trabajo previo de trabajo durante las jornadas para puntuar demo y equipo? | Preparar registro transparente | Pendiente |
 | O-03 | ¿Habrá nuevos datos, restricciones o criterios específicos del Reto 1? | Adaptar demanda, flota y simulación | Pendiente |
 | O-04 | ¿Cuánto duran pitch, demo y preguntas por equipo? | Tres minutos es una meta interna | Pendiente |
@@ -24,7 +24,7 @@ Resolver en la capacitación del **8 de octubre** y conservar quién respondió,
 | ID | Consulta | Respuesta / evidencia |
 |---|---|---|
 | O-06 | ¿Dónde y en qué formatos se entrega presentación, ficha, código y video? | Pendiente |
-| O-07 | ¿Cuál es la sede, modalidad y enlace de capacitación/jornadas? | Pendiente. El listado público de la feria indica Centro de Exposiciones Quito (CEQ); el manual no fija dirección (p. 14). Confirmar |
+| O-07 | ¿Cuál es la sede, modalidad y enlace de capacitación/jornadas? | Pendiente |
 | O-08 | ¿Qué conectividad, proyección y acceso con teléfonos habrá? | Pendiente |
 | O-09 | ¿Está habilitado nuestro equipo y confirmado el Reto 1? | Inscripción declarada por el equipo; evidencia oficial pendiente |
 | O-10 | ¿Podemos llevar cajas vacías con QR y demostrar una firma voluntaria? | Pendiente |

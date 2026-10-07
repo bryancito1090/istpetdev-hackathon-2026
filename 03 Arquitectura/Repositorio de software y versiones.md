@@ -13,7 +13,7 @@ Bryan confirmó .NET 8 y Angular 22 y encargó completar las recomendaciones té
 
 - Bóveda: [istpetdev-hackathon-2026](https://github.com/bryancito1090/istpetdev-hackathon-2026).
 - Software: [istpetdev-platform](https://github.com/bryancito1090/istpetdev-platform), privado, creado vacío por instrucción de Bryan.
-- Carpeta local: `~/Projects/ISTPETDEV`.
+- Carpeta local: `/home/bryan/Projects/ISTPETDEV`.
 - Entrega inicial: directorios, `.gitkeep`, README, `.gitignore` y `.env.example`; sin proyectos generados, dependencias instaladas, commits ni push del esqueleto. Bryan incorporará colaboradores.
 
 ## Estructura acordada

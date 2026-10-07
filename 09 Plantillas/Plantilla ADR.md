@@ -14,10 +14,8 @@ Copiar a una nota con ID y tema. Registrar su entrada en [[Decisiones de arquite
 - ID: ADR-XX
 - Tema:
 - Fecha:
-- Estado: propuesta / aceptado / reemplazado por ADR-XX
-- Deciders: nombres o roles de quienes decidieron (obligatorio para «aceptado»; nunca «el usuario» sin nombre)
-- Origen de la decisión: acuerdo del equipo (enlace a acta o mentoría), instrucción de una persona identificada o requisito verificado.
-- Registrado por (commit):
+- Estado: propuesta / aceptado / reemplazado
+- Origen de la decisión: acuerdo del equipo, instrucción de usuario o requisito verificado.
 
 ## Contexto y requisito
 
@@ -48,10 +46,4 @@ Fuentes primarias y notas del proyecto afectadas.
 
 ## Sustitución
 
-ID de decisión posterior, si existe. Una decisión no se borra: la nueva la reemplaza y la anterior pasa a «reemplazado por ADR-XX».
-
-## Alternativas rechazadas
-
-| Alternativa | Razón de rechazo |
-|---|---|
-| | |
+ID de decisión posterior, si existe.

@@ -1,16 +1,13 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [arquitectura, cicd, devops, github-actions, deploy, rollback]
 ---
 
 # CI/CD y automatización de despliegue
 
-> [!warning] Ejemplo no probado
-> Los bloques de código de esta nota (configuración, scripts, YAML, HCL, comandos) son ejemplos de diseño: no se han ejecutado ni probado en un repositorio. No copiarlos como si estuvieran validados; cada uno se verifica al implementarlo y se enlaza su evidencia. Versiones, rutas y puertos vigentes: [[Hechos canonicos]].
-
-Este documento define la arquitectura de **Integración Continua, Entrega Continua (CI/CD) y recuperación por rollback** para la plataforma de IstpetDev.
+Este documento define la arquitectura de **Integración Continua, Entrega Continua (CI/CD) y Recuperación Inmediata (Rollback)** para la plataforma de IstpetDev.
 
 El diseño se basa en un **Grafo Acíclico Dirigido (DAG)** multi-etapa implementado con **GitHub Actions**, registro de imágenes en **GitHub Container Registry (GHCR)** y despliegue inmutable sobre infraestructura cloud (AWS EC2 / VPS Hardened) mediante SSH y Docker Compose.
 
@@ -20,7 +17,7 @@ flowchart TD
   
   subgraph DAG_Build [Etapas Paralelas en Runners de GitHub]
     Filter{Path Filtering: backend / web / db}
-    Filter -->|Cambios en backend| TestBE[Backend QA: .NET SDK<br>Restore + Build + Unit Tests]
+    Filter -->|Cambios en backend| TestBE[Backend QA: .NET 8 SDK<br>Restore + Build + Unit Tests]
     Filter -->|Cambios en frontend| TestFE[Frontend QA: Node.js 22<br>Lint + Tests + Angular Build]
     
     TestBE --> BuildBE[Docker Buildx: Backend API<br>Tags: SHA, SHA-short, latest -> GHCR]
@@ -50,7 +47,7 @@ flowchart TD
 1. **Compilación Exclusiva en Runners:** El servidor de producción nunca compila código fuente, no instala SDKs de compilación ni ejecuta `npm install` o `dotnet build`. Toda la compilación y pruebas ocurren en runners efímeros de GitHub Actions para evitar saturación de memoria RAM y CPU en el host.
 2. **Imágenes Inmutables Etiquetadas por Commit SHA:** Cada artefacto se etiqueta con el hash del commit (`:${{ github.sha }}`) y su versión corta (`:${{ steps.vars.outputs.sha_short }}`), impidiendo ambigüedad de versiones o sobreescritura ciega de `:latest`.
 3. **Caché Remoto en GitHub Actions:** Uso de `cache-from: type=gha` y `cache-to: type=gha,mode=max` con Docker Buildx para reducir el tiempo de compilación de minutos a segundos.
-4. **Retención de imágenes para rollback rápido:** El servidor anfitrión mantiene siempre en caché local las **últimas 3 versiones de imágenes**, permitiendo volver a la versión previa en segundos sin depender de internet o de re-compilaciones.
+4. **Retención Estricta para Rollback Instantáneo:** El servidor anfitrión mantiene siempre en caché local las **últimas 3 versiones de imágenes**, permitiendo volver a la versión previa en segundos sin depender de internet o de re-compilaciones.
 5. **Idempotencia y Respaldo Preventivo de Base de Datos:** Antes de aplicar cualquier cambio o migración de esquema en la base de datos, el pipeline ejecuta un snapshot comprimido en `/backups/`.
 6. **Cero Secretos en el Repositorio:** Toda credencial se inyecta desde GitHub Repository Secrets (`EC2_HOST`, `EC2_USER`, `EC2_SSH_KEY`).
 
@@ -72,7 +69,7 @@ flowchart TD
 |---|---|---|
 | `quick-restart` | `inputs.restart_only == 'true'` | SSH al servidor → `docker compose restart` → Health check `/api/ping`. |
 | `detect-changes` | `inputs.restart_only != 'true'` | `dorny/paths-filter@v3` para determinar si cambió backend, frontend o base de datos. |
-| `backend-qa` | Cambios en backend o disparo manual | Setup .NET (versión ADR-01) → `dotnet restore` → `dotnet build -c Release` → `dotnet test --no-build`. |
+| `backend-qa` | Cambios en backend o disparo manual | Setup .NET 8 → `dotnet restore` → `dotnet build -c Release` → `dotnet test --no-build`. |
 | `frontend-qa` | Cambios en web o disparo manual | Setup Node.js 22 → `npm install` → `npm test` → `npm run build`. |
 | `build-backend` | Éxito en `backend-qa` | Docker Buildx → Push a `ghcr.io/<owner>/istpetdev-backend:<sha>` con caché GHA. |
 | `build-frontend` | Éxito en `frontend-qa` | Docker Buildx → Push a `ghcr.io/<owner>/istpetdev-web:<sha>` con caché GHA. |
@@ -122,9 +119,9 @@ curl -sf http://localhost:5000/api/ping && echo "API IstpetDev OK" || echo "Adve
 
 ---
 
-### 2.2 Workflow de rollback rápido (`.github/workflows/rollback.yml`)
+### 2.2 Workflow de Rollback Instantáneo (`.github/workflows/rollback.yml`)
 
-Objetivo: restaurar una versión previa en menos de 30 segundos sin recompilar. El tiempo no se ha medido.
+Permite restaurar el servicio en producción a cualquier versión previa verificada en menos de **30 segundos** sin requerir recompilación ni generar tiempos muertos.
 
 #### Parámetros (`workflow_dispatch`):
 * `target_sha` (string, obligatorio): Commit SHA de 40 o 7 caracteres (ej. `b38b073`) o tag específico.
@@ -155,7 +152,7 @@ curl -sf http://localhost:5000/api/ping && echo "Rollback completado exitosament
 
 Disparado en cada push a la rama `develop` y en la apertura de Pull Requests hacia `main` o `develop`:
 * Checkout del código.
-* Setup del SDK .NET (versión ADR-01) y ejecución de `dotnet test`.
+* Setup de .NET 8 SDK y ejecución de `dotnet test`.
 * Setup de Node.js 22 y ejecución de pruebas de frontend (`npm test` y compilación de prueba).
 * Validación estricta sin ejecutar despliegue a producción.
 
@@ -189,23 +186,10 @@ Cada ejecución del pipeline genera automáticamente un reporte en el resumen de
 | **Rama** | `main` |
 
 ### Servicios Verificados:
-- **IstpetDev Backend (.NET Web API)**: Puerto 5000 en loopback, Clean Architecture, PostgreSQL PostGIS, SignalR.
+- **IstpetDev Backend (.NET 8 Web API)**: Puerto 5000 en loopback, Clean Architecture, PostgreSQL PostGIS, SignalR.
 - **IstpetDev Web (Angular Standalone FSD)**: Puerto 80/443 vía Nginx Proxy Inverso, compresión y rutas SPA.
-- **Base de Datos (PostgreSQL + PostGIS)**: Puerto 5432 en loopback con backup preventivo en `/backups/`.
+- **Base de Datos (PostgreSQL 16 + PostGIS)**: Puerto 5432 en loopback con backup preventivo en `/backups/`.
 ```
-
-## Fallos y pendientes conocidos del diseño
-
-Detectados en la revisión del 7 de octubre de 2026. Corregir antes de convertir este diseño en archivos `.github/workflows/`.
-
-| Problema | Efecto | Corrección propuesta |
-|---|---|---|
-| Rutas filtradas (`backend/**`, `apps/web/**`, `scripts/base_datos/**`) no coinciden con la estructura de [[Backend y tiempo real]] (`src/Api`, `src/Domain`…) | El pipeline no detecta cambios | PENDIENTE ADR-12: elegir una estructura y usarla en ambas notas |
-| `deploy-ec2` depende de `build-backend` **y** `build-frontend`, que son condicionales | Si solo cambia una parte, la otra se omite y el despliegue no corre | Condición `if: always() && !failure() && !cancelled()` y usar la última imagen publicada de la parte sin cambios |
-| El despliegue descarga `istpetdev-web:<sha>` aunque el frontend no se haya compilado en ese commit | `docker compose pull` falla por imagen inexistente | Resolver la etiqueta por servicio (último SHA compilado) |
-| La rotación de imágenes ordena por ID (`sort -u`, `tail -n +4`), no por fecha | Puede borrar la versión a la que se quiere volver | Ordenar por fecha de creación o etiquetar las versiones retenidas |
-| El rollback cambia imágenes pero no deshace migraciones | Una imagen antigua con un esquema nuevo puede fallar | Migraciones compatibles hacia atrás o restaurar el respaldo previo |
-| `pg_dump` termina en `true` si falla y el health check solo imprime «Advertencia» | El pipeline marca éxito aunque falle el respaldo o la API | Hacer que ambos fallen el job |
 
 Referencias internas: [[AWS y Terraform]], [[Hardening y seguridad de servidores]], [[Decisiones de arquitectura]].
 

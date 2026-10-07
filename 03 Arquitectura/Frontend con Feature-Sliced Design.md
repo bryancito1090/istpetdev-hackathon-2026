@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: aceptado
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [istpetdev, frontend, fsd]
 ---
 
@@ -108,10 +108,10 @@ El servidor sigue validando permisos, stock y rutas. Un store frontend no es la 
 4. Revisar imports, ciclos y API pública.
 5. Añadir reglas de lint de límites cuando se elija la herramienta existente del repositorio.
 
-La app Ionic mantiene su diseño offline en [[Movil offline y sincronizacion]]. Adoptar allí el mismo esquema se puede decidir después; esta decisión (ADR-13) afecta el frontend web.
+La app Ionic mantiene su diseño offline en [[Movil offline y sincronizacion]]. Adoptar allí el mismo esquema se puede decidir después; esta decisión del usuario afecta el frontend web.
 
 Registrar como ADR-13 en [[Decisiones de arquitectura]]. La futura skill frontend debe usar esta nota, [[Frontend y componentes]] y [[Contratos API y eventos]].
 
 ## Complemento de versión y repositorio — 7 de octubre de 2026
 
-La estructura/imports FSD anterior se conserva en Angular 22. Rutas acordadas materializadas solo como directorios locales en `~/Projects/ISTPETDEV`; `apps/web/src/app`, `pages`, `widgets`, `features`, `entities` y `shared` son carpetas hermanas. No se ha generado código Angular ni impuesto FSD móvil. Versiones y shared-core en [[Repositorio de software y versiones]]; CI debe considerar cambios en `libs/shared-core/**`.
+La estructura/imports FSD anterior se conserva en Angular 22. Rutas acordadas materializadas solo como directorios locales en `/home/bryan/Projects/ISTPETDEV`; `apps/web/src/app`, `pages`, `widgets`, `features`, `entities` y `shared` son carpetas hermanas. No se ha generado código Angular ni impuesto FSD móvil. Versiones y shared-core en [[Repositorio de software y versiones]]; CI debe considerar cambios en `libs/shared-core/**`.

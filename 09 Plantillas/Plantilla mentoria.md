@@ -13,7 +13,6 @@ tags: [istpetdev, documentacion]
 - Mentor/representación compartida:
 - Contexto: capacitación / día 1 / día 2 / conversación sectorial.
 - Tipo de respuesta: regla oficial / recomendación / validación de usuario.
-- ¿Puede ser jurado del evento? (sí / no / no se sabe). El manual §11.5 pide abstención por relación de mentoría.
 
 ## Pregunta
 

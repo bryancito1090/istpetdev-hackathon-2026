@@ -1,13 +1,13 @@
 ---
 tipo: fuente
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [istpetdev, documentacion]
 ---
 
 # Información inicial del equipo
 
-**Fuente:** briefing del 6 de octubre de 2026, registrado por bryancito1090 (commit 765c532). Registro estructurado de su propuesta, separado de los requisitos oficiales. Las afirmaciones de rendimiento/impacto se tratan como objetivos a validar.
+**Fuente:** briefing del usuario del 6 de octubre de 2026. Registro estructurado de su propuesta, separado de los requisitos oficiales. Las afirmaciones de rendimiento/impacto se tratan como objetivos a validar.
 
 ## Intención
 
@@ -43,7 +43,7 @@ Generar lote/QR, pegarlo a una caja, escanear en bodega, mostrar tránsito y rut
 
 Estos indicadores se definen operativamente en [[Simulador y metricas]]. El manual no los enumera como cinco KPIs exactos obligatorios.
 
-## Aclaraciones posteriores (registradas por bryancito1090 en los commits 765c532 y 5905073)
+## Aclaraciones posteriores del usuario
 
 - **Equipo:** IstpetDev.
 - **Integrantes:** cinco.
@@ -63,4 +63,4 @@ Estos indicadores se definen operativamente en [[Simulador y metricas]]. El manu
 - La trazabilidad «inmutable» necesita declarar y comprobar sus garantías.
 - Los objetivos de anticipación/ahorro/continuidad dependen de datos y restricciones.
 
-La propuesta tecnológica se conserva en [[Contexto maestro]], con ajustes y pendientes en [[Decisiones de arquitectura]]. Esta nota es un registro histórico: sus afirmaciones («inmutable», «cinco días antes», .NET 8) se conservan tal como se recibieron; los valores vigentes están en [[Hechos canonicos]].
+La propuesta tecnológica se conserva en [[Contexto maestro]], con ajustes y pendientes en [[Decisiones de arquitectura]].

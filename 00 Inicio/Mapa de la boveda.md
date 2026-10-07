@@ -1,7 +1,7 @@
 ---
 tipo: indice
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [hackathon, equipo]
 ---
 
@@ -11,7 +11,6 @@ tags: [hackathon, equipo]
 
 - [[Bienvenido]] — entrada del equipo.
 - [[Contexto maestro]] — resumen para cualquier integrante o asistente.
-- [[Hechos canonicos]] — versiones, cifras, rutas, nombres y estado de ADR; contradicciones abiertas.
 - [[Convenciones y estados]] — cómo mantener notas y fuentes coherentes.
 - [[Glosario]] — lenguaje del producto y del dominio.
 
@@ -52,7 +51,7 @@ tags: [hackathon, equipo]
 
 ## Skills y plantillas
 
-- [[Catalogo y plan de skills]] — skills del equipo en `.agents/skills/` y reglas comunes en `AGENTS.md`.
+- [[Catalogo y plan de skills]].
 - [[Plantilla ADR]], [[Plantilla historia de usuario]].
 - [[Plantilla evidencia]], [[Plantilla mentoria]].
 

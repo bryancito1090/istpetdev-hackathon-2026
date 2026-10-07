@@ -16,7 +16,7 @@ La ruta propuesta es: agente prepara aplicaciones, Terraform dev y scripts; Brya
 ## Prompt para el agente de ISTPETDEV
 
 ```text
-Trabaja en ~/Projects/ISTPETDEV. Prepara un workspace real, instalado,
+Trabaja en /home/bryan/Projects/ISTPETDEV. Prepara un workspace real, instalado,
 compilable y documentado, y publícalo en develop de:
 https://github.com/bryancito1090/istpetdev-platform.git
 
@@ -26,7 +26,7 @@ para configurar permisos y aprovisionar después. No accedas ni modifiques mi
 servidor n8n. Continúa hasta completar los builds, verificar y publicar.
 
 1. Contexto y preservación
-Lee AGENTS.md aplicables y la bóveda ~/Projects/HACKATHON, especialmente:
+Lee AGENTS.md aplicables y la bóveda /home/bryan/Projects/HACKATHON, especialmente:
 - 03 Arquitectura/Repositorio de software y versiones.md
 - 03 Arquitectura/Entornos y operacion acordados.md
 - 03 Arquitectura/Credenciales y acceso del equipo.md
@@ -251,7 +251,7 @@ No contiene passwords, pero se mantiene fuera del repo. El state y planes siempr
 Revisar docs/aws-dev.md y el ejemplo de tfvars del agente. En la ruta propuesta, región/tamaño/red ya tienen defaults acordados y no se requiere password en tfvars. Si hay variables obligatorias no sensibles, cargarlas en un archivo privado y usar `-var-file` tanto al plan como en posteriores planes.
 
 ```bash
-cd ~/Projects/ISTPETDEV
+cd /home/bryan/Projects/ISTPETDEV
 export AWS_PROFILE=istpetdev-admin
 export AWS_REGION=us-east-1
 private_dir="$HOME/.config/istpetdev/private"
@@ -287,7 +287,7 @@ Outputs son metadata; no passwords. La DB puede tardar varios minutos. RDS gener
 Terminal A, dejar abierto el túnel de administrador:
 
 ```bash
-cd ~/Projects/ISTPETDEV
+cd /home/bryan/Projects/ISTPETDEV
 bash scripts/ops/dev-tunnel.sh \
   --profile istpetdev-admin \
   --config "$HOME/.config/istpetdev/private/dev-access.json"
@@ -296,7 +296,7 @@ bash scripts/ops/dev-tunnel.sh \
 Terminal B:
 
 ```bash
-cd ~/Projects/ISTPETDEV
+cd /home/bryan/Projects/ISTPETDEV
 private_dir="$HOME/.config/istpetdev/private"
 bash scripts/base_datos/bootstrap-dev.sh \
   --profile istpetdev-admin \

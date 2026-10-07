@@ -1,7 +1,7 @@
 ---
 tipo: fuente-resumida
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [oficial, hackathon]
 ---
 
@@ -12,20 +12,6 @@ tags: [oficial, hackathon]
 **Nombre:** Optimización y trazabilidad logística para el abastecimiento de insumos a nivel nacional.
 
 **Área:** Gestión Inteligente de Procesos.
-
-## Texto literal del manual (p. 19)
-
-Copiado sin cambios. Ante cualquier duda, este texto prevalece sobre los resúmenes de la bóveda.
-
-> **Planteamiento del Problema**
-> Las empresas de servicios de limpieza enfrentan sobrecostos, mermas e interrupciones en la entrega puntual de insumos (químicos, consumibles, herramientas) a múltiples puntos de servicio repartidos a nivel nacional.
->
-> **Desafío para los participantes**
-> Diseñar un sistema inteligente de logística y gestión de inventarios que permita planificar rutas eficientes, predecir puntos de reabastecimiento crítico según la demanda de cada cliente y garantizar la trazabilidad de insumos desde el almacén central hasta la entrega final en cada punto de servicio.
->
-> **Resultado esperado:** herramienta o prototipo demostrable que permita visualizar la trazabilidad de insumos y mejorar la planificación de abastecimiento. La validación deberá mostrar, en la medida de la información disponible, evidencia de mejora en rutas, inventarios, tiempos o continuidad del servicio.
-
-**Alcance sectorial del área** (tabla p. 4, transcrita de imagen): retos comprendidos «logística; cotización; trazabilidad; optimización de operaciones y toma de decisiones»; enfoques «IoT, GPS, trazabilidad, algoritmos, analítica y herramientas digitales».
 
 ## Problema oficial, resumido
 

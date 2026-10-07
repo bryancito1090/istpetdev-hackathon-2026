@@ -1,7 +1,7 @@
 ---
 tipo: fuente-resumida
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-06
 tags: [oficial, hackathon]
 ---
 
@@ -20,8 +20,6 @@ tags: [oficial, hackathon]
 | Jornadas | 16 y 17 de octubre de 2026 | pp. 5–8 |
 | Nuestro reto | Reto 1, Gestión Inteligente de Procesos | p. 19 |
 | Jurado | Siete evaluaciones individuales sobre 100; promedio de todas | pp. 9–10 y 25–26 |
-| Composición del jurado | 3 del sector de limpieza (incluida JIMCORPSERVI/FEDELIMP), 2 técnicos/tecnológicos, 1 académico, 1 de LACIF | p. 10, §11.3 |
-| Conflicto de interés | El jurado se abstiene si tiene relación de mentoría u otra con el proyecto | p. 11, §11.5 |
 | Desarrollo práctico | 20% de la evaluación | pp. 9 y 26 |
 
 Hay cuatro áreas y cinco retos. Los retos 1 y 2 pertenecen a Gestión Inteligente de Procesos. El reglamento prevé entre cinco y diez equipos por área (p. 17).
@@ -43,8 +41,6 @@ La formalización y entrega se prevén desde el **4 de noviembre de 2026**, suje
 - La propiedad intelectual permanece en sus titulares salvo acuerdo escrito específico; participar no implica cesión automática (p. 13).
 - Respetar derechos de terceros e informar restricciones de demostración/publicación (p. 13).
 - El programa de aceleración es posterior e independiente del hackathon (p. 2).
-- Llevar «recursos de trabajo que puedan utilizar legítimamente» y prohibición de usar contenidos de terceros sin derechos o permisos (p. 14, §15 y §16.1). La ficha de inscripción incluye «declaración de originalidad y uso legítimo de recursos» (Anexo 4, p. 23): declarar el uso de IA y de skills de terceros en [[Registro de trabajo previo y del evento]].
-- El Anexo 11 (pp. 31–32) prevé fichas de Demo Day y un registro de empresas o entidades interesadas para la continuidad posterior: es el lugar natural del «próximo paso» del pitch.
 
 ## Aspectos sin definición expresa
 
