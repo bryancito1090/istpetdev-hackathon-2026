@@ -253,6 +253,205 @@ La guía local del software conserva referencias a `aws sso login`, un rol admin
 7. Revisar la política y configuración, avanzar con **Next** si el asistente separa ambas revisiones y pulsar **Finish** para crear la clave. Conservar la política de administración de cuenta que genera AWS; no sustituirla por una política improvisada.
 8. Comprobar alias, región, tipo simétrico, uso Encrypt and decrypt y estado **Enabled**. Guardar el **Key ARN** para configurar S3/backend, sin copiarlo a esta nota. El ARN identifica la clave; no contiene el material criptográfico ni permite descifrar por sí solo.
 
-Este procedimiento es el siguiente paso indicado, todavía sin confirmación de clave creada. Después: bucket S3 privado/versionado/SSE-KMS para state, política TLS y backend local privado; revisión del código y plan Terraform; despliegue; inicialización PostgreSQL/secretos y pruebas de acceso por persona. No indicar `apply` hasta completar esas dependencias y revisar el plan real.
+La captura posterior confirma que Bryan creó la clave con alias `istpetdev-tfstate` en `us-east-1`, estado **Enabled**, tipo **Symmetric**, especificación **SYMMETRIC_DEFAULT** y uso **Encrypt and decrypt**. La sesión visible es `istpetdev-bryan`. Bryan confirmó que guardó Key ID y ARN; se usará el ARN completo al configurar S3 y el backend. La captura no verifica las políticas internas de la clave. No se copian aquí el ID real de cuenta, Key ID ni ARN.
+
+Después: bucket S3 privado/versionado/SSE-KMS para state, política TLS y backend local privado; revisión del código y plan Terraform; despliegue; inicialización PostgreSQL/secretos y pruebas de acceso por persona. No indicar `apply` hasta completar esas dependencias y revisar el plan real.
 
 [Crear clave simétrica KMS](https://docs.aws.amazon.com/kms/latest/developerguide/create-symmetric-cmk.html), [bucket S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html), [backend S3 de Terraform](https://developer.hashicorp.com/terraform/language/backend/s3).
+
+### Crear el bucket privado para el estado de Terraform
+
+El ARN completo de KMS es el identificador seleccionado para **Enter AWS KMS key ARN** de S3 y `kms_key_id` del backend. Guardar también Key ID es válido; ninguno de esos identificadores contiene el material criptográfico. El bucket siguiente almacena el state de infraestructura y será accesible al administrador; la aplicación tendrá su bucket de evidencias declarado en Terraform.
+
+1. Abrir [S3](https://s3.console.aws.amazon.com/s3/home?region=us-east-1), entrar en **General purpose buckets/Buckets** y comprobar que el bucket del proyecto no exista ya. Si existe, revisar/adoptar su configuración en lugar de crear un duplicado. Si no existe, pulsar **Create bucket**.
+2. **AWS Region:** `us-east-1` / US East (N. Virginia). **Bucket type:** General purpose. Si aparece **Bucket namespace**, usar **Shared global namespace** para conservar la convención de nombre existente del repositorio.
+3. **Bucket name:** `istpetdev-tfstate-<ACCOUNT_ID>-us-east-1`, sustituyendo `<ACCOUNT_ID>` por los doce dígitos de la cuenta, sin guiones del formato visual ni signos `< >`. El nombre debe ser único; si está ocupado por otra cuenta, elegir un sufijo adicional y conservar el nombre final coherente en la política y backend. **Copy settings from existing bucket:** dejar vacío.
+4. **Object Ownership:** ACLs disabled / Bucket owner enforced. **Block Public Access settings:** mantener **Block all public access** y sus cuatro opciones activadas.
+5. **Bucket Versioning:** Enable. Tags: `Project=IstpetDev`, `Environment=bootstrap`, `Owner=bryan`, `ManagedBy=Console`.
+6. **Default encryption → Encryption type:** Server-side encryption with AWS Key Management Service keys (SSE-KMS). **AWS KMS key:** Enter AWS KMS key ARN y pegar el ARN completo que Bryan guardó para `istpetdev-tfstate`; la región de la clave y el bucket debe coincidir. **Bucket Key:** Enable.
+7. **Advanced settings → Object Lock:** Disable. Terraform usará `use_lockfile=true` para coordinación de operaciones; S3 Object Lock es otra función y no se requiere para este backend. Revisar y pulsar **Create bucket**.
+
+### Exigir HTTPS en el bucket de estado
+
+Abrir el bucket creado → **Permissions → Bucket policy → Edit**. Para este bucket nuevo sin política previa, pegar el siguiente JSON sustituyendo las dos apariciones de `NOMBRE_DEL_BUCKET` por el nombre real, sin `s3://` ni `/` final. Si se reutiliza un bucket con política existente, integrar esta declaración conservando sus controles previos en vez de reemplazarlo todo.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EnforceTLSRequestsOnly",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::NOMBRE_DEL_BUCKET",
+        "arn:aws:s3:::NOMBRE_DEL_BUCKET/*"
+      ],
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+```
+
+Pulsar **Save changes**. Es una denegación de transporte inseguro, no una concesión de acceso público. Mantener Block Public Access y el acceso IAM/KMS restringido al administrador. La política sigue el ejemplo HTTPS de AWS y la guía existente `docs/aws-dev.md` del software.
+
+Comprobar **Properties → Bucket Versioning: Enabled**, **Default encryption: SSE-KMS** con la clave seleccionada y **Bucket Key: Enabled**; en **Permissions**, **Block all public access: On** y la política TLS guardada. No hace falta subir objetos o crear carpetas a mano: Terraform creará el state y su archivo de bloqueo al operar. La creación efectiva del bucket, la política y las pruebas de acceso todavía están pendientes de confirmación.
+
+[Crear bucket y opciones de cifrado](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html), [namespace y configuración general](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html), [S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html), [política HTTPS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingEncryptionInTransit.html), [bloqueo y cifrado del backend Terraform](https://developer.hashicorp.com/terraform/language/backend/s3).
+
+## Cambio solicitado: aprovisionamiento por el agente con Terraform
+
+Bryan pidió que el agente use su acceso administrativo temporal para levantar la infraestructura. Esta instrucción sustituye la continuación manual del bucket: implementar su bootstrap con Terraform, reutilizar la clave KMS existente y después aprovisionar el entorno dev del repositorio. Antes de crear recursos, consultar qué existe y revisar el plan para evitar duplicados o afectar recursos ajenos. El usuario ya autorizó el aprovisionamiento del proyecto; lo que falta ahora es conectividad y un entorno de ejecución con los permisos locales necesarios, además del login interactivo.
+
+Comprobaciones locales de esta sesión:
+
+- AWS CLI `2.37.10`, Terraform `1.15.9`, Session Manager plugin, `jq` y `psql` instalados.
+- Repo de software en `develop`, siguiendo `origin/develop`, sin cambios locales según `git status`.
+- Proveedor AWS fijado en `.terraform.lock.hcl` a `5.100.0`, dentro del rango acordado `~> 5.50`.
+- La comprobación inicial listó solo el perfil AWS `default`; no se consultaron ni imprimieron sus credenciales ni se utilizó para acceder a una cuenta. Después del login de Bryan, `aws configure list-profiles` muestra también `istpetdev-admin-console`.
+- La prueba HTTPS al dominio público `signin.us-east-1.amazonaws.com` falló con `Could not resolve host`. Esta sesión tiene red restringida.
+- El entorno permite escribir en la bóveda HACKATHON y `/tmp`; ISTPETDEV y `~/.aws` son de solo lectura para el agente. No se intentó eludir esas restricciones.
+
+### Conexión administrativa temporal desde la terminal de Bryan
+
+Ejecutar en una terminal normal de su equipo:
+
+```bash
+aws login --profile istpetdev-admin-console --region us-east-1
+```
+
+En el navegador elegir la cuenta del proyecto y el usuario `istpetdev-bryan`, completar MFA y autorizar el acceso solicitado por AWS CLI. Mantener códigos de autenticación y credenciales fuera del chat. El login guarda su caché local fuera de Git; no crear access keys para este flujo.
+
+Preparar un perfil consumidor separado, compatible con Terraform y herramientas que todavía no soporten `login_session` directamente:
+
+```bash
+aws configure set region us-east-1 --profile istpetdev-admin
+aws configure set credential_process 'aws configure export-credentials --profile istpetdev-admin-console --format process' --profile istpetdev-admin
+aws sts get-caller-identity --profile istpetdev-admin --query Arn --output text
+```
+
+La última salida debe identificar al usuario `istpetdev-bryan` de la cuenta prevista. El proceso de credenciales lo invoca el SDK; no ejecutar manualmente `export-credentials` para imprimir sus resultados. Para Terraform usar `AWS_PROFILE=istpetdev-admin`. El login no modifica las restricciones del entorno del agente: para que pueda completar el trabajo necesita escritura en ISTPETDEV y salida de red hacia AWS y los proveedores necesarios.
+
+### Preparación pendiente antes del despliegue
+
+La lectura inicial del código identifica estos trabajos concretos para la sesión con acceso:
+
+1. `infra/terraform/bootstrap` contiene solo `.gitkeep`: implementar el bucket privado/versionado/SSE-KMS/TLS con Terraform, referenciando la clave KMS existente. Conservar el state inicial fuera de Git, en un directorio privado, y consultar/importar recursos si el bucket ya fue creado. No recrear identidades o la clave existente.
+2. Sustituir referencias operativas SSO/permission sets por el login IAM temporal y políticas individuales, sin cambiar el diseño del compañero.
+3. Revisar/corregir `scripts/base_datos/bootstrap-dev.sh`: actualmente conecta con `psql -h 127.0.0.1` sin exigir explícitamente `verify-full` y CA; además pasa SQL con passwords mediante `psql -c` y payloads de secretos como argumentos de procesos. Ajustar verificación TLS e intercambio privado de secretos antes de ejecutarlo, y comprobar aislamiento e idempotencia en una prueba controlada.
+4. Revisar/corregir `scripts/ops/render-dev-policies.sh`: el permiso Resume/Terminate usa `session/*`, aunque su descripción dice sesiones propias. Limitarlo a la identidad correspondiente y resolver los ARN exactos de los secretos, en lugar de permisos amplios por prefijo.
+5. Validar configuración, revisar el plan real, desplegar red/nodo/RDS/evidencias y luego inicializar PostgreSQL y permisos de cada integrante. Verificar MFA antes de conceder acceso a los datos.
+
+No se ejecutaron login, plan, apply ni inicialización de la base desde esta sesión. El único recurso cloud confirmado por captura en esta etapa es la clave KMS, además de las identidades comunicadas previamente; la creación del bucket sigue sin confirmar.
+
+[Login AWS CLI y credential_process](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sign-in.html), [backend S3 de Terraform](https://developer.hashicorp.com/terraform/language/backend/s3).
+
+### Login completado y oferta opcional de AWS MCP
+
+La captura posterior de Bryan muestra que AWS CLI actualizó `istpetdev-admin-console` para usar la identidad `istpetdev-bryan`. La autenticación del perfil de consola está completada según esa salida; el perfil consumidor `istpetdev-admin` y su comprobación con STS todavía están pendientes.
+
+Ante **Configure AWS skills and the AWS MCP server for your AI coding agent(s)? [y/n/never]**, responder **n** y Enter para continuar con el flujo AWS CLI/Terraform. La oferta configura herramientas adicionales para agentes; no es el paso de autenticación pendiente ni un requisito del backend de Terraform. A continuación ejecutar los tres comandos de configuración/verificación del perfil consumidor indicados arriba. No se instaló AWS MCP ni se cambiaron las restricciones de red o escritura de la sesión del agente.
+
+[Configuración independiente de AWS MCP Server](https://docs.aws.amazon.com/agent-toolkit/latest/userguide/getting-started-aws-mcp-server.html).
+
+### Comprobación STS cuando falta el visor less
+
+Bryan ejecutó la configuración de `credential_process` y la comprobación STS con `istpetdev-admin`. La salida falló al intentar abrir el visor local `less`, que no está instalado. Desactivar el visor en ese perfil y repetir la comprobación desde su terminal:
+
+```bash
+aws configure set cli_pager "" --profile istpetdev-admin
+aws sts get-caller-identity --profile istpetdev-admin --query Arn --output text --no-cli-pager
+```
+
+Esperar una salida que termine en `:user/istpetdev-bryan`. El error comunicado corresponde a presentación de salida; no demuestra por sí solo el resultado de la verificación de identidad. No hace falta regenerar credenciales para corregir el visor. [Control del pager AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-pagination.html).
+
+### Reabrir el trabajo con escritura en ISTPETDEV y acceso de red
+
+Bryan pidió los pasos para habilitar los permisos locales necesarios. `codex --help` y `codex resume --help` de su instalación confirman `--cd`, `--sandbox workspace-write`, `--add-dir`, `--ask-for-approval on-request` y el selector `resume --all`. OpenAI Docs confirma `sandbox_workspace_write.network_access=true` para salida de red dentro de ese modo. Son opciones de una nueva ejecución; esta nota no cambia los permisos de la sesión actual.
+
+Ejecutar desde una terminal normal del equipo, después de finalizar el turno en curso del agente:
+
+```bash
+mkdir -p "$HOME/.config/istpetdev/private" "$HOME/.aws/login/cache"
+chmod 700 "$HOME/.config/istpetdev" "$HOME/.config/istpetdev/private"
+export AWS_PROFILE=istpetdev-admin
+export AWS_REGION=us-east-1
+export AWS_PAGER=""
+```
+
+Reabrir una conversación guardada con el selector, sin asumir que la última sesión corresponde a este trabajo:
+
+```bash
+codex resume --all \
+  --cd "$HOME/Projects/ISTPETDEV" \
+  --sandbox workspace-write \
+  --ask-for-approval on-request \
+  --config sandbox_workspace_write.network_access=true \
+  --add-dir "$HOME/Projects/HACKATHON" \
+  --add-dir "$HOME/.config/istpetdev" \
+  --add-dir "$HOME/.aws/login/cache"
+```
+
+En el selector elegir la conversación de AWS/ISTPETDEV. La carpeta de trabajo explícita es ISTPETDEV. Si la conversación de Orca no aparece en el selector local, usar el mismo comando sustituyendo `codex resume --all` por `codex` para comenzar otra sesión y pedirle leer esta nota completa antes de actuar. No ejecutar dos agentes que modifiquen los mismos archivos simultáneamente.
+
+Los permisos de escritura adicionales cubren la bóveda documental, el directorio privado de state/certificados y la caché de login AWS para renovar credenciales. `~/.aws/config` sigue siendo leído por el perfil; no se concede escritura a todo el directorio personal. Las opciones se aplican a esa ejecución, sin editar la configuración global ni desactivar el sandbox. La red habilitada permite salida de red general desde la sesión, no exclusivamente a AWS. Si una política administrada impide estos valores, respetar la restricción y comunicar el error en lugar de intentar eludirla.
+
+Mensaje sugerido para continuar:
+
+```text
+Continúa el aprovisionamiento AWS de IstpetDev autorizado en la conversación.
+Lee ~/Projects/HACKATHON/03 Arquitectura/AWS temporal para la hackathon y cierre.md.
+Usa AWS_PROFILE=istpetdev-admin y región us-east-1. Primero verifica identidad,
+red y escritura con un archivo temporal en ISTPETDEV que retires al terminar.
+Reutiliza la clave alias/istpetdev-tfstate existente; consulta recursos antes de
+crear o importar. Completa bootstrap Terraform, corrige los pendientes TLS/IAM
+documentados, valida y revisa el plan. Si el plan solo afecta los recursos dev
+acordados del proyecto, aplica y verifica PostgreSQL y el acceso individual.
+Conserva los cambios del compañero. Los secretos y el state quedan fuera de Git.
+```
+
+La herramienta local de Orca seleccionada según su skill, `orca-ide skills get orca-cli --json`, no pudo iniciarse: `No suitable fusermount binary found on the $PATH` y `Cannot mount AppImage`. No se cambió de ejecutable, no se alteró Orca/FUSE ni se verificaron sus menús. La ruta anterior usa opciones comprobadas de Codex CLI; no promete modificar el panel ya abierto en Orca.
+
+[OpenAI Docs: comandos y reanudación](https://learn.chatgpt.com/docs/developer-commands?surface=cli), [OpenAI Docs: configuración de red y sandbox](https://learn.chatgpt.com/docs/config-file/config-reference).
+
+## Estado real del aprovisionamiento, resolución RDS y base de datos (8 de octubre)
+
+En la sesión automatizada con credenciales administrativas (`istpetdev-bryan`, cuenta `747456040427`), se completó el aprovisionamiento de la base de datos RDS, el esquema de respaldos Free Tier, el bootstrap de bases de datos multitenant y la asignación de permisos IAM con MFA.
+
+### 1. Estado en AWS y Recursos Activos (89 recursos en remote state S3)
+- **Bootstrap de Estado S3:** Completado. Bucket `istpetdev-tfstate-747456040427-us-east-1` con KMS `alias/istpetdev-tfstate` y `use_lockfile = true`.
+- **VPC y Red:** VPC `vpc-0217f06f82247cd0b` (10.42.0.0/16) con 2 subredes públicas y 2 privadas de datos. Sin NAT Gateway para mantener costos en cero.
+- **Nodo de Acceso EC2:** `i-0bba84773e794de36` (`t3.micro`, Ubuntu 24.04, IP pública `32.196.114.105`) con SSM Agent Online y SG `sg-0c4c0a0cff4fdc55f` sin reglas de entrada abiertas.
+- **RDS PostgreSQL 16 Desplegado:** Instancia física `istpetdev-rds-dev` creada y en estado `available` (`db.t3.micro`, gp3 20GB, cifrado KMS, SSL obligatorio).
+- **Estrategia de Backups Free Tier:**
+  - PITR en RDS configurado a 1 día continuo (requisito Free Plan).
+  - AWS Backup con bóveda `istpetdev-dev`, plan diario a las 03:00 ECT (08:00 UTC) con retención de 7 días.
+  - Regla EventBridge conectada a SNS para alertar fallos de backup.
+  - Suscripción de eventos RDS `istpetdev-dev-rds-events` conectada a SNS.
+- **S3:** `istpetdev-evidence-dev-...` (CORS para web/móvil local) y `istpetdev-backups-dev-...`, ambos con bloqueo público total, TLS obligatorio y versionado.
+- **Cognito:** User Pool `us-east-1_4Y2j5DINp` con clientes Web y Móvil.
+- **SNS y Presupuesto:** Suscripción por correo confirmada (`banobryan1090@gmail.com`) y AWS Budgets activo con límite de $80 USD mensual.
+
+### 2. Bootstrap de Base de Datos y Aislamiento (Completado)
+A través del túnel SSM seguro en el puerto 15432, se ejecutó `bootstrap-dev.sh`:
+- 6 bases de datos creadas y verificadas: `istpetdev_dev_01` a `istpetdev_dev_05` e `istpetdev_integration`.
+- Extensión PostGIS 3.4 habilitada en cada una de las 6 bases.
+- 17 secretos generados con contraseñas seguras y guardados en AWS Secrets Manager (`/istpetdev/dev/db/...`).
+- Privilegios DDL otorgados exclusivamente a roles migradores; usuarios de aplicación limitados estrictamente a DML (`SELECT, INSERT, UPDATE, DELETE`).
+- Acceso público a bases de mantenimiento (`postgres`, `template1`) revocado.
+
+### 3. Estado de MFA y Políticas IAM del Equipo
+- **Bryan (`istpetdev-bryan`):** ✅ Administrador de infraestructura.
+- **Alexander (`istpetdev-alexander`):** ✅ MFA activo — Política `IstpetDevIndividualDevAccess` aplicada en AWS IAM.
+- **Andrés (`istpetdev-andres`):** ✅ MFA activo — Política `IstpetDevIndividualDevAccess` aplicada en AWS IAM.
+- **Anthony (`istpetdev-anthony`):** ✅ MFA activo — Política `IstpetDevIndividualDevAccess` aplicada en AWS IAM.
+- **Jorge (`istpetdev-jorge`):** ✅ MFA activo — Política `IstpetDevIndividualDevAccess` aplicada en AWS IAM.
+
+Todo el equipo tiene acceso individual por túnel SSM (`istpetdev-dev-postgres-tunnel`), a su secreto asignado en Secrets Manager y a su prefijo S3 en el bucket de evidencias.
+
+
