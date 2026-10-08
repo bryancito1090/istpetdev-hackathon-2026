@@ -71,6 +71,7 @@ Estas fuentes verifican límites de plataforma y convenciones; no validan el aho
 | 2026-10-07 | Bloques A (anti-invención) y C (skills portables) | [[Hechos canonicos]], manual transcrito, contradicciones marcadas, `AGENTS.md`, 8 skills en `.agents/skills/` y verificador `check_vault.py`; sin software implementado |
 | 2026-10-07 | Integración de los bloques A y C con be0b127 (bryancito1090) | Hechos canónicos, AGENTS.md y skills actualizados con .NET 8, PostgreSQL 16, Angular 22, Cognito y repositorio istpetdev-platform; rutas `/home/…` sustituidas por `~/Projects/…`; ADR del complemento citados con «→» para no redefinirlos |
 | 2026-10-07 | Skills y archivos de IA fuera de la bóveda | Se dejan de versionar `.agents/`, `.claude/`, `AGENTS.md`, `CLAUDE.md` y `GEMINI.md` (quedan en [[Catalogo y plan de skills]] como documentación, con una nota por skill en `08 Skills/`); el verificador pasa a `.github/scripts/check_vault.py` |
+| 2026-10-08 | Skill istpetdev-dbflow incorporada a la bóveda | Flujo colaborativo de base de datos en RDS dev, aislamiento por integrante, túnel SSM y resolución de conflictos incorporado a `08 Skills/` y al catálogo |
 | Pendiente | Respuestas de capacitación | Actualizar reglas/alcance al recibirlas |
 
 ## Actualizar el manual
@@ -105,4 +106,4 @@ Bryan aclara que quiere usar los USD 100 mostrados y retirar infraestructura des
 
 ## Verificación con el script
 
-Verificación del 7 de octubre de 2026 con `check_vault.py`, después de integrar be0b127 y sacar los archivos de IA: **65 notas Markdown**, **482 enlaces internos resueltos**, frontmatter completo, IDs definidos solo en su nota dueña y sin duplicados, sin rutas personales y bloques de código balanceados. El conteo incluye la nota [[Hechos canonicos]], las seis notas nuevas de Arquitectura de be0b127 y las ocho notas de skills; no incluye archivos locales de asistentes de IA. Desde esta fecha el conteo lo comprueba el script; actualizar esta línea cuando cambie.
+Verificación del 8 de octubre de 2026 con `check_vault.py`, después de incorporar la skill [[istpetdev-dbflow]]: **66 notas Markdown**, **492 enlaces internos resueltos**, frontmatter completo, IDs definidos solo en su nota dueña y sin duplicados, sin rutas personales y bloques de código balanceados. El conteo incluye la nota [[Hechos canonicos]], las seis notas nuevas de Arquitectura de be0b127 y las nueve notas de skills en `08 Skills/`; no incluye archivos locales de asistentes de IA. Desde esta fecha el conteo lo comprueba el script; actualizar esta línea cuando cambie.
