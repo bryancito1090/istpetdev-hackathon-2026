@@ -454,4 +454,11 @@ A través del túnel SSM seguro en el puerto 15432, se ejecutó `bootstrap-dev.s
 
 Todo el equipo tiene acceso individual por túnel SSM (`istpetdev-dev-postgres-tunnel`), a su secreto asignado en Secrets Manager y a su prefijo S3 en el bucket de evidencias.
 
+### 4. Estándar de Trabajo Colaborativo en Base de Datos (istpet-dbflow)
+Para evitar bloqueos y pisadas de esquema entre compañeros, se adoptó el estándar de bases aisladas personales (`dev_01`…`dev_05`) y migraciones EF Core versionadas en Git:
+- **Skill de Antigravity creada:** `~/.gemini/config/skills/istpet-dbflow/SKILL.md`
+- **Guía completa en el repositorio:** `docs/database-workflow.md` (y referenciada en `docs/onboarding.md`).
+- **Filosofía:** El código C# es la fuente de la verdad; nunca se ejecutan sentencias DDL manuales en clientes SQL.
+
+
 
