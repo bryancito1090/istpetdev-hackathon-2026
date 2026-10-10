@@ -1,7 +1,7 @@
 ---
 tipo: skill
 estado: vigente
-actualizado: 2026-10-08
+actualizado: 2026-10-09
 tags: [istpetdev, ia, skills, base-de-datos, postgresql, migraciones]
 ---
 
@@ -20,6 +20,7 @@ Rutas relativas a la raíz del repositorio de software `istpetdev-platform`. Lee
 - `03 Arquitectura/AWS temporal para la hackathon y cierre.md`: infraestructura RDS dev, aislamiento y usuarios ([[AWS temporal para la hackathon y cierre]]).
 - `docs/database-workflow.md` (en el repositorio de software): guía operativa detallada paso a paso.
 - `docs/onboarding.md` (en el repositorio de software): configuración de estación de trabajo y comandos locales.
+- `04 Datos y algoritmos/Esquema completo de base de datos.md`: diseño objetivo, organización/FKs/políticas RLS y migraciones de transición; `03 Arquitectura/Conexion PostgreSQL en DBeaver.md` para las dos conexiones.
 
 ## Hechos que no se cambian sin decisión
 

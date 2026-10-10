@@ -1,7 +1,7 @@
 ---
 tipo: validacion
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-09
 tags: [demo, validacion, istpetdev]
 ---
 
@@ -59,6 +59,7 @@ Conservar manifest del run y hash del dataset. Para pruebas sensibles guardar ev
 - **Nuevas acciones P1:** repetir V-13/V-24 para evidencias, automatización y tiempo real al incorporarlos.
 - **Varias réplicas:** V-15 antes de mostrar escalado SignalR.
 - **Declaración de rendimiento/HA:** V-21/V-22 con condiciones publicables.
+- **Configuración solicitada por ADR-16:** V-34/35/36/37 antes de declarar roles/plantillas/procesos configurables; V-38/39 y evidencia de controles delegados antes de exponer demo/release. El esquema documental no cierra estas pruebas.
 
 No repetir pruebas amplias por rutina: repetir lo afectado por cambios y los recorridos críticos antes del cierre. El respaldo del pitch está en [[Checklist y contingencias]].
 
@@ -95,5 +96,18 @@ V-32 se realiza con dos identidades IAM/MFA y credenciales temporales de `aws lo
 | ID | Caso | Evidencia requerida |
 |---|---|---|
 | V-33 | Retiro completo del proyecto | Exportación privada comprobada, inventario por tags/state y regiones, recursos del stack eliminados, sin snapshots/backups/volúmenes/versiones S3 facturables olvidados, secretos/KMS en eliminación documentada, bootstrap retirado al final y facturación revisada; sin tocar n8n/recursos ajenos |
+
+## Configuración y lanzamiento — 9 de octubre
+
+| ID | Caso | Resultado esperado | Requisito |
+|---|---|---|---|
+| V-34 | RBAC administrable y delegación | Rol nuevo permite solo acciones concedidas y dentro de ámbito; no autoconcede access.manage ni permisos/ámbitos ajenos; bootstrap conserva un administrador activo; revocación cambia AuthorizationVersion y bloquea próxima operación/SignalR/offline | RF-17, RNF-01 |
+| V-35 | Plantilla, campos y versiones | Crear/publicar/activar versión; captura conserva versión/hash; cambios crean otra; usuario no lee/escribe campo restringido; contenido ejecutable rechazado/escapado; captura antigua aceptada o conflicto explícito, sin pérdida | RF-18 |
+| V-36 | Configuración y workflow efectivos | Prioridad punto/ubicación/organización determinista; intervalos sin solapamiento; valores fuera de rango/handler desconocido rechazados; histórico reproducible y transición no viola stock/recepción | RF-19 |
+| V-37 | RLS real y conexión reutilizada | Catálogo tenant completo con RLS/FORCE/policies y rol API sin bypass; dos organizaciones/contexto vacío prueban SELECT/INSERT/UPDATE/DELETE, FK cruzada, tabla hija, ámbitos de punto/entrega/chat y reset entre peticiones del mismo pool | RNF-13 |
+| V-38 | Campos, contenido, cifrado y archivos | Intento de cambiar actor/organización/privilegios/saldo no tiene efecto; plantilla no habilita SQL/script/SSRF; datos clasificados cifrados y lectura acotada; archivo con MIME/checksum falsos y objeto pendiente no se sirve; SQL manual parametrizado | RNF-14, RF-18 |
+| V-39 | Abuso, cabeceras y dependencias del release | Ráfagas limitadas por identidad/organización/acción y QR no enumerable; cabeceras reales de proxy/browser válidas; reporte para revisión/lockfiles/digest exactos y sin hallazgo alto/crítico explotable sin mitigación | RNF-14 |
+
+Registrar pruebas reales con fixtures sintéticos, misma revisión y entorno. Controles ya definidos por las otras skills se reutilizan desde su evidencia; [[istpetdev-prelaunch]] añade los complementarios de [[Verificacion de seguridad antes del lanzamiento]]. Si falta acceso a DB/runtime, resultado pendiente, no aprobado por inspección documental.
 
 Pendiente de ejecución al terminar la hackathon; documentar residuos con espera obligatoria y no afirmar factura cero por apagar EC2/RDS.

@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [arquitectura, contratos]
 ---
 
@@ -28,6 +28,7 @@ tags: [arquitectura, contratos]
 | ADR-13 | Arquitectura frontend | Feature-Sliced Design (FSD) | **Aceptada por el equipo, 2026-10-06** (registrada por bryancito1090, commit 765c532; Deciders por nombrar): capas y límites en [[Frontend con Feature-Sliced Design]] |
 | ADR-14 | Autorización | Control de acceso basado en roles (RBAC) | **Aceptada, 2026-10-06** (registrada por bryancito1090, commit 5905073, como «instrucción del usuario»; Deciders por nombrar): permisos por rol y ámbito en servidor; [[Seguridad y evidencias]] |
 | ADR-15 | CI/CD y Hardening Host | Pipeline DAG + GHCR + Rollback SHA + Defensa 6 Capas | **Aceptada, 2026-10-06** (registrada por JorgeDoicela, commit 4c3a9ef; Deciders PENDIENTE): compilación en runners, rotación 3 imágenes, rollback con objetivo <30 s y Lynis >80/100; [[CI-CD y automatizacion de despliegue]] y [[Hardening y seguridad de servidores]] |
+| ADR-16 | Configuración desde DB | Roles y concesiones administrables, plantillas/procesos/parámetros versionados y aislamiento RLS | **Aceptada por Bryan, 2026-10-09**, instrucción directa en conversación: amplía ADR-14 y sustituye su límite de roles fijos; diseño en [[RBAC y configuracion del sistema]] y [[Esquema completo de base de datos]], implementación pendiente |
 
 ## ADR-01 — versión de backend
 
@@ -72,9 +73,11 @@ Las skills del equipo están documentadas en [[Catalogo y plan de skills]] (7 de
 
 ## ADR-14 — RBAC en API, web, móvil y automatización
 
+**Ampliada por ADR-16 el 9 de octubre:** se conserva autorización por acción/recurso y se sustituye el límite de catálogo de roles no administrable. La matriz de seis roles es el seed funcional inicial; roles/concesiones pasan a ser datos configurables por organización.
+
 **Aceptada, 2026-10-06.** Deciders: por nombrar (registrada por bryancito1090, commit 5905073, como «instrucción del usuario»). Contexto: ya se describían roles funcionales y autorización por recurso, pero faltaba declarar el modelo que cumple RNF-01.
 
-**Opciones:** reglas aisladas por endpoint o un catálogo compartido de roles/acciones con restricciones por recurso. Se elige **RBAC con validación de organización, almacén, punto y asignación**, para aplicar la misma matriz en API y SignalR. El catálogo inicial usa los seis roles existentes y deniega acciones no concedidas; definición en [[Seguridad y evidencias]].
+**Opciones iniciales:** reglas aisladas por endpoint o un catálogo compartido de roles/acciones con restricciones por recurso. Se eligió **RBAC con validación de organización, almacén, punto y asignación**, para aplicar la misma matriz en API y SignalR. La ampliación ADR-16 permite administrar los roles; las acciones siguen vinculadas a handlers implementados. Definición en [[Seguridad y evidencias]].
 
 **Consecuencias:** vincular identidades a roles por organización, centralizar políticas, reflejar permisos en web/móvil y limitar n8n. Para P0, administrar accesos por configuración/seed controlado y auditado. La sincronización offline vuelve a comprobar permisos vigentes. La elección del proveedor OIDC sigue pendiente en ADR-10.
 
@@ -121,5 +124,17 @@ Se conserva el registro y las decisiones del compañero del 6 de octubre. Bryan 
 ### ADR-10 — identidad OIDC y sesiones
 
 Se selecciona Cognito administrado para evitar operar otro servidor de identidad. Web/PWA usan clientes públicos sin secret, PKCE S256, tokens de acceso de 15 minutos y reautenticación que conserva cola offline. La API valida issuer/firma/token_use/client_id/scopes y aplica roles y organización/asignación desde PostgreSQL. n8n usa cliente confidencial separado con scopes de Automatización. Configuración completa, alternativas operativas y pruebas pendientes en [[Identidad OIDC y sesiones]].
+
+## ADR-16 — configuración, plantillas y RBAC administrable
+
+**Fecha:** 2026-10-09. **Decider:** Bryan, solicitud directa en esta conversación. **Estado:** aceptada la dirección de producto; esquema/procedimientos propuestos, implementación y validación pendientes.
+
+**Contexto:** la bóveda contiene entidades lógicas y una infraestructura documentada, pero no el detalle de todas las tablas. El backend local inspeccionado tiene cinco entidades/migración inicial y autenticación Cognito; no el esquema completo ni RBAC administrable. Bryan solicita definir primero esa base y permitir gestión de roles y plantillas desde DB, con revisión de seguridad previa a lanzamiento.
+
+**Decisión:** PostgreSQL conserva roles/concesiones/ámbitos, parámetros versionados, catálogos, plantillas y workflows declarativos. Los seis roles funcionales son seeds; se propone un rol humano ConfigurationAdmin para administración acotada. Permission/FieldDefinition describen operaciones/campos implementados y límites de delegación; configurar no permite ejecutar código/SQL arbitrario ni apagar garantías de seguridad/inventario. Cognito conserva identidad y credenciales; RLS/FORCE y FKs por organización complementan la autorización de backend.
+
+**Consecuencias:** se reemplaza la prohibición de editor dinámico de ADR-14/P0, se agregan RF-17/18/19 y RNF-13/14, con entregas B-37 a B-40 y casos V-34 a V-39. Publicación congela versiones y registra actor/motivo; capturas offline guardan su versión y se reautorizan al sincronizar. La nueva skill complementa las existentes y no se presenta como middleware/CI implementado.
+
+**Definición:** [[Esquema completo de base de datos]], [[RBAC y configuracion del sistema]], [[Verificacion de seguridad antes del lanzamiento]] y [[istpetdev-prelaunch]]. Migraciones EF preservan esquema/datos previos y la separación migrador/API; [[Conexion PostgreSQL en DBeaver]] prepara las dos conexiones sin crear credenciales duplicadas.
 
 Dominio institucional y CI/CD/Compose los profundizarán los compañeros indicados por Bryan. Mapas continúa en ADR-05 pendiente de prueba/costo/licencia. Cuenta AWS y presupuesto están disponibles; se cargan valores privados sin volver a tratar su disponibilidad como bloqueo. Ver [[Entornos y operacion acordados]].

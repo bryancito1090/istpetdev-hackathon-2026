@@ -1,7 +1,7 @@
 ---
 tipo: especificacion-producto
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-09
 tags: [producto, reto-1]
 ---
 
@@ -17,8 +17,9 @@ tags: [producto, reto-1]
 | Conductor | Ver ruta, escanear, reportar incidente y capturar entrega | Solo asignaciones autorizadas |
 | Receptor | Registrar consumo, solicitar reposición, ver resumen permitido y aceptar cantidades | Solo puntos/entregas autorizados; sin inventario general |
 | Automatización | Solicitar cálculos y registrar explicaciones/incidentes demo | Identidad técnica con permisos limitados |
+| ConfigurationAdmin (propuesto) | Administrar configuración, plantillas y acceso delegable | Cuenta humana con administración acotada a su organización; sin funciones logísticas automáticas |
 
-Estos roles conforman el **RBAC aceptado en ADR-14**. La matriz de permisos y restricciones está en [[Seguridad y evidencias]]; la API la aplica por acción y recurso. Una persona puede asumir varios durante la demo con cuentas diferenciadas, o una cuenta con roles explícitos por organización. El QR público no concede un rol ni permite aceptar entregas.
+Los seis roles funcionales conforman el seed inicial de **RBAC aceptado en ADR-14 y ampliado por ADR-16**. Desde el pedido de Bryan del 9 de octubre se pueden administrar roles/concesiones y plantillas por organización según [[RBAC y configuracion del sistema]]; ConfigurationAdmin es el seed administrativo propuesto. La matriz inicial de restricciones está en [[Seguridad y evidencias]]; la API aplica permisos y ámbito, aun para roles personalizados. Una persona puede asumir varios mediante concesiones explícitas. El QR público no concede un rol ni permite aceptar entregas.
 
 ## Flujo central
 

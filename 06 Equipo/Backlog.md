@@ -1,7 +1,7 @@
 ---
 tipo: ejecucion
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [hackathon, istpetdev]
 ---
 
@@ -15,7 +15,7 @@ Backlog compartido de IstpetDev, **sin asignación fija de integrantes**. Todas 
 |---|---|---|---|---|
 | B-01 | Cerrar versiones y contrato | ADRs | Versiones/contrato revisados | Pendiente |
 | B-02 | Fixture de 6 puntos/2 SKU | B-01 | Unidades y balance verificables | Pendiente |
-| B-29 | Identidad y RBAC en servidor | B-01, ADR-10 | RNF-01 online; cuentas demo, políticas por acción/recurso, revocación y casos online de V-13/V-24 | Pendiente |
+| B-29 | Identidad y RBAC en servidor | B-01, ADR-10/16, B-37 | RNF-01/RF-17; cuentas demo, roles/permisos/ámbitos administrables, delegación/campos y revocación comprobados; V-13/V-24/V-34 | Pendiente |
 | B-03 | Catálogo, lotes y saldos | B-02/29 | RF-01/02, concurrencia válida | Pendiente |
 | B-04 | Consumo y cobertura | B-03 | RF-03, casos cero/desactualizado | Pendiente |
 | B-05 | Planner inicial | B-04, mapas | RF-04, inviables explícitos | Pendiente |
@@ -62,6 +62,19 @@ Backlog compartido de IstpetDev, **sin asignación fija de integrantes**. Todas 
 - D-05: registrar evidencia y cambios del evento.
 
 Una fila se marca completa cuando cumple su criterio y tiene enlace a resultado. Las pruebas se planifican en [[Plan de validacion]].
+
+## Ampliación de datos, configuración y seguridad — 9 de octubre
+
+Diseño documental creado por pedido de Bryan; la ejecución en software/DB continúa pendiente. Las entregas descomponen ADR-16 sin convertir las notas en evidencia de despliegue.
+
+| ID | Entrega | Depende de | Criterio de cierre | Estado |
+|---|---|---|---|---|
+| B-37 | Migraciones del esquema completo e aislamiento | B-01, ADR-16 | Mapear/preservar migración inicial, FKs por organización, identidad/ámbitos/configuración, RLS/FORCE/grants probados con rol API; cobertura por módulo de [[Esquema completo de base de datos]]; V-37 | Pendiente |
+| B-38 | Gestión de plantillas/versiones/formularios | B-37/29 | RF-18, CRUD/publicación/activación, acceso a campos y captura histórica/offline; V-35 | Pendiente |
+| B-39 | Parámetros, catálogos y workflows administrables | B-37/29 | RF-19, validación/activación sin solapamiento, handlers admitidos, reproducción de histórico; V-36 | Pendiente |
+| B-40 | Integrar revisión previa a lanzamiento | B-20/21/29/37/38 | RNF-14, skill instalada y activación comprobada; checks/gates de software con evidencia vigente, controles complementarios V-38/V-39 y controles delegados existentes | Pendiente |
+
+La definición del esquema y la skill en la bóveda es un avance documental; no cierra B-37/B-40. Acceso de Bryan preparado en [[Conexion PostgreSQL en DBeaver]], con dos roles ya documentados por bootstrap.
 
 ## Convención frontend FSD
 

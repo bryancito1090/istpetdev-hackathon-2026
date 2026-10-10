@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: aceptado
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [arquitectura, identidad, oidc, rbac, seguridad]
 ---
 
@@ -18,7 +18,7 @@ Esta es la configuración a implementar; no hay todavía pools, clientes ni sesi
 | Parámetro | Desarrollo | Demo / producción |
 |---|---|---|
 | User pool | Un pool `istpetdev-dev` para el equipo | Pool `istpetdev-demo`; pool `istpetdev-prod` separado cuando exista producción |
-| Registro | Cuentas creadas por administración; sin autosignup | Mismo criterio; seis roles funcionales de la matriz existente |
+| Registro | Cuentas creadas por administración; sin autosignup | Mismo criterio; roles administrables por organización según ADR-16, con la matriz funcional inicial como seed |
 | Clientes | Web y PWA separados, públicos, **sin client secret** | Web y móvil separados; cliente confidencial distinto para automatización |
 | Flujo humano | Authorization Code + PKCE **S256**, `state` y `nonce` | Mismo flujo; nunca implicit ni contraseña enviada por nuestra API |
 | Access token | **15 minutos** | 15 minutos |

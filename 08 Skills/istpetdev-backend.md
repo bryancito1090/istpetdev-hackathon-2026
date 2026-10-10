@@ -1,7 +1,7 @@
 ---
 tipo: skill
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [istpetdev, ia, skills]
 ---
 
@@ -22,6 +22,7 @@ Rutas relativas a la raíz del repositorio. Leer antes [[istpetdev-contexto]] y 
 - `02 Producto/Requisitos y aceptacion.md`: RF/RNF que cada cambio debe citar.
 - `03 Arquitectura/Repositorio de software y versiones.md`: estructura `src/` y versiones exactas de paquetes.
 - `03 Arquitectura/Identidad OIDC y sesiones.md`: validación de tokens Cognito y RBAC.
+- `04 Datos y algoritmos/Esquema completo de base de datos.md` y `03 Arquitectura/RBAC y configuracion del sistema.md`: ADR-16, concesiones administrables, RLS y configuración/plantillas versionadas; leer lo afectado.
 
 ## Hechos que no se cambian sin decisión
 
@@ -55,6 +56,7 @@ Rutas relativas a la raíz del repositorio. Leer antes [[istpetdev-contexto]] y 
 - Pruebas unitarias para reglas de dominio y handlers (camino feliz y al menos un error).
 - Pruebas de integración con PostgreSQL real para transacciones, concurrencia e idempotencia (casos V-01, V-02, V-09 y V-10 de `07 Demo/Plan de validacion.md`).
 - Revisión con [[istpetdev-revision]] antes del PR.
+- Antes de levantar una versión o preparar su exposición/despliegue, usar [[istpetdev-prelaunch]]; reutiliza evidencia de esta skill y agrega los controles complementarios, sin presentar documentación como checks ejecutados.
 
 ## Origen
 

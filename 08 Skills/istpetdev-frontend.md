@@ -1,7 +1,7 @@
 ---
 tipo: skill
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [istpetdev, ia, skills]
 ---
 
@@ -19,6 +19,7 @@ Rutas relativas a la raíz del repositorio. Leer antes [[istpetdev-contexto]] y 
 - `03 Arquitectura/Frontend y componentes.md`: Signals y RxJS, `libs/shared-core`, mapas, consulta QR, RBAC en cliente.
 - `03 Arquitectura/Movil offline y sincronizacion.md`: persistencia, protocolo de sincronización y conflictos.
 - `02 Producto/Usuarios y flujos.md`: roles, flujo central, excepciones y estados.
+- `03 Arquitectura/RBAC y configuracion del sistema.md`: roles/campos y formularios versionados; la UI administra configuración declarativa bajo contrato, sin convertir nombres de roles en autoridad.
 
 ## Versiones y decisiones
 
@@ -61,6 +62,7 @@ Detalle de identidad visual, tokens y leyes de UX: sección «Referencia: diseno
 - Revisar los cinco estados y el recorrido offline (V-08, V-11 y V-12 de `07 Demo/Plan de validacion.md`).
 - Límites FSD (V-23) y build/lint del repositorio cuando existan (comandos PENDIENTES en `00 Inicio/Hechos canonicos.md`).
 - Probar en un teléfono real por HTTPS antes de dar por terminado un flujo móvil.
+- Antes de levantar una versión o preparar un ensayo/despliegue, usar [[istpetdev-prelaunch]] y aportar la evidencia de esta skill; verificar respuesta web/runtime afectado.
 
 ## Origen
 

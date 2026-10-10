@@ -1,7 +1,7 @@
 ---
 tipo: fuente
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [istpetdev, documentacion]
 ---
 
@@ -107,3 +107,13 @@ Bryan aclara que quiere usar los USD 100 mostrados y retirar infraestructura des
 ## Verificación con el script
 
 Verificación del 8 de octubre de 2026 con `check_vault.py`, después de incorporar la skill [[istpetdev-dbflow]]: **66 notas Markdown**, **492 enlaces internos resueltos**, frontmatter completo, IDs definidos solo en su nota dueña y sin duplicados, sin rutas personales y bloques de código balanceados. El conteo incluye la nota [[Hechos canonicos]], las seis notas nuevas de Arquitectura de be0b127 y las nueve notas de skills en `08 Skills/`; no incluye archivos locales de asistentes de IA. Desde esta fecha el conteo lo comprueba el script; actualizar esta línea cuando cambie.
+
+## Ampliación de esquema y configuración — 9 de octubre de 2026
+
+Fuente: solicitud directa de Bryan en esta conversación. La bóveda ya contenía modelo lógico, infraestructura y RBAC de seis roles fijos; se pide definir el esquema completo del sistema, hacer administrables roles/permisos/plantillas/parámetros y agregar revisión antes de lanzamiento sin repetir reglas de otras skills.
+
+Se incorporan [[Esquema completo de base de datos]], [[RBAC y configuracion del sistema]], [[Conexion PostgreSQL en DBeaver]], [[Verificacion de seguridad antes del lanzamiento]] y [[istpetdev-prelaunch]]. ADR-16 registra ampliación de ADR-14, con RF-17/18/19, RNF-13/14, B-37 a B-40 y V-34 a V-39. El backend local inspeccionado contiene cinco entidades/migración inicial; no se consultó RDS ni se aplicaron migraciones durante esta entrega. El usuario de datos ya está documentado por bootstrap; la guía prepara su segunda conexión sin crear contraseñas nuevas.
+
+Fuentes técnicas contrastadas: PostgreSQL 16, Microsoft ASP.NET Core 8, DBeaver y OWASP; enlaces específicos en las notas correspondientes. La skill complementa revisión/backend/frontend/dbflow, excluye del nuevo checklist sus reglas ya existentes y los mecanismos ajenos a la arquitectura elegida. Se genera una copia local validable y se enlaza desde las instrucciones locales del proyecto; no se presenta como gate CI/runtime ya implementado ni instalación global del asistente.
+
+Validación del 9 de octubre: **71 notas Markdown**, **567 enlaces internos resueltos**, frontmatter, enlaces, bloques e IDs comprobados por el verificador. Pruebas de RLS/RBAC/runtime y despliegue continúan pendientes en el plan, no cerradas por documentación.

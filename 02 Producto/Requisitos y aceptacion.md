@@ -1,7 +1,7 @@
 ---
 tipo: especificacion-producto
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-09
 tags: [producto, reto-1]
 ---
 
@@ -29,6 +29,9 @@ Estos requisitos convierten el reto oficial y la propuesta del equipo en comport
 | RF-14 | P1 | Simulación de 90 días | Ejecución reproducible, exportación y supuestos visibles |
 | RF-15 | P1 | Anomalías | Alerta separada de merma confirmada; cierre investigado |
 | RF-16 | P0 | Frontend con FSD | Capas, imports descendentes y API pública por slice respetados; [[Frontend con Feature-Sliced Design]] |
+| RF-17 | P0 | Roles y permisos administrables | Crear/desactivar roles, asociar acciones implementadas y conceder ámbitos por organización; delegación auditada, sin autoescalación; [[RBAC y configuracion del sistema]] |
+| RF-18 | P0 | Plantillas gestionadas desde DB | Formularios/documentos/etiquetas/prompts admitidos con campos y acceso configurables; versiones publicadas inmutables; capturas offline conservan su versión y se reautorizan |
+| RF-19 | P0 | Parámetros, catálogos y procesos configurables | Versionar/validar/activar valores por ámbito y transiciones sobre handlers existentes; historial reproducible, sin apagar invariantes ni seguridad |
 
 ## No funcionales
 
@@ -46,6 +49,8 @@ Estos requisitos convierten el reto oficial y la propuesta del equipo en comport
 | RNF-10 | P1 | Rendimiento medido | Registrar volumen, p95 y errores; objetivo inicial p95 ≤2 s para consultas simples |
 | RNF-11 | P1 | Protección de evidencias | Acceso privado y permisos comprobados |
 | RNF-12 | P2 | Recuperación de fallos | Restauración/failover ensayados con tiempos registrados |
+| RNF-13 | P0 | Aislamiento PostgreSQL por fila | RLS/FORCE en tablas del tenant, rol API sin bypass/propiedad, FKs por organización; SELECT/INSERT/UPDATE/DELETE cruzados y pool sin contexto deniegan; [[Esquema completo de base de datos]] |
+| RNF-14 | P0 | Verificación de seguridad previa a exposición | Evidencia vigente de controles existentes y complementarios; campos/contenido/datos clasificados/límites de abuso/cabeceras/dependencias verificados para caminos expuestos; [[Verificacion de seguridad antes del lanzamiento]] |
 
 El objetivo de rendimiento es del equipo, pendiente de carga y recursos definidos; excluir cálculos asíncronos de rutas/simulación de esa latencia interactiva.
 
@@ -59,3 +64,5 @@ El objetivo de rendimiento es del equipo, pendiente de carga y recursos definido
 - Cambios de ruta mientras el conductor trabaja sin señal.
 
 La evidencia final se registra mediante [[Plan de validacion]] y [[Plantilla evidencia]].
+
+RF-17/18/19 y RNF-13/14 se incorporan por pedido directo de Bryan del 9 de octubre, ADR-16. Amplían el alcance previo de demo; su prioridad no acredita implementación y las capacidades pueden entregarse por módulos conservando la dirección configurable.

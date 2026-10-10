@@ -1,13 +1,13 @@
 ---
 tipo: especificacion-datos
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-09
 tags: [datos, algoritmo, validacion]
 ---
 
 # Modelo de datos
 
-Modelo lógico inicial. Convertir en migraciones después de resolver versiones; no existen tablas implementadas en esta bóveda.
+Modelo lógico inicial y reglas de dominio. El catálogo físico objetivo, con columnas, claves, índices, restricciones, RLS y orden de migración, está en [[Esquema completo de base de datos]] desde el 9 de octubre. La bóveda define diseño; la implementación vive en el repositorio de software y su estado no se deduce de estas notas.
 
 ## Entidades
 
@@ -15,7 +15,12 @@ Modelo lógico inicial. Convertir en migraciones después de resolver versiones;
 |---|---|
 | Organization | Operación propietaria; inicialmente IstpetDev usa una empresa demo |
 | Account | Identidad externa validada (issuer, subject); cuenta humana o técnica, sin contraseñas propias |
-| OrganizationAccess | Cuenta, organización, roles concedidos, almacenes/puntos autorizados y estado activo/revocado |
+| OrganizationAccess | Membresía cuenta–organización activa/revocada; roles y ámbitos en AccessRole/AccessLocation/AccessServicePoint y DeliveryAssignment |
+| Role / Permission / RolePermission | Roles administrables por organización y asociación con acciones implementadas del servidor |
+| ConfigurationVersion / ConfigurationActivation | Parámetros validados/versionados y vigencia por ámbito |
+| Template / TemplateVersion / TemplateField | Plantillas y campos declarativos versionados, publicados inmutables |
+| FormSubmission | Captura validada contra una versión de plantilla, contexto operativo y actor autorizado |
+| WorkflowVersion / WorkflowState / WorkflowTransition | Estados/transiciones configurados sobre comandos implementados |
 | ServicePoint | Cliente, ubicación, criticidad y ventana; pertenece a organización |
 | Location | Almacén, punto, vehículo o ubicación de cuarentena |
 | Product/SKU | Unidad base, conversión de empaque, peso/volumen por unidad |
@@ -41,7 +46,7 @@ Modelo lógico inicial. Convertir en migraciones después de resolver versiones;
 
 Estas entidades no obligan a crear un microservicio por tabla. El dataset y las simulaciones pueden vivir en un esquema separado para impedir mezclas con operación.
 
-El catálogo RBAC de roles/acciones es fijo en backend para P0; OrganizationAccess guarda concesiones por organización, sin requerir un editor dinámico. Toda asignación/revocación conserva actor, fecha y motivo de auditoría. El rol y el ámbito del recurso se validan conjuntamente, según [[Seguridad y evidencias]].
+ADR-16, aceptada por Bryan el 9 de octubre, sustituye el diseño inicial de roles fijos sin editor dinámico: Role y sus concesiones son administrables desde DB por organización. Permission sigue representando acciones implementadas. Toda asignación/revocación conserva actor, fecha y motivo de auditoría. Rol, campo y ámbito se validan conjuntamente, según [[RBAC y configuracion del sistema]] y [[Seguridad y evidencias]].
 
 ## Relaciones principales
 

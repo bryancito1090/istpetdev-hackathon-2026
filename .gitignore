@@ -51,6 +51,7 @@ tfplan
 # Skills y configuración de asistentes de IA: locales, no se versionan
 .agents/
 .claude/
+.local-skills/
 AGENTS.md
 CLAUDE.md
 GEMINI.md

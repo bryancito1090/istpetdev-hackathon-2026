@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [arquitectura, contratos]
 ---
 
@@ -17,7 +17,7 @@ Para captura offline: permitir solo asignaciones previamente descargadas. La ace
 
 ## RBAC — control de acceso basado en roles
 
-**Decisión aceptada el 6 de octubre de 2026 (registrada por bryancito1090 en el commit 5905073; Deciders por nombrar); implementación pendiente.** Web, móvil, API y automatización usarán RBAC según ADR-14 en [[Decisiones de arquitectura]]. El proveedor de identidad de ADR-10 sigue pendiente.
+**Decisión inicial aceptada el 6 de octubre y ampliada por Bryan mediante ADR-16 el 9 de octubre; implementación pendiente.** Web, móvil, API y automatización usarán RBAC por acción/recurso. La matriz siguiente es el seed inicial de roles funcionales, administrable por organización según [[RBAC y configuracion del sistema]]. ADR-10 selecciona Cognito; implementación de sus flujos y validación efectiva se comprueban por separado.
 
 Un rol concede acciones; cada acceso requiere además pertenencia activa a la organización y ámbito autorizado sobre el recurso. Tener el rol Conductor no permite recibir cualquier entrega. Aplicar mínimo privilegio y denegar por defecto toda acción sin permiso explícito.
 
@@ -31,20 +31,23 @@ Un rol concede acciones; cada acceso requiere además pertenencia activa a la or
 | Conductor | Consultar ruta y trazabilidad; registrar recepción, cargar/consultar evidencia de sus entregas, reportar incidentes y chat | Solo rutas/entregas asignadas y sus conversaciones |
 | Receptor | Registrar consumo y solicitar reposición; consultar resumen de sus entregas y evidencias; aceptar cantidades | Solo puntos y entregas expresamente autorizados |
 | Automatización | Solicitar cálculos de riesgo, consultar snapshots mínimos y adjuntar explicaciones; generar incidentes sintéticos | Organización habilitada; incidentes solo en entorno y escenario demo autorizados |
+| ConfigurationAdmin (seed administrativo propuesto) | Administrar roles/concesiones delegables, configuración y plantillas; leer auditoría | Cuenta humana, solo organización delegada; no concede por sí mismo funciones logísticas ni evidencia privada |
 
 La consulta pública por QR conserva su contrato limitado: no asigna un rol ni concede permisos de recepción, evidencia privada o escritura. Automatización no puede despachar, recibir, publicar rutas ni administrar accesos.
 
 ### Aplicación de permisos
 
-- Mantener un catálogo fijo de roles y acciones en backend para P0, con políticas compartidas por API y SignalR. No crear un editor dinámico de permisos para la demo.
+- Mantener en backend el catálogo de acciones implementadas; roles, asociaciones, campos y ámbitos son administrables en DB bajo ADR-16. Políticas compartidas por API y SignalR; gestión auditada y sin autoescalación. La regla inicial de excluir un editor dinámico queda sustituida por [[RBAC y configuracion del sistema]].
 - Vincular la identidad validada a sus roles por organización; no aceptar roles, actorId o ámbitos enviados por el cliente como autoridad. Una cuenta puede tener varios roles explícitos, sin trasladarlos a otra organización.
-- Administrar asignaciones/revocaciones mediante configuración o seed controlado para la demo, con auditoría; ningún usuario puede concederse roles desde web, móvil o n8n.
+- Sembrar acceso inicial mediante bootstrap controlado y administrar asignaciones/revocaciones mediante API autorizada y auditada. Ningún usuario puede autoconcederse capacidades/ámbitos fuera de su delegación; ni web/móvil ni n8n escriben concesiones directamente en DB.
 - Validar permiso de acción y recurso en cada consulta, comando, reintento offline, acceso a evidencia y entrada/envío a grupos SignalR. Consultas de trabajos y resultados heredan el ámbito de la operación original.
 - Los guards, menús y botones de web/móvil reflejan permisos para orientar al usuario; el servidor aplica la decisión incluso ante una petición directa.
 - Revalidar permisos al sincronizar y reconectar. Una revocación invalida también el acceso al canal; conservar la cola y mostrar el rechazo sin aplicar cambios parciales.
 - Auditar cambios de roles y rechazos con actor, organización, acción, recurso, fecha y correlationId, sin guardar tokens ni evidencias sensibles.
 
 Roles funcionales en [[Usuarios y flujos]], requisito RNF-01 en [[Requisitos y aceptacion]] y pruebas V-13/V-14/V-24 en [[Plan de validacion]].
+
+Tablas, FKs por organización y políticas RLS/FORCE: [[Esquema completo de base de datos]]. Versionado de configuración/plantillas y permisos de campo: [[RBAC y configuracion del sistema]]. Las pruebas complementarias previas a lanzamiento pertenecen a [[Verificacion de seguridad antes del lanzamiento]] y [[istpetdev-prelaunch]]; no se consideran realizadas por tener esta documentación.
 
 ## QR y consulta del jurado
 

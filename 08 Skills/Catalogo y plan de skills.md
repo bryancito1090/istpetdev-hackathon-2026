@@ -1,7 +1,7 @@
 ---
 tipo: plan-skills
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [istpetdev, documentacion, ia]
 ---
 
@@ -17,6 +17,7 @@ Esta nota documenta las skills del equipo y de dónde sale cada una; el contenid
 | `CLAUDE.md` / `GEMINI.md` | Importan `AGENTS.md`; sin reglas propias | Claude Code / Gemini CLI |
 | `.agents/skills/<nombre>/SKILL.md` | Skills en formato Agent Skills | Antigravity, Codex, VS Code/Copilot, Cursor y otros compatibles |
 | `.claude/skills/` | Copia de `.agents/skills/` | Claude Code |
+| `.local-skills/<nombre>/SKILL.md` | Copia local generada cuando las rutas habituales están restringidas; AGENTS.md la enlaza | Asistente que lea las instrucciones locales del proyecto |
 
 `.gitignore` excluye estos archivos. Lo que sí se versiona es `.github/scripts/check_vault.py`, el verificador de la bóveda que ejecuta el CI (`.github/workflows/check-vault.yml`).
 
@@ -34,6 +35,7 @@ Esta nota documenta las skills del equipo y de dónde sale cada una; el contenid
 | [[istpetdev-datos]] | Modelo de datos, migraciones, riesgo, rutas, simulador, KPIs | `data-architect-dba` + `qa-testing-engineer` |
 | [[istpetdev-frontend]] | Angular web, PWA o app móvil, QR público, estados de UI, accesibilidad | `frontend-lead-personalidad` + `design-tokens-a11y` + `identidad-visual-brand` |
 | [[istpetdev-revision]] | Commits, PR, checklist, pruebas, seguridad | `code-review-assistant` + `qa-testing-engineer` + `devsecops-github-guardian` + `gitlab-workflow-istpet` + `tech-writer` (+ `infra-devops-cloud` y `observability-performance` como referencias) |
+| [[istpetdev-prelaunch]] | Antes de arranque/ensayo/despliegue: evidencia vigente y controles complementarios de RLS, campos/plantillas, datos clasificados, abuso, respuesta web y dependencias | Nueva por solicitud de Bryan, 2026-10-09; reutiliza las otras skills sin duplicar sus checklists |
 | [[istpetdev-producto-pitch]] | Problema, usuarios, validación, negocio, privacidad, pitch | `product-manager` + `ux-researcher` + `privacidad-legal-compliance` |
 
 Los nombres de la columna «Origen» son skills personales de un integrante (carpeta `~/.gemini/config/skills/` de su equipo), adaptadas para este proyecto. La carpeta personal no se modificó.
@@ -85,6 +87,8 @@ Los nombres de la columna «Origen» son skills personales de un integrante (car
 4. Rutas relativas a la raíz y sin enlaces de Obsidian (otros asistentes no los resuelven).
 5. Al cerrar un ADR o cambiar un hecho canónico, revisar las skills que lo mencionan como PENDIENTE.
 6. Si dos skills repiten instrucciones, mover la regla común a `istpetdev-contexto` o a una referencia.
+
+El 9 de octubre se agrega [[istpetdev-prelaunch]] con su nota como fuente editable, paquete local generado y referencia de activación en AGENTS.md. Esa referencia se aplica antes de arranque/exposición/despliegue desde este contexto de trabajo. No instala por sí sola la skill globalmente ni modifica el repositorio de software; la copia local debe actualizarse desde la nota cuando cambie. La activación en las otras herramientas sigue requiriendo C-06.
 
 ## Validar una skill (C-06)
 

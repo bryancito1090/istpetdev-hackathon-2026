@@ -21,6 +21,10 @@ Los enlaces internos de las notas están preparados para Obsidian. El manual ofi
 
 | Tema | Nota |
 |---|---|
+| Esquema completo propuesto | [Esquema de base de datos](04%20Datos%20y%20algoritmos/Esquema%20completo%20de%20base%20de%20datos.md) |
+| RBAC, configuración y plantillas | [Configuración del sistema](03%20Arquitectura/RBAC%20y%20configuracion%20del%20sistema.md) |
+| Conexiones PostgreSQL | [DBeaver](03%20Arquitectura/Conexion%20PostgreSQL%20en%20DBeaver.md) |
+| Revisión antes de lanzar | [Skill de prelaunch](08%20Skills/istpetdev-prelaunch.md) |
 | Contexto común | [Contexto maestro](00%20Inicio/Contexto%20maestro.md) |
 | Datos que no se reinterpretan | [Hechos canónicos](00%20Inicio/Hechos%20canonicos.md) |
 | Reglas del reto | [Reto 1 oficial](01%20Oficial/Reto%201%20oficial.md) |

@@ -1,7 +1,7 @@
 ---
 tipo: especificacion-producto
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [producto, reto-1]
 ---
 
@@ -55,3 +55,7 @@ No desarrollar cotizador del Reto 2, ERP general, marketplace, blockchain o entr
 Una capacidad está terminada si cumple [[Requisitos y aceptacion]], tiene evidencia necesaria y está integrada al guion. «Funciona en mi equipo» no basta si otra app depende de su contrato.
 
 Cada cambio de alcance se refleja en [[Backlog]] y [[Decisiones de arquitectura]].
+
+## Ampliación solicitada — 9 de octubre
+
+Bryan incorpora como dirección P0 roles/permisos administrables, plantillas y parámetros/catálogos/workflows gestionados desde DB, con aislamiento RLS y verificación previa al lanzamiento. ADR-16 sustituye el límite de roles fijos sin editor. RF-17/18/19 y RNF-13/14 trazan aceptación; [[Esquema completo de base de datos]] cubre el sistema objetivo y [[RBAC y configuracion del sistema]] define la configuración admitida. No se amplía a ERP/cotizador ni a ejecución arbitraria de scripts; cada entrega funcional mantiene garantías de inventario y seguridad.

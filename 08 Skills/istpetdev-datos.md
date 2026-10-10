@@ -1,7 +1,7 @@
 ---
 tipo: skill
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [istpetdev, ia, skills]
 ---
 
@@ -16,6 +16,7 @@ Rutas relativas a la raíz del repositorio. Leer antes [[istpetdev-contexto]].
 ## Leer primero
 
 - `04 Datos y algoritmos/Modelo de datos.md`: entidades, unidades, invariantes, índices.
+- `04 Datos y algoritmos/Esquema completo de base de datos.md`: catálogo físico objetivo, FKs por organización, RLS/FORCE, preservación del esquema inicial y fases; `03 Arquitectura/RBAC y configuracion del sistema.md` para datos configurables bajo ADR-16.
 - `04 Datos y algoritmos/Inventario y prediccion.md`: fórmula de cobertura, datos insuficientes, anomalías.
 - `04 Datos y algoritmos/Rutas y sobrecostos.md`: datos viales, heurística, baseline, costos, incidentes.
 - `04 Datos y algoritmos/Dataset y escenarios.md`: dataset sintético y escenarios S-01 a S-12.

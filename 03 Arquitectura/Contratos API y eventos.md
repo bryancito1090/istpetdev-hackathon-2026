@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-06
+actualizado: 2026-10-09
 tags: [arquitectura, contratos]
 ---
 
@@ -103,3 +103,43 @@ El hub ofrece notificaciones autorizadas; el historial y las escrituras crítica
 La API devuelve riskId, stockSnapshotId, valores calculados y referencias de entrada. n8n devuelve riskId, runId, explicación, provider/model/promptVersion y estado. No permite que DeepSeek cambie stock, prioridad oficial calculada ni fechas de entrega.
 
 Ver [[n8n e IA]], [[Modelo de datos]] y [[Movil offline y sincronizacion]].
+
+## Administración configurable — propuesta del 9 de octubre
+
+ADR-16 agrega los siguientes contratos para RF-17/18/19. Tablas, invariantes y delegación en [[Esquema completo de base de datos]] y [[RBAC y configuracion del sistema]]. Rutas propuestas; no afirmar que ya existen controllers. Todos los GET se filtran/paginan; escrituras mutables usan expectedVersion, y publicaciones/concesiones reintentables usan Idempotency-Key. Actor y pertenencia se resuelven en servidor.
+
+| Método y ruta | Función y límite |
+|---|---|
+| GET /api/v1/permissions | Catálogo de acciones implementadas concedibles por quien consulta |
+| GET/POST /api/v1/roles | Listar/crear roles de organización autorizada |
+| PATCH /api/v1/roles/{id} | Nombre/estado permitido, sin alterar organización ni generar acciones |
+| PUT /api/v1/roles/{id}/permissions | Reemplazar asociaciones delegables con diff/versión/motivo y auditoría |
+| PUT /api/v1/roles/{id}/field-permissions | Administrar allowlist de campos conocidos, conservando campos de servidor protegidos |
+| GET/POST /api/v1/organization-accesses | Consultar/conceder membresía a identidad existente, con autoridad de delegación |
+| PUT /api/v1/organization-accesses/{id}/roles | Asignar/revocar roles, sin autoescalación ni cruce de organización |
+| PUT /api/v1/organization-accesses/{id}/scopes | Concesiones de ubicación/punto existentes y delegables |
+| POST /api/v1/deliveries/{id}/assignments | Asignar conductor/receptor activo a una entrega autorizada |
+| GET /api/v1/configuration-definitions | Definiciones/tipos/rangos admitidos, sin modificar garantías protegidas |
+| GET/POST /api/v1/configuration-versions | Listar/crear valores versionados validados contra definición |
+| POST /api/v1/configuration-versions/{id}/publish | Congelar contenido/hash de versión válida |
+| POST /api/v1/configuration-activations | Activar versión publicada por ámbito/vigencia sin solapamiento |
+| GET/POST /api/v1/catalogs | Catálogos editables por organización |
+| POST/PATCH /api/v1/catalogs/{id}/options | Gestionar opciones, preservando valores ya referenciados |
+| GET/POST /api/v1/workflows | Procesos admitidos, sin crear handlers desde texto |
+| POST /api/v1/workflows/{id}/versions | Borrador con estados/transiciones válidos |
+| POST /api/v1/workflow-versions/{id}/publish | Publicar versión íntegra, congelando estados/transiciones |
+| GET/POST /api/v1/templates | Listar/crear plantillas de tipo/módulo admitido |
+| POST /api/v1/templates/{id}/versions | Nueva revisión en borrador |
+| PATCH /api/v1/template-versions/{id} | Editar borrador, validaciones/fields/layout declarativos; jamás una versión publicada |
+| POST /api/v1/template-versions/{id}/publish | Validar/compilar y congelar versión/hash |
+| PUT /api/v1/template-versions/{id}/field-access | Administrar lectura/escritura de campos con permiso específico y auditoría |
+| POST /api/v1/template-bindings | Activar versión publicada por módulo/acción/ámbito |
+| GET /api/v1/template-bindings/effective | Resolver plantilla/versión efectiva para contexto autorizado |
+| POST /api/v1/form-submissions | Captura con templateVersionId, contexto concreto, data validada y operationId |
+| GET /api/v1/form-submissions/{id} | Lectura de campos/recurso autorizados, incluida versión histórica |
+| POST /api/v1/form-submissions/{id}/corrections | Nueva captura con motivo y enlace a la anterior, sin sobrescribir aceptación |
+| GET /api/v1/audit-events | Auditoría mínima autorizada, sin credenciales ni datos sensibles en claro |
+
+Eventos adicionales propuestos: AccessChanged, ConfigurationActivated, TemplatePublished, TemplateBindingChanged y FormSubmitted. Payload mínimo contiene IDs/versiones y organización autorizada; no distribución global de concesiones o contenido sensible. AccessChanged invalida autorización/canales; no obliga al cliente a aceptar roles enviados como autoridad.
+
+La actualización de plantillas requiere texto/rich content del tipo admitido; JSON válido por sí solo no permite propiedades adicionales, expressions ejecutables ni campos de dominio protegidos. Si la versión offline dejó de admitir nueva captura, responder 409 con código TEMPLATE_VERSION_CONFLICT e información suficiente para corrección dentro del ámbito permitido.

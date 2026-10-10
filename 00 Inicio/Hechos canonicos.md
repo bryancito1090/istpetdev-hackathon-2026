@@ -1,7 +1,7 @@
 ---
 tipo: referencia
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [hackathon, equipo, ia]
 ---
 
@@ -67,7 +67,9 @@ Decisiones del 7 de octubre registradas por bryancito1090 (be0b127) en [[Reposit
 | Tiempo real | SignalR; Redis solo con varias réplicas | ADR-07 propuesta | — | ⚠️ |
 | IA | Cálculo determinista; LLM (DeepSeek) solo explica; n8n en el servidor existente de Bryan | ADR-08 | — | ⚠️ propuesta |
 | Identidad | Amazon Cognito (OIDC, Authorization Code + PKCE) | ADR-10 definida | — | ✅ diseño, sin aprovisionar |
-| Autorización | RBAC con 6 roles fijos | ADR-14 aceptada | — | ✅ |
+| Autorización | RBAC administrable por organización: seis roles funcionales como seeds y ConfigurationAdmin administrativo propuesto; acciones implementadas en backend | ADR-16, solicitada por Bryan el 9-oct; [[RBAC y configuracion del sistema]] | Sustituye límite anterior de seis roles fijos; implementación pendiente | ✅ dirección aceptada; ⚠️ diseño físico propuesto |
+| Base objetivo del sistema | Catálogo completo de tablas, columnas/relaciones, restricciones, RLS y fases de migración | [[Esquema completo de base de datos]] | Solo esquema propuesto; no está aplicado por existir la nota | ⚠️ |
+| Plantillas y parámetros | Gestión en DB, versiones publicadas inmutables, formularios/roles/campos/ámbitos configurables | ADR-16; [[RBAC y configuracion del sistema]] | Condiciones y handlers permitidos; integridad/seguridad no desactivables por configuración | ✅ dirección aceptada; implementación pendiente |
 | Hosting demo | Perfil A: EC2 + Docker Compose + Nginx, encendido solo para ensayos; región `us-east-1` | ADR-09 | — | ⚠️ ver Deciders |
 | Desarrollo | Aplicaciones locales por integrante; RDS dev privado compartido (base por integrante + integración) | [[Entornos y operacion acordados]] | — | ✅ diseño, sin aprovisionar |
 | Acceso AWS del equipo | IAM individual con MFA y `aws login` temporal, sin Organizations (escenario vigente) | [[AWS temporal para la hackathon y cierre]] | Sustituye a SSO de [[Credenciales y acceso del equipo]] durante la hackathon | ⚠️ propuesta |
@@ -94,6 +96,7 @@ Decisiones del 7 de octubre registradas por bryancito1090 (be0b127) en [[Reposit
 | Frontend FSD | ADR-13 | Aceptada «por el equipo» | bryancito1090 (765c532) | PENDIENTE confirmar nombres |
 | RBAC | ADR-14 | Aceptada | bryancito1090 (5905073) | PENDIENTE confirmar nombres |
 | CI/CD y hardening | ADR-15 | Aceptada | JorgeDoicela (4c3a9ef) | PENDIENTE |
+| Configuración y plantillas desde DB | ADR-16 | Aceptada la dirección, diseño propuesto | Instrucción directa, 2026-10-09 | Bryan |
 
 ## Nombres en código
 
@@ -126,6 +129,11 @@ Tomados de [[Modelo de datos]] y [[Contratos API y eventos]]. Ningún asistente 
 | Registro de idempotencia | `IdempotencyRecord` | Modelo de datos |
 | Evento outbox | `OutboxEvent` | Modelo de datos |
 | Ejecución de simulación | `SimulationRun` | Modelo de datos |
+| Roles, permisos y ámbitos administrables | `Role`, `Permission`, `RolePermission`, `AccessRole`, `AccessLocation`, `AccessServicePoint`, `DeliveryAssignment` | Esquema completo de base de datos |
+| Definiciones y versiones de configuración | `ConfigurationDefinition`, `ConfigurationVersion`, `ConfigurationActivation`, `Catalog`, `CatalogOption` | Esquema completo de base de datos |
+| Plantillas y capturas | `Template`, `TemplateVersion`, `TemplateField`, `TemplateFieldOption`, `TemplateFieldAccess`, `TemplateBinding`, `FormSubmission`, `FormAttachment` | Esquema completo de base de datos |
+| Procesos configurables | `WorkflowDefinition`, `WorkflowVersion`, `WorkflowState`, `WorkflowTransition` | Esquema completo de base de datos |
+| Resto de tablas del diseño ampliado | Nombres de las filas del catálogo físico; una fuente única, sin sinónimos nuevos | Esquema completo de base de datos |
 | API base | `/api/v1` | Contratos API y eventos |
 | Hub en tiempo real | `/hubs/operations` | Contratos API y eventos |
 

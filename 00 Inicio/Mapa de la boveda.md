@@ -1,7 +1,7 @@
 ---
 tipo: indice
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [hackathon, equipo]
 ---
 
@@ -32,10 +32,14 @@ tags: [hackathon, equipo]
 - [[Backend y tiempo real]], [[Contratos API y eventos]].
 - [[Frontend y componentes]], [[Frontend con Feature-Sliced Design]], [[Movil offline y sincronizacion]].
 - [[AWS y Terraform]], [[CI-CD y automatizacion de despliegue]], [[Hardening y seguridad de servidores]], [[Seguridad y evidencias]].
+- [[RBAC y configuracion del sistema]] — roles, permisos, campos, procesos y plantillas administrables desde DB.
+- [[Conexion PostgreSQL en DBeaver]] — conexiones de esquema/datos con los usuarios ya existentes.
+- [[Verificacion de seguridad antes del lanzamiento]] — controles complementarios con evidencia previa a exposición.
 
 ## Datos y algoritmos
 
 - [[Modelo de datos]], [[Inventario y prediccion]].
+- [[Esquema completo de base de datos]] — catálogo objetivo de tablas, columnas/relaciones, restricciones, RLS y migraciones por módulos.
 - [[Rutas y sobrecostos]], [[Simulador y metricas]], [[Dataset y escenarios]].
 - [[n8n e IA]].
 
@@ -53,7 +57,7 @@ tags: [hackathon, equipo]
 ## Skills y plantillas
 
 - [[Catalogo y plan de skills]] — skills del equipo y reglas para asistentes de IA (documentación; los archivos no se versionan aquí).
-- Contenido de cada skill: [[istpetdev-contexto]] · [[istpetdev-docs]] · [[istpetdev-contrato]] · [[istpetdev-backend]] · [[istpetdev-datos]] · [[istpetdev-frontend]] · [[istpetdev-revision]] · [[istpetdev-producto-pitch]].
+- Contenido de cada skill: [[istpetdev-contexto]] · [[istpetdev-docs]] · [[istpetdev-contrato]] · [[istpetdev-backend]] · [[istpetdev-dbflow]] · [[istpetdev-datos]] · [[istpetdev-frontend]] · [[istpetdev-revision]] · [[istpetdev-prelaunch]] · [[istpetdev-producto-pitch]].
 - [[Plantilla ADR]], [[Plantilla historia de usuario]].
 - [[Plantilla evidencia]], [[Plantilla mentoria]].
 

@@ -1,7 +1,7 @@
 ---
 tipo: arquitectura
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [arquitectura, implementacion]
 ---
 
@@ -35,6 +35,8 @@ Estos directorios son una convención a decidir, no archivos ya creados en la b�
 ## Autorización RBAC
 
 ADR-14 adopta RBAC con el catálogo de [[Seguridad y evidencias]]. La API vincula la identidad validada a roles por organización y aplica políticas por acción junto con comprobaciones del recurso en consultas y comandos. Denegar por defecto; no confiar en roles o actores del payload.
+
+ADR-16 amplía esta definición el 9 de octubre: roles, asociaciones, ámbitos y permisos de campo se gestionan desde DB con delegación auditada. Plantillas/configuración/workflows versionados en [[RBAC y configuracion del sistema]]; tablas y RLS en [[Esquema completo de base de datos]]. Una concesión no habilita un handler inexistente ni omite invariantes. La revisión anterior al arranque/deploy se coordina con [[istpetdev-prelaunch]].
 
 Reutilizar las mismas políticas en SignalR, evidencias y reintentos offline. Comprobar permisos vigentes antes de devolver un resultado idempotente o efectuar cambios; ningún rol evita restricciones de stock, versión o asignación. Web/móvil reflejan permisos; n8n usa el rol técnico limitado. Cierre: B-29 y RNF-01.
 

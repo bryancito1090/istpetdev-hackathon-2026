@@ -1,7 +1,7 @@
 ---
 tipo: skill
 estado: vigente
-actualizado: 2026-10-07
+actualizado: 2026-10-09
 tags: [istpetdev, ia, skills]
 ---
 
@@ -63,6 +63,8 @@ Severidad de cada observación: 🔴 BLOCKER (no se fusiona) · 🟡 WARNING (co
 - [ ] Registro en `99 Fuentes/Fuente y control documental.md` si el cambio es relevante.
 
 Checklist completo por categorías: sección «Referencia: checklist-revision» de esta nota. Principios de infraestructura y observabilidad para el piloto: sección «Referencia: infra-y-observabilidad» de esta nota.
+
+Antes de declarar lista/exponer una versión o ejecutar su lanzamiento, usar [[istpetdev-prelaunch]]. Esta revisión aporta evidencia reutilizable; la skill nueva agrega únicamente los controles complementarios de runtime/configuración definidos en [[Verificacion de seguridad antes del lanzamiento]].
 
 ## Pruebas
 
