@@ -268,3 +268,6 @@ Se elevaron los workflows de GitHub Actions al estándar enterprise basado en pa
 7. **Desacoplamiento de Entornos por Rama**:
    - `ci.yml`: Opera sobre `develop` y Pull Requests para validaciones rápidas de QA (tests unitarios y linter) sin desplegar al servidor.
    - `deploy.yml`: Opera exclusivamente sobre la rama `main` (y `workflow_dispatch`), garantizando que solo 1 despliegue a producción se ejecute por ciclo de entrega, evitando ejecuciones duplicadas o concurrencia innecesaria sobre los contenedores del host.
+
+8. **Comprobación de Integridad de Datos en la Compuerta de QA**:
+   - En cada ejecución del pipeline de despliegue, el job `backend-qa` ejecuta `tools/Schema95Check` para verificar que las 95 tablas, el aislamiento tenant RLS, claves foráneas, tipos y snapshots se mantengan conformes antes de proceder a la construcción de contenedores Docker.
