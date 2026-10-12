@@ -235,3 +235,10 @@ Los componentes y workflows han sido materializados en el repositorio de código
 3. **Dominio y Enrutamiento**:
    - Dominio asignado: istpetdev.doicela.dev administrado en Cloudflare.
    - Origen: Instancia EC2 Debian 13 (	8i.small) ejecutando Nginx Proxy Inverso en puertos 80/443.
+
+### Automatización Desatendida de Nuevas Instancias (Cloud-Init User Data) — 12 de octubre de 2026
+
+Para que el levantamiento de cualquier nueva instancia EC2 (Debian o Ubuntu) sea instantáneo sin ejecutar comandos manuales por terminal:
+1. **Script User Data**: Se implementó [scripts/ops/user-data.sh](file:///scripts/ops/user-data.sh). Al crear la instancia en la consola de AWS, se pega este contenido en *Detalles avanzados -> Datos de usuario*.
+2. **Auto-aprovisionamiento**: El script instala Docker CE oficial, Docker Compose plugin, habilita UFW con rate limit en SSH y puertos 80/443 abiertos, crea /var/www/istpetdev con usuario operativo y auto-genera certificados SSL locales para soporte inmediato de Cloudflare en modo Flexible o Full.
+3. **Pipeline Inmutable**: El workflow deploy.yml sincroniza Compose y Nginx vía SCP y recrea contenedores de inmediato.
