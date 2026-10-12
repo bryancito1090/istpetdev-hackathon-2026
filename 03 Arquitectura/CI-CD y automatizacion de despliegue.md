@@ -216,3 +216,22 @@ Se conserva el DAG, GHCR, SSH/SCP, quick-restart y rollback del compañero. Él 
 Aplicar [[Entornos y operacion acordados]], sección 9, al convertir los ejemplos anteriores en workflows: rutas `src/**` y `libs/shared-core/**`; ambas imágenes por release o manifest independiente si hay builds selectivos; jobs omitidos tratados explícitamente; `dotnet test -c Release --no-build`; backup externo obligatorio con pipefail; readiness con reintentos y fallo real; exclusión mutua deploy/rollback; manifest persistido y tres releases verificadas; rollback precargado con `--pull never`, compatible con schema. El objetivo <30 s se mide en el host y separadamente de la espera del runner. No atribuir atomicidad/zero downtime a Compose sin prueba.
 
 SSH desde runner requiere regla `/32` temporal vía OIDC y limpieza garantizada, más known_hosts confiable. Mantener GITHUB_TOKEN/GHCR y secretos SSH del diseño; completar permisos/variables por entorno. Credenciales y workflows todavía no se han creado. Ver [[Repositorio de software y versiones]] e [[Identidad OIDC y sesiones]].
+
+## Implementación Consolidada — 12 de octubre de 2026
+
+Los componentes y workflows han sido materializados en el repositorio de código istpetdev-platform conforme a las decisiones aprobadas:
+
+1. **Workflows en .github/workflows/**:
+   - ci.yml: Integración continua para backend .NET 8 y frontend Angular 22 (lint, build, tests).
+   - deploy.yml: Despliegue inmutable multi-etapa DAG con Docker Buildx, publicación en GHCR, transferencia SCP/SSH a la instancia EC2, backup preventivo de base de datos y health check con reintentos.
+   - ollback.yml: Rollback rápido <30s a una versión específica empleando las imágenes retenidas en la caché del host.
+
+2. **Contenedores y Compose en infra/**:
+   - infra/docker/backend/Dockerfile: Multi-stage build .NET 8 Alpine, usuario no privilegiado $APP_UID, endpoint /health/live.
+   - infra/docker/web/Dockerfile: Multi-stage build Node 22 -> Nginx Alpine SPA.
+   - infra/compose/docker-compose.prod.yml: Red interna aislada istpetdev-net, volumen persistente para PostGIS 16, Redis 7.4 y Proxy Inverso Nginx.
+   - infra/nginx/istpetdev.conf: Proxy inverso con soporte de Cloudflare Real-IP, rate limiting y enrutamiento hacia istpetdev.doicela.dev.
+
+3. **Dominio y Enrutamiento**:
+   - Dominio asignado: istpetdev.doicela.dev administrado en Cloudflare.
+   - Origen: Instancia EC2 Debian 13 (	8i.small) ejecutando Nginx Proxy Inverso en puertos 80/443.
