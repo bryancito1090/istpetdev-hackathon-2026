@@ -95,3 +95,12 @@ Para devolver el resultado, escribe `/tmp/istpetdev-schema95-respuesta.md` con: 
 ## Después del PR
 
 La revisión y el merge anteceden a la migración compartida. Una sola persona aplicará la revisión aprobada a `istpetdev_integration` con `migrator_integration`, respaldo verificado y sin migradores concurrentes. Los compañeros recibirán las migraciones por Git y aplicarán esas mismas migraciones a su base personal; no regenerarán schema95. Ver [[istpetdev-dbflow]].
+
+## Cierre y Despliegue en Entornos Contenerizados — 12 de octubre de 2026
+
+- **Merge de PR #1 en develop:** Realizado por Joseph Baño (`93fc508`), integrando el esquema canónico de 95 tablas, PostGIS geography y políticas de aislamiento RLS.
+- **Orquestación de despliegue contenerizado en EC2:**
+  - Se configuró la API .NET (`src/Api/Program.cs`) para soportar la ejecución automática de `db.Database.Migrate()` bajo la variable de entorno `ApplyMigrations: "true"`, garantizando que nuevas instancias aprovisionadas con `user-data.sh` o `docker-compose.prod.yml` levanten y apliquen automáticamente las 95 tablas sobre la base local `istpetdev-db` sin intervención manual ni túneles.
+  - Se corrigió el comando `pg_isready` en el workflow de despliegue (`deploy.yml`) especificando `-d istpetdev_db`.
+  - La verificación de salud en despliegue valida la disponibilidad de la base de datos contra `/health/ready` previo a habilitar el tráfico.
+  - En el frontend, se blindó el consumo de coordenadas en `route-map.widget.ts` filtrando valores nulos procedentes del nuevo esquema PostGIS.
