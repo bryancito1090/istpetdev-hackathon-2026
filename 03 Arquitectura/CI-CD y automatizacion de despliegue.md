@@ -260,3 +260,7 @@ Se elevaron los workflows de GitHub Actions al estándar enterprise basado en pa
 5. **Workflow de Rollback Enterprise (<30s)**:
    - Permite revertir de inmediato a cualquier SHA previo sin rebuild ni esperas de CI.
    - Incluye autenticación GHCR, verificación en vivo con reintentos hacia `/health/live` y reporte ejecutivo en GitHub Step Summary.
+
+6. **Arquitectura DAG con Compuertas de Calidad (Quality Gates)**:
+   - Los jobs `backend-qa` (.NET 8 SDK, restore y compilación Release) y `frontend-qa` (Node 22 LTS, linter FSD y build Web) actúan como compuertas obligatorias antes de `build-backend` y `build-frontend`.
+   - Si se detecta un error de tipado o compilación, el pipeline aborta la ejecución antes de construir o subir imágenes Docker a GHCR, impidiendo cualquier afectación al servidor de producción.
