@@ -16,8 +16,8 @@ tags: [arquitectura, contratos]
 | ADR-01 | Versión .NET | .NET 8 | **Aceptada por Bryan, 2026-10-07** (be0b127): .NET 8; actualización planificada antes del fin de soporte. Ver complemento |
 | ADR-02 | Topología | Clean Architecture + CQRS | API modular, una base; separación lógica de lectura/escritura |
 | ADR-03 | Motor/IDs | PostgreSQL/PostGIS + UUID v7 | **Diseño concretado, 2026-10-07** (be0b127): PostgreSQL 16 + PostGIS compatible; UUID v7 generado en aplicación. Ver complemento |
-| ADR-04 | Stack Web/Móvil | Angular 18+, Ionic 8, Signals y Shared Core | **Aceptada, 2026-10-06** (registrada por JorgeDoicela, commit 4c3a9ef; Deciders PENDIENTE; Angular 18 sin soporte, revisar): Standalone, Signals para UI, RxJS para streaming/SignalR y monorepo `libs/shared-core`; [[Frontend y componentes]]. Versiones fijadas por Bryan el 2026-10-07 (Angular 22): ver complemento |
-| ADR-05 | Mapas | Mapbox o Google | Elegir cobertura Ecuador, cuotas/costo y condiciones de uso |
+| ADR-04 | Stack Web/Móvil | Angular 22, Ionic 8, Signals y Shared Core | **Aceptada por Jefe de Frontend y Bryan, 2026-10-11**: Angular 22 Standalone, Ionic 8, Signals para UI, RxJS para flujos asíncronos, monorepo `@istpetdev/shared-core`, Arquetipo B Técnico/Minimalista, Lucide Icons (`lucide-angular`) y tokens oficiales de Expo Clean Ecuador en `tailwind.config.js` ([[Sistema de diseno y colores]]). |
+| ADR-05 | Mapas | Leaflet + OpenStreetMap | **Aceptada por Jefe de Frontend y Bryan, 2026-10-11**: Leaflet (`leaflet` + `@types/leaflet`) con OpenStreetMap en componente desacoplado `shared/ui/map-view` y orquestación en `widgets/route-map`. Código abierto, sin costo ni cuotas de API keys que arriesguen la demo. |
 | ADR-06 | Offline | SQLite/IndexedDB | **Diseño concretado, 2026-10-07** (be0b127): PWA con IndexedDB primero; Capacitor 8 después. Ver complemento |
 | ADR-07 | Tiempo real | SignalR + autoscaling | Redis backplane al permitir varias réplicas; afinidad probada |
 | ADR-08 | IA | n8n + DeepSeek | Riesgo numérico determinista; LLM solo explicación y recomendaciones acotadas. Hosting: n8n existente de Bryan (2026-10-07) |
@@ -29,6 +29,8 @@ tags: [arquitectura, contratos]
 | ADR-14 | Autorización | Control de acceso basado en roles (RBAC) | **Aceptada, 2026-10-06** (registrada por bryancito1090, commit 5905073, como «instrucción del usuario»; Deciders por nombrar): permisos por rol y ámbito en servidor; [[Seguridad y evidencias]] |
 | ADR-15 | CI/CD y Hardening Host | Pipeline DAG + GHCR + Rollback SHA + Defensa 6 Capas | **Aceptada, 2026-10-06** (registrada por JorgeDoicela, commit 4c3a9ef; Deciders PENDIENTE): compilación en runners, rotación 3 imágenes, rollback con objetivo <30 s y Lynis >80/100; [[CI-CD y automatizacion de despliegue]] y [[Hardening y seguridad de servidores]] |
 | ADR-16 | Configuración desde DB | Roles y concesiones administrables, plantillas/procesos/parámetros versionados y aislamiento RLS | **Aceptada por Bryan, 2026-10-09**, instrucción directa en conversación: amplía ADR-14 y sustituye su límite de roles fijos; diseño en [[RBAC y configuracion del sistema]] y [[Esquema completo de base de datos]], implementación pendiente |
+| ADR-17 | Móvil offline y firma digital | PWA con IndexedDB y `signature_pad` | **Aceptada por Jefe de Frontend y Bryan, 2026-10-11**: Captura de firma táctil en canvas exportada a PNG, persistencia en IndexedDB (`idb`) con UUID v7, y sincronización encolada e idempotente hacia backend/S3. |
+| ADR-18 | Cliente OIDC y Cognito PKCE | Flujo Authorization Code con PKCE S256 en Angular | **Aceptada por Jefe de Frontend y Bryan, 2026-10-11**: Flujo OIDC seguro PKCE S256 contra User Pool dev, sin client secret en cliente web/móvil, e inyección de token JWT mediante `AuthInterceptor` en `shared/api`. |
 
 ## ADR-01 — versión de backend
 
@@ -45,19 +47,47 @@ No tomar orden UUID como orden de recepción offline; conservar fechas y secuenc
 **Aceptada, 2026-10-06.** Deciders: PENDIENTE (registrada por JorgeDoicela, commit 4c3a9ef). Contexto: se requiere coherencia estricta entre la web de gestión y la app móvil, evitando reescribir contratos o lidiar con suscripciones descontroladas de RxJS en componentes.
 
 **Elección:**
-1. **Versiones fijadas:** Node.js 22, Angular 18+ (Standalone Components), Ionic 8, Capacitor 6 y Tailwind CSS 3.4+.
+1. **Versiones fijadas y diseño:** Node.js 22, Angular 22 (Standalone Components), Ionic 8, Capacitor 6, Tailwind CSS 3.4+, Arquetipo B (Técnico/Minimalista) y paleta oficial de Expo Clean Ecuador ([[Sistema de diseno y colores]]).
 2. **Modelo reactivo:** Angular Signals (`signal()`, `computed()`, `input()`, `output()`) para todo el estado síncrono de UI y componentes. RxJS exclusivamente para flujos asíncronos complejos, debounce de inputs y canales WebSockets de SignalR, integrados con `toSignal()`.
 3. **Monorepo Shared Core (`libs/shared-core`):** Librería compartida para tipos TypeScript de dominio, DTOs de API, validadores de esquemas y utilidades de conversión de unidades logísticas (litros, kilos, cajas), consumida por `apps/web` y `apps/mobile`.
 4. **Desacoplamiento de mapas:** Componente `shared/ui/map-view` puramente visual y agnóstico a lógica de negocio, orquestado desde `widgets/route-map`.
 5. **Carga ultraligera de QR:** Ruta `/trace/:id` aislada en lazy loading (< 150 KB gzip) para una carga rápida en el teléfono del jurado (objetivo sin medir).
 
-Detalles en [[Frontend y componentes]] y [[Frontend con Feature-Sliced Design]].
+Detalles en [[Frontend y componentes]], [[Sistema de diseno y colores]] y [[Frontend con Feature-Sliced Design]].
 
-## ADR-05 — mapas
+## ADR-05 — mapas y cartografía interactiva
 
-Comparar por matrices y geometría de ruta real. Para Google, evaluar **Routes API / Compute Route Matrix**, no asumir que un nombre antiguo de API es la opción vigente para un proyecto nuevo. Para Mapbox, revisar límites por perfil y cantidad de coordenadas. [Google Routes](https://developers.google.com/maps/documentation/routes/compute_route_matrix), [Mapbox Matrix](https://docs.mapbox.com/api/navigation/matrix/).
+**Fecha:** 2026-10-11. **Deciders:** Jefe de Frontend y Bryan. **Estado:** Aceptada.
+**Contexto:** Se requiere visualizar geográficamente en el panel administrativo web los puntos de servicio (hospitales y bodegas con coordenadas PostGIS) y trazar la comparativa de ruta tradicional vs ruta optimizada durante el pitch y la operación.
 
-**Decisión pendiente:** hacer prueba con puntos de Ecuador, cobertura y presupuesto. Las matrices por carretera no resuelven por sí solas capacidad, ventanas o selección de entregas.
+**Opciones consideradas:**
+- **Google Maps / Routes API:** Costosa, requiere facturación y tarjeta de crédito en GCP, riesgo de bloqueo por cuotas durante el evento.
+- **Mapbox GL JS:** Requiere token privado de cuenta y cuotas de facturación tras superar el límite gratuito.
+- **Leaflet + OpenStreetMap:** 100% de código abierto, ultraligera (<40 KB gzip), sin costo, sin necesidad de tokens ni tarjetas, madura y compatible con Angular 22 Standalone.
+
+**Decisión:** Se adopta **Leaflet (`leaflet` + `@types/leaflet`)** con tiles base de OpenStreetMap. Siguiendo Feature-Sliced Design (FSD):
+- El componente `apps/web/src/shared/ui/map-view/` actúa como lienzo visual puro agnóstico a la lógica de negocio (recibe marcadores y polilíneas GeoJSON).
+- El widget `apps/web/src/widgets/route-map/` orquesta la carga de puntos desde el backend (`/api/v1/service-points`) y compone la ruta sobre el mapa.
+
+## ADR-17 — móvil offline, firma digital y sincronización en campo
+
+**Fecha:** 2026-10-11. **Deciders:** Jefe de Frontend y Bryan. **Estado:** Aceptada.
+**Contexto:** Conforme a RF-06 y RNF-04, el conductor y recepcionista deben poder operar en modo avión o sin cobertura celular, registrando la recepción de la entrega, capturando cantidades y obteniendo la firma digital del receptor sin perder datos al reiniciar la app.
+
+**Decisión:**
+1. **Firma digital táctil:** Se utiliza la librería **`signature_pad`** en un canvas HTML5 responsivo dentro de la app móvil Ionic, exportando la firma como imagen PNG codificada para evidencia en S3.
+2. **Cola de persistencia offline:** Se utiliza **IndexedDB** mediante el wrapper ligero **`idb`** para encolar eventos de custodia y recepciones locales con identificadores UUID v7.
+3. **Protocolo de sincronización:** Al recuperar conexión a red, el cliente despacha las operaciones pendientes con claves de idempotencia UUID v7 hacia el backend. El estado de la interfaz respeta los 5 estados offline (`Guardado en el teléfono`, `Enviando`, `Aceptado por el servidor`, `Conflicto`, `Evidencia pendiente`).
+
+## ADR-18 — cliente OIDC y gestión de sesiones Cognito en frontend
+
+**Fecha:** 2026-10-11. **Deciders:** Jefe de Frontend y Bryan. **Estado:** Aceptada.
+**Contexto:** Complementando ADR-10, se requiere integrar la autenticación en Angular 22 y la app móvil contra el User Pool de Amazon Cognito dev (`us-east-1_4Y2j5DINp`) mediante clientes públicos sin client secret.
+
+**Decisión:**
+1. **Flujo de autorización:** Flujo **Authorization Code con PKCE (Proof Key for Code Exchange) S256** nativo o mediante librería estándar OIDC, almacenando el `code_verifier` temporalmente en `sessionStorage`.
+2. **Inyección de credenciales:** Creación de un `AuthInterceptor` en `apps/web/src/shared/api/` que intercepta peticiones HTTP salientes y adjunta la cabecera `Authorization: Bearer <accessToken>`.
+3. **Manejo de tokens:** Tokens de acceso con expiración de 15 minutos; refresco silencioso con rotación de refresh tokens. Si la sesión caduca offline, la cola local no se borra y solicita reautenticación al recuperar red sin perder las entregas capturadas.
 
 ## Aceptar una decisión
 

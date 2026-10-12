@@ -30,7 +30,7 @@ tags: [hackathon, equipo]
 
 - [[Arquitectura del sistema]], [[Decisiones de arquitectura]].
 - [[Backend y tiempo real]], [[Contratos API y eventos]].
-- [[Frontend y componentes]], [[Frontend con Feature-Sliced Design]], [[Movil offline y sincronizacion]].
+- [[Frontend y componentes]], [[Frontend con Feature-Sliced Design]], [[Movil offline y sincronizacion]], [[Sistema de diseno y colores]].
 - [[AWS y Terraform]], [[CI-CD y automatizacion de despliegue]], [[Hardening y seguridad de servidores]], [[Seguridad y evidencias]].
 - [[RBAC y configuracion del sistema]] — roles, permisos, campos, procesos y plantillas administrables desde DB.
 - [[Conexion PostgreSQL en DBeaver]] — conexiones de esquema/datos con los usuarios ya existentes.

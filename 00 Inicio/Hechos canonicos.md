@@ -62,11 +62,12 @@ Decisiones del 7 de octubre registradas por bryancito1090 (be0b127) en [[Reposit
 | Frontend web | Angular 22 standalone + FSD; TypeScript 6.0 | ADR-13 aceptada, ADR-04 (versión por Bryan) | — | ✅ |
 | Móvil | PWA con Ionic 8 e IndexedDB primero; Capacitor 8 para el empaquetado nativo posterior | ADR-06 concretada | — | ✅ diseño |
 | Tailwind | 3.4 | ADR-04 | — | ✅ |
-| Node.js | 22 LTS | ADR-04 | — | ✅ |
-| Mapas | PENDIENTE: Mapbox o Google Routes | ADR-05 | «Frontend y componentes» lista Mapbox GL JS / Leaflet | ⚠️ |
+| Mapas | Leaflet + OpenStreetMap en componente desacoplado `shared/ui/map-view`; sin costo ni cuotas | ADR-05 aceptada | — | ✅ |
+| Arquetipo visual y UI | Arquetipo B — Técnico/Minimalista; Lucide Icons (`lucide-angular`), paleta oficial Expo Clean (Cyan `#00A7C4`, Lime `#9EC200`, Orange `#EA601F`) y tokens semánticos en `tailwind.config.js` ([[Sistema de diseno y colores]]) | ADR-04 ratificada | — | ✅ |
+| Móvil offline y firma | PWA con IndexedDB (`idb`), `signature_pad` para firma táctil y UUID v7 | ADR-06, ADR-17 aceptadas | — | ✅ |
 | Tiempo real | SignalR; Redis solo con varias réplicas | ADR-07 propuesta | — | ⚠️ |
 | IA | Cálculo determinista; LLM (DeepSeek) solo explica; n8n en el servidor existente de Bryan | ADR-08 | — | ⚠️ propuesta |
-| Identidad | Amazon Cognito (OIDC, Authorization Code + PKCE) | ADR-10 definida | — | ✅ diseño, sin aprovisionar |
+| Identidad | Amazon Cognito (OIDC, Authorization Code + PKCE S256; AuthInterceptor en frontend) | ADR-10, ADR-18 definidas | — | ✅ |
 | Autorización | RBAC administrable por organización: seis roles funcionales como seeds y ConfigurationAdmin administrativo propuesto; acciones implementadas en backend | ADR-16, solicitada por Bryan el 9-oct; [[RBAC y configuracion del sistema]] | Sustituye límite anterior de seis roles fijos; implementación pendiente | ✅ dirección aceptada; ⚠️ diseño físico propuesto |
 | Base objetivo del sistema | Catálogo completo de tablas, columnas/relaciones, restricciones, RLS y fases de migración | [[Esquema completo de base de datos]] | Solo esquema propuesto; no está aplicado por existir la nota | ⚠️ |
 | Plantillas y parámetros | Gestión en DB, versiones publicadas inmutables, formularios/roles/campos/ámbitos configurables | ADR-16; [[RBAC y configuracion del sistema]] | Condiciones y handlers permitidos; integridad/seguridad no desactivables por configuración | ✅ dirección aceptada; implementación pendiente |
@@ -84,8 +85,8 @@ Decisiones del 7 de octubre registradas por bryancito1090 (be0b127) en [[Reposit
 | Versión backend | ADR-01 | Aceptada | bryancito1090 (765c532, be0b127) | Bryan |
 | Topología | ADR-02 | Propuesta | bryancito1090 (765c532) | — |
 | Motor e IDs | ADR-03 | Diseño concretado | bryancito1090 (765c532, be0b127) | Bryan |
-| Stack web/móvil | ADR-04 | Aceptada; versiones fijadas el 7-oct | JorgeDoicela (4c3a9ef), bryancito1090 (be0b127) | Versiones: Bryan; aceptación inicial PENDIENTE |
-| Mapas | ADR-05 | Pendiente | bryancito1090 (765c532) | — |
+| Stack web/móvil | ADR-04 | Aceptada; ratificada con Arquetipo B e iconos | JorgeDoicela (4c3a9ef), bryancito1090 (be0b127) | Jefe de Frontend y Bryan |
+| Mapas | ADR-05 | Aceptada (Leaflet + OpenStreetMap) | bryancito1090 (765c532), 2026-10-11 | Jefe de Frontend y Bryan |
 | Offline | ADR-06 | Diseño concretado | bryancito1090 (765c532, be0b127) | Bryan |
 | Tiempo real | ADR-07 | Propuesta | bryancito1090 (765c532) | — |
 | IA | ADR-08 | Propuesta | bryancito1090 (765c532) | — |
@@ -97,6 +98,8 @@ Decisiones del 7 de octubre registradas por bryancito1090 (be0b127) en [[Reposit
 | RBAC | ADR-14 | Aceptada | bryancito1090 (5905073) | PENDIENTE confirmar nombres |
 | CI/CD y hardening | ADR-15 | Aceptada | JorgeDoicela (4c3a9ef) | PENDIENTE |
 | Configuración y plantillas desde DB | ADR-16 | Aceptada la dirección, diseño propuesto | Instrucción directa, 2026-10-09 | Bryan |
+| Móvil offline y firma | ADR-17 | Aceptada (IndexedDB + signature_pad) | 2026-10-11 | Jefe de Frontend y Bryan |
+| Cliente OIDC Cognito | ADR-18 | Aceptada (PKCE S256 + AuthInterceptor) | 2026-10-11 | Jefe de Frontend y Bryan |
 
 ## Nombres en código
 

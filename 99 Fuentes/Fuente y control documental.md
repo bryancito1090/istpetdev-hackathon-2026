@@ -72,6 +72,8 @@ Estas fuentes verifican límites de plataforma y convenciones; no validan el aho
 | 2026-10-07 | Integración de los bloques A y C con be0b127 (bryancito1090) | Hechos canónicos, AGENTS.md y skills actualizados con .NET 8, PostgreSQL 16, Angular 22, Cognito y repositorio istpetdev-platform; rutas `/home/…` sustituidas por `~/Projects/…`; ADR del complemento citados con «→» para no redefinirlos |
 | 2026-10-07 | Skills y archivos de IA fuera de la bóveda | Se dejan de versionar `.agents/`, `.claude/`, `AGENTS.md`, `CLAUDE.md` y `GEMINI.md` (quedan en [[Catalogo y plan de skills]] como documentación, con una nota por skill en `08 Skills/`); el verificador pasa a `.github/scripts/check_vault.py` |
 | 2026-10-08 | Skill istpetdev-dbflow incorporada a la bóveda | Flujo colaborativo de base de datos en RDS dev, aislamiento por integrante, túnel SSM y resolución de conflictos incorporado a `08 Skills/` y al catálogo |
+| 2026-10-11 | Formalización y cierre de decisiones Frontend (ADR-04, ADR-05, ADR-17, ADR-18) | Jefe de Frontend y Bryan: Leaflet para mapas en shared/ui/map-view, Arquetipo B Técnico/Minimalista con Lucide Icons y tokens Tailwind, PWA offline con signature_pad e idb, cliente OIDC PKCE para Cognito |
+| 2026-10-11 | Normativa cromática oficial Expo Clean Ecuador y tokens de diseño | Identidad gráfica canónica extraída del material oficial del evento (Clean Cyan `#00A7C4`, Expo Lime `#9EC200`, Energy Orange `#EA601F`) en [[Sistema de diseno y colores]] y configurada en Tailwind |
 | Pendiente | Respuestas de capacitación | Actualizar reglas/alcance al recibirlas |
 
 ## Actualizar el manual
@@ -116,4 +118,19 @@ Se incorporan [[Esquema completo de base de datos]], [[RBAC y configuracion del 
 
 Fuentes técnicas contrastadas: PostgreSQL 16, Microsoft ASP.NET Core 8, DBeaver y OWASP; enlaces específicos en las notas correspondientes. La skill complementa revisión/backend/frontend/dbflow, excluye del nuevo checklist sus reglas ya existentes y los mecanismos ajenos a la arquitectura elegida. Se genera una copia local validable y se enlaza desde las instrucciones locales del proyecto; no se presenta como gate CI/runtime ya implementado ni instalación global del asistente.
 
-Validación del 9 de octubre: **71 notas Markdown**, **567 enlaces internos resueltos**, frontmatter, enlaces, bloques e IDs comprobados por el verificador. Pruebas de RLS/RBAC/runtime y despliegue continúan pendientes en el plan, no cerradas por documentación.
+Validación del 9 de octubre: **71 notas Markdown**, **566 enlaces internos resueltos**, frontmatter, enlaces, bloques e IDs comprobados por el verificador. Pruebas de RLS/RBAC/runtime y despliegue continúan pendientes en el plan, no cerradas por documentación.
+
+## Cierre de decisiones de Frontend — 11 de octubre de 2026
+
+Fuente: acuerdo técnico liderado por el Jefe de Frontend junto a Bryan para habilitar la construcción de las interfaces de usuario web y móvil.
+- **ADR-05 (Mapas):** Elección de Leaflet con OpenStreetMap para `shared/ui/map-view` y `widgets/route-map`, asegurando disponibilidad offline/local sin costo ni riesgo de cuotas/bloqueos de API keys en la demo.
+- **ADR-04 (Arquetipo y UI Kit):** Ratificación del Arquetipo B Técnico/Minimalista (datos densos, estilo Linear/Vercel), Lucide Icons (`lucide-angular`) como sistema oficial de iconos y tokens semánticos de 3 capas en Tailwind CSS.
+- **ADR-17 (Móvil Offline y Firma Digital):** Implementación de canvas táctil con `signature_pad` para recepción de insumos en hospital/bodega, persistencia local con IndexedDB (`idb`) e idempotencia con UUID v7.
+- **ADR-18 (Cliente OIDC / Cognito PKCE):** Flujo seguro Authorization Code con PKCE S256 en Angular Standalone con inyección de Bearer tokens vía `AuthInterceptor`.
+
+## Normativa cromática oficial Expo Clean Ecuador — 11 de octubre de 2026
+
+Fuente: flyer promocional oficial y material de difusión de la Feria Internacional de Limpieza e Higiene Profesional — Expo Clean Ecuador 2026 (Centro de Exposiciones Quito). Se define formalmente [[Sistema de diseno y colores]], estableciendo los tokens semánticos en Tailwind CSS (Cyan `#00A7C4`, Lime `#9EC200`, Orange `#EA601F`, Slate `#2D3748`) para `apps/web` y `apps/mobile`, armonizados con [[Requisitos y aceptacion|RNF-09]] (accesibilidad multicanal de estados) y el Arquetipo B.
+
+Validación del 11 de octubre: **72 notas Markdown**, **585 enlaces internos resueltos**, frontmatter, enlaces e integridad de bóveda comprobados por el verificador.
+

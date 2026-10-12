@@ -74,15 +74,18 @@ Adaptada de las skills personales `frontend-lead-personalidad` (cinco estados, d
 
 Referencia de la skill `istpetdev-frontend`. Nada de esto reemplaza una decisión del equipo: lo marcado PENDIENTE se confirma y se registra en `00 Inicio/Hechos canonicos.md`.
 
-### Arquetipo visual
+### Arquetipo visual e identidad cromática
 
-Estado: **PENDIENTE de decisión del equipo.**
+Estado: **Aceptado y ratificado (Arquetipo B — Técnico/Minimalista con Identidad Expo Clean Ecuador).**
 
-Recomendación: **B — técnico/minimalista** (al estilo de herramientas de operación como Linear o Vercel): función antes que decoración, espacio en blanco generoso, tipografía sans neutral y tipografía monoespaciada para cifras, color solo donde hay acción o estado. Encaja con un panel logístico denso en datos y con un jurado que debe leer cifras rápido.
-
-Alternativa: **C — producto pulido** (redondeos generosos, paleta cálida sobria, microanimaciones sutiles) si el equipo prefiere un tono más comercial para la app del receptor.
-
-No usar arquetipos expresivos (neumorfismo, aurora, retro) en pantallas densas en datos o críticas en accesibilidad.
+- **Estilo:** Función antes que decoración, espacio en blanco generoso, tipografía sans neutral y tipografía monoespaciada para cifras, color disciplinado enfocado en acción y estado logístico.
+- **Paleta oficial:** Extraída del material oficial de Expo Clean Ecuador ([[Sistema de diseno y colores]]):
+  - Primario (`primary`): Clean Cyan `#00A7C4` (higiene, agua, desinfección, navegación).
+  - Secundario (`secondary`): Expo Lime `#9EC200` (sostenibilidad, insumos verdes, stock en regla).
+  - Acento (`accent` / `cta`): Energy Orange `#EA601F` (botones de acción crítica, escaneo QR, alerta preventiva).
+  - Neutro oscuro (`neutral-dark`): Charcoal Slate `#2D3748` (legibilidad y contraste AAA).
+- **Iconografía oficial:** Lucide Icons (`lucide-angular`).
+- **Prohibido:** Arquetipos expresivos (neumorfismo, aurora, retro) en pantallas densas en datos o críticas en accesibilidad.
 
 ### Evitar el aspecto genérico de IA
 
