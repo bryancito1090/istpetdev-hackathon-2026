@@ -1,7 +1,7 @@
 ---
 tipo: ejecucion
 estado: propuesta
-actualizado: 2026-10-07
+actualizado: 2026-10-10
 tags: [hackathon, istpetdev]
 ---
 
@@ -47,3 +47,12 @@ La propiedad intelectual se rige por el manual y los acuerdos específicos que e
 | 2026-10-07 | Preparación | Completar acuerdos de infraestructura y ADR-10 conservando el aporte `4c3a9ef` | [[Repositorio de software y versiones]], [[Entornos y operacion acordados]], [[Identidad OIDC y sesiones]] | Documentado; sin apply AWS ni modificación del n8n externo |
 
 Bryan confirmó recursos/versiones y delegó recomendaciones. El compañero implementará Actions/Compose y otro compañero profundizará dominio institucional. Conservar autoría del diseño anterior; la preparación documentada no se presenta como código/pruebas de las jornadas.
+
+## Registro de preparación — 9 de octubre de 2026
+
+| Fecha | Fase | Resultado | Evidencia | Estado |
+|---|---|---|---|---|
+| 2026-10-09 | Preparación | Migración CompleteSystemSchema95 aplicada en la base personal de Bryan; InitialSchema conservada, 95 tablas con ENABLE/FORCE RLS, credenciales API restauradas | Informe del agente de software, evidencia privada leída y resumen en [[Coordinacion migracion schema95]] | Aplicación personal registrada; no acredita despliegue, aislamiento funcional ni aplicación en integración |
+| 2026-10-09 | Preparación | Reparto de trabajo entre agente de software (pruebas, documentación técnica y PR) y agente de bóveda (estado y guías compartidas) | [[Coordinacion migracion schema95]] | Encargo transmitido por Bryan y respuesta recibida; documentación de la bóveda verificada; envío automático por Orca bloqueado por FUSE |
+| 2026-10-09 | Preparación | Commit bc85792f5ae94eeda79f93482f61cb77ced3b5dd publicado; PR #1 hacia develop como borrador; integridad RDS y aislamiento/integridad/PostGIS SQL descartable aprobados | [PR #1](https://github.com/bryancito1090/istpetdev-platform/pull/1), respuesta del agente de software y evidencias resumidas en [[Coordinacion migracion schema95]] | Revisión y pruebas .NET/HTTP/aislamiento RDS pendientes; no merge ni actualización de integración |
+| 2026-10-10 | Preparación | Commit 8c6791cc6bf5c730b0447d343897fef4fae0e4e7: pool Npgsql secuencial, EF/Npgsql/NTS y filtro/controlador aprobados en PostgreSQL 16/PostGIS descartable; matriz JWT/HTTP preparada | Respuesta y huellas de evidencia privada comprobadas, resumidas en [[Coordinacion migracion schema95]] | API detenida y PR como borrador según informe; HTTP/Cognito, concurrencia y recorrido/aislamiento RDS pendientes; migraciones e integración sin cambios |

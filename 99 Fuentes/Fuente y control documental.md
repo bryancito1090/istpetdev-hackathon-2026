@@ -1,7 +1,7 @@
 ---
 tipo: fuente
 estado: vigente
-actualizado: 2026-10-09
+actualizado: 2026-10-10
 tags: [istpetdev, documentacion]
 ---
 
@@ -134,3 +134,25 @@ Fuente: flyer promocional oficial y material de difusión de la Feria Internacio
 
 Validación del 11 de octubre: **72 notas Markdown**, **585 enlaces internos resueltos**, frontmatter, enlaces e integridad de bóveda comprobados por el verificador.
 
+
+## Aplicación personal de schema95 y coordinación — 9 de octubre de 2026
+
+Fuente: informe del agente de software compartido por Bryan y archivo privado de verificación leído por el agente de la bóveda, resumidos sin secretos en [[Coordinacion migracion schema95]]. Se registra CompleteSystemSchema95 aplicada en `istpetdev_dev_01`, historial inicial conservado y 95 tablas con ENABLE/FORCE RLS. La evidencia fue producida por el agente de software; el agente de la bóveda no repitió las consultas en RDS.
+
+Se actualizan estado canónico, esquema, backlog y registro de preparación. La guía de dbflow conserva migraciones aplicadas incluso sin merge, corrige el perfil AWS de Bryan y distingue conectividad de autorización. El envío automático de la tarea al otro agente falló por falta de FUSE en el CLI de Orca; recepción del encargo, PR, pruebas funcionales e integración siguen pendientes. No se hizo commit, push, arranque de API ni operación cloud desde la sesión de la bóveda.
+
+Validación de esta actualización: **72 notas Markdown**, **585 enlaces internos resueltos**. Los dos avisos de lenguaje de propuesta ya existentes se mantienen; el alcance de seguridad del sistema sigue sujeto a las verificaciones pendientes.
+
+## Respuesta del agente de software y revisión de evidencia — 9 de octubre de 2026
+
+Se recibió el archivo de respuesta del agente de ISTPETDEV y se comprobó localmente el commit `bc85792f5ae94eeda79f93482f61cb77ced3b5dd`. Las 35 rutas de código/esquema/pruebas conservan el contenido preparado; se actualizó la documentación técnica de resultados. El agente de software informó la publicación del PR #1 como borrador hacia `develop`.
+
+Se leyeron las evidencias privadas de integridad en RDS y de aislamiento/integridad/PostGIS SQL en PostgreSQL 16/PostGIS descartable, conservando sus alcances separados. El hash del script de integridad coincide con el informe. No se repitieron estos ensayos ni se aprobó/fusionó el PR desde la bóveda. Resultados y pendientes del cliente .NET, HTTP e aislamiento RDS en [[Coordinacion migracion schema95]]. Integración continúa sin aplicar schema95.
+
+Validación de la documentación tras esta respuesta: **72 notas Markdown**, **587 enlaces internos resueltos**; se mantienen únicamente los dos avisos de lenguaje ya existentes.
+
+## Pruebas .NET en entorno descartable — 10 de octubre de 2026
+
+Se revisaron la respuesta del agente de software, el commit 8c6791cc6bf5c730b0447d343897fef4fae0e4e7 y el verificador EF/Npgsql/NTS. Las cuatro huellas del registro privado coinciden con las fuentes actuales. Se registran PASS del pool secuencial de tamaño uno, materialización/consulta espacial y denegaciones directas del filtro/controlador, sin presentarlos como autenticación ni transporte HTTP. El ensayo no consultó RDS; no cambió producción ni migraciones. Alcance y pendientes en [[Coordinacion migracion schema95]]. La bóveda no repitió el ensayo ni aprobó el merge.
+
+Validación del estado documental actualizado: **73 notas Markdown**, **607 enlaces internos resueltos**; permanecen los dos avisos previos de lenguaje de propuesta.

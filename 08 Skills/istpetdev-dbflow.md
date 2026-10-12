@@ -28,7 +28,7 @@ Rutas relativas a la raíz del repositorio de software `istpetdev-platform`. Lee
 - **Aislamiento en desarrollo (Bases personales):** Cada desarrollador tiene su base física dedicada (`istpetdev_dev_01` a `istpetdev_dev_05`). Ningún integrante modifica ni interfiere en la base de otro compañero.
 - **Base de integración compartida:** `istpetdev_integration` refleja estrictamente el estado validado de la rama `develop`. Solo se actualiza tras aprobar e integrar un Pull Request en Git.
 - **Separación DML vs DDL (Mínimo privilegio):**
-  - **Rol de Aplicación (`user_dev_XX`):** Permisos DML exclusivamente (`SELECT, INSERT, UPDATE, DELETE`). Permiso DDL revocado en el esquema `public`.
+  - **Rol de Aplicación (`user_dev_XX`):** Sin DDL. Permisos DML limitados por tabla, operación y políticas RLS; no implica CRUD sobre las 95 tablas. Catálogos de seguridad, historial y tablas sin comando implementado tienen restricciones adicionales documentadas en `docs/schema95-migration.md`.
   - **Rol Migrador (`migrator_dev_XX`):** Permisos DDL en el esquema `public`. Solo se utiliza puntualmente para aplicar migraciones de EF Core.
 - **Conexión segura:** Túnel SSM al puerto local `15432` con verificación estricta de certificado TLS oficial de Amazon RDS (`SSL Mode=VerifyFull`) mediante mapeo en `/etc/hosts`.
 - **Secretos:** Credenciales almacenadas en AWS Secrets Manager (`/istpetdev/dev/db/...`) con acceso restringido por IAM con MFA obligatorio. Nunca se escriben credenciales en Git ni en archivos públicos.
@@ -49,33 +49,34 @@ Rutas relativas a la raíz del repositorio de software `istpetdev-platform`. Lee
 2. **Ciclo de vida de una migración:**
    - Diseñar la entidad C# en `src/Domain/Entities/` y registrarla en `ApplicationDbContext.cs`.
    - Generar la migración con `dotnet ef migrations add <NombrePascalCase> --project src/Infrastructure --startup-project src/Api`.
-   - Cargar temporalmente el rol migrador: `bash scripts/ops/load-dev-secrets.sh --profile istpetdev-dev --member dev_XX --database personal --migrator --config ~/.config/istpetdev/private/dev-access.json`.
+   - Cargar temporalmente el rol migrador con el perfil AWS individual. Para Bryan: `bash scripts/ops/load-dev-secrets.sh --profile istpetdev-admin --member dev_01 --database personal --migrator --config ~/.config/istpetdev/private/dev-access.json`. Los demás integrantes usan su propio perfil y código; no reutilizan las credenciales de Bryan.
    - Aplicar a la base personal: `dotnet ef database update --project src/Infrastructure --startup-project src/Api`.
    - Restaurar el rol de aplicación: ejecutar `load-dev-secrets.sh` sin el flag `--migrator`.
-   - Validar que la API local responda `HTTP 200` en `/health/ready`.
+   - Validar esquema, integridad y denegaciones con el usuario API. Contar tablas con RLS no prueba aislamiento. Cuando corresponda levantar la API, aplicar [[istpetdev-prelaunch]] y comprobar `/health/ready` y los casos HTTP afectados dentro del alcance autorizado; una migración exitosa no autoriza por sí sola el arranque.
    - Subir el cambio en una rama `feature/*` y abrir Pull Request hacia `develop`.
 3. **Propagación en integración:**
    - Al fusionar el PR en `develop`, aplicar la migración en `istpetdev_integration` con el rol `migrator_integration`.
-   - Los demás compañeros hacen `git pull origin develop`, cargan su rol migrador y corren `dotnet ef database update` en sus bases personales.
+   - Los demás compañeros actualizan su copia de `develop` conservando sus cambios locales, cargan su rol migrador, corren `dotnet ef database update` en su base personal y restauran su usuario de aplicación. Reciben las migraciones existentes; no las regeneran.
 4. **Resolución de conflictos en Git (Snapshot de EF Core):**
    - Si dos integrantes crearon migraciones paralelas y Git detecta conflicto en `ApplicationDbContextModelSnapshot.cs`: **NUNCA resolver el snapshot a mano editando el código C#**.
-   - Procedimiento de resolución:
-     1. Ejecutar `git rebase develop`.
-     2. Revertir la migración local no mergeada: `dotnet ef migrations remove --project src/Infrastructure --startup-project src/Api`.
-     3. Resolver conflictos de código en `src/Domain/` y completar el rebase con `git rebase --continue`.
-     4. Regenerar la migración sobre el snapshot limpio de develop: `dotnet ef migrations add <NombreMigracion> ...`.
-     5. Aplicar la nueva migración local con `dotnet ef database update`.
+   - Antes de resolver, comprobar si cualquiera de las migraciones en conflicto está aplicada en alguna base o ya fue compartida. Una migración aplicada no se elimina ni regenera por estar todavía sin merge. InitialSchema y CompleteSystemSchema95 ya están aplicadas en `dev_01`; ver [[Coordinacion migracion schema95]].
+   - Solo una migración nunca aplicada ni compartida puede eliminarse con `dotnet ef migrations remove --project src/Infrastructure --startup-project src/Api`, sincronizar el código con `develop` y regenerarse sobre el snapshot actualizado mediante EF Core. Revisar el SQL y comprobar el modelo antes de aplicarla.
+   - Si hay migraciones aplicadas o compartidas, coordinar el orden y la corrección con su responsable, conservar los archivos históricos y generar cualquier cambio de estructura como una migración posterior. No ejecutar downgrade ni borrar datos como mecanismo rutinario de resolución. Si no hay una secuencia segura comprobada, registrar el conflicto y mantener el PR pendiente.
+
+### Operación personal de schema95
+
+Para Bryan, el comando `bash scripts/db/migrate-personal.sh istpetdev-admin dev_01` comprueba el modelo, carga el migrador, actualiza su base y restaura el usuario API. Fue ejecutado por el agente de software con resultado 0; evidencia y alcance en [[Coordinacion migracion schema95]]. El script requiere API detenida, sesión AWS vigente y túnel activo. La transición exige las cinco tablas iniciales vacías; no borrar registros para superar la guarda. Después de aplicar, las tablas renombradas usan nombres singulares.
 
 ## Prohibido inventar
 
 - Nombres de tablas, columnas o entidades que no provengan de [[Hechos canonicos]] o [[Modelo de datos]] (usar nombres canónicos en inglés: `RoutePlan`, `ServicePoint`, `HandlingUnit`, etc.).
 - Modificar directamente la base de datos `istpetdev_integration` desde una máquina local sin que el PR esté fusionado en `develop`.
 - Desactivar la verificación TLS (`VerifyFull`) o abrir puertos de entrada en el Security Group de RDS.
-- Modificar o reescribir archivos de migración ya aplicados y fusionados en ramas principales.
+- Modificar o reescribir archivos de migración ya aplicados, aunque todavía no estén fusionados en ramas principales.
 
 ## Verificar
 
-- `GET http://localhost:5000/health/ready` devuelve `HTTP 200 OK` demostrando conectividad a la base de datos.
+- Con la API autorizada y ejecutándose, `GET http://localhost:5000/health/ready` devuelve `HTTP 200 OK` demostrando conectividad a la base de datos. No acredita autorización, aislamiento RLS ni funciones de negocio.
 - Tipos de datos correctos: identificadores con UUIDv7, fechas en UTC (`DateTime.UtcNow`) y dinero/cantidades en `decimal` con escala explícita.
 - Comprobación de integridad con `python .github/scripts/check_vault.py` antes de fusionar documentación.
 

@@ -1,7 +1,7 @@
 ---
 tipo: referencia
 estado: vigente
-actualizado: 2026-10-09
+actualizado: 2026-10-10
 tags: [hackathon, equipo, ia]
 ---
 
@@ -69,7 +69,7 @@ Decisiones del 7 de octubre registradas por bryancito1090 (be0b127) en [[Reposit
 | IA | Cálculo determinista; LLM (DeepSeek) solo explica; n8n en el servidor existente de Bryan | ADR-08 | — | ⚠️ propuesta |
 | Identidad | Amazon Cognito (OIDC, Authorization Code + PKCE S256; AuthInterceptor en frontend) | ADR-10, ADR-18 definidas | — | ✅ |
 | Autorización | RBAC administrable por organización: seis roles funcionales como seeds y ConfigurationAdmin administrativo propuesto; acciones implementadas en backend | ADR-16, solicitada por Bryan el 9-oct; [[RBAC y configuracion del sistema]] | Sustituye límite anterior de seis roles fijos; implementación pendiente | ✅ dirección aceptada; ⚠️ diseño físico propuesto |
-| Base objetivo del sistema | Catálogo completo de tablas, columnas/relaciones, restricciones, RLS y fases de migración | [[Esquema completo de base de datos]] | Solo esquema propuesto; no está aplicado por existir la nota | ⚠️ |
+| Base objetivo del sistema | 95 tablas de dominio aplicadas en `istpetdev_dev_01` mediante CompleteSystemSchema95, conservando InitialSchema; 95 ENABLE/FORCE RLS | [[Esquema completo de base de datos]]; evidencia del agente de software en [[Coordinacion migracion schema95]] | PR #1 como borrador; integridad RDS y aislamiento/PostGIS descartable aprobados, incluido cliente EF/Npgsql y pool secuencial; JWT/HTTP real, concurrencia, recorrido/aislamiento RDS, merge e integración pendientes | ✅ aplicación personal y pruebas según evidencia; ⚠️ validaciones funcionales pendientes |
 | Plantillas y parámetros | Gestión en DB, versiones publicadas inmutables, formularios/roles/campos/ámbitos configurables | ADR-16; [[RBAC y configuracion del sistema]] | Condiciones y handlers permitidos; integridad/seguridad no desactivables por configuración | ✅ dirección aceptada; implementación pendiente |
 | Hosting demo | Perfil A: EC2 + Docker Compose + Nginx, encendido solo para ensayos; región `us-east-1` | ADR-09 | — | ⚠️ ver Deciders |
 | Desarrollo | Aplicaciones locales por integrante; RDS dev privado compartido (base por integrante + integración) | [[Entornos y operacion acordados]] | — | ✅ diseño, sin aprovisionar |

@@ -55,3 +55,6 @@ tfplan
 AGENTS.md
 CLAUDE.md
 GEMINI.md
+
+# Paquetes locales preparados para el repositorio de software
+/.migration-artifacts/

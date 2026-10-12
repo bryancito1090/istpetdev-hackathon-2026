@@ -21,7 +21,8 @@ Los enlaces internos de las notas están preparados para Obsidian. El manual ofi
 
 | Tema | Nota |
 |---|---|
-| Esquema completo propuesto | [Esquema de base de datos](04%20Datos%20y%20algoritmos/Esquema%20completo%20de%20base%20de%20datos.md) |
+| Esquema completo y estado personal | [Esquema de base de datos](04%20Datos%20y%20algoritmos/Esquema%20completo%20de%20base%20de%20datos.md) |
+| Coordinación de la migración de 95 tablas | [Estado y tareas entre agentes](06%20Equipo/Coordinacion%20migracion%20schema95.md) |
 | RBAC, configuración y plantillas | [Configuración del sistema](03%20Arquitectura/RBAC%20y%20configuracion%20del%20sistema.md) |
 | Conexiones PostgreSQL | [DBeaver](03%20Arquitectura/Conexion%20PostgreSQL%20en%20DBeaver.md) |
 | Revisión antes de lanzar | [Skill de prelaunch](08%20Skills/istpetdev-prelaunch.md) |

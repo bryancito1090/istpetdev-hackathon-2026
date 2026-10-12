@@ -47,6 +47,7 @@ tags: [hackathon, equipo]
 
 - [[Equipo y acuerdos]], [[Plan de ejecucion]], [[Backlog]].
 - [[Riesgos y decisiones pendientes]], [[Registro de trabajo previo y del evento]].
+- [[Coordinacion migracion schema95]] — aplicación personal, evidencia y reparto de revisión/documentación entre agentes.
 - [[Registro de mentorias]].
 
 ## Validación y presentación
