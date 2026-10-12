@@ -191,8 +191,8 @@ Una migración incompatible bloquea rollback automático. Restaurar DB requiere 
 
 ## 10. Pendientes que continúan abiertos
 
-- **Dominio institucional, DNS, certificado/renovación, CDN/mTLS y origen HTTPS final:** el compañero profundizará y cargará estos valores. Usar `<DOMINIO_INSTITUCIONAL>`; no asumir propiedad de `istpetdev.com`.
-- **Implementación GitHub Actions/Compose:** a cargo del compañero de los últimos cambios; CI/deploy/rollback permanecen pendientes hasta ejecución real.
+- **Dominio institucional y DNS (RESUELTO - 12/Oct/2026):** Asignado subdominio `istpetdev.doicela.dev` administrado en Cloudflare (modo Flexible/Full) apuntando al servidor EC2 Debian con Nginx Reverse Proxy.
+- **Implementación GitHub Actions/Compose (RESUELTO - 12/Oct/2026):** Materializado en el repositorio `istpetdev-platform` con workflows (`ci.yml`, `deploy.yml`, `rollback.yml`), `docker-compose.prod.yml`, Dockerfiles multi-stage y script desatendido `user-data.sh`.
 - **Valores privados:** Bryan cargará account ID, SSO/permisos, credenciales DB/n8n/DeepSeek, client secrets, presupuesto y destinatarios de alarmas por los canales documentados.
 - **Mapas:** ADR-05 sigue pendiente de proveedor, cobertura Ecuador, licencia de caché y cuotas; no sustituirlo silenciosamente por una librería de renderizado.
 - **Verificación real:** compatibilidad Ionic/Angular, migraciones/túnel/TLS, dispositivos offline, backups/restauración, seguridad y tiempos de deploy/rollback.
@@ -216,3 +216,4 @@ Al implementar GitHub OIDC comprobar el formato real de `sub`: GitHub documenta 
 ## Escenario temporal y retiro al finalizar — 7 de octubre de 2026
 
 Bryan confirma uso exclusivamente para la hackathon y eliminación de recursos del proyecto al terminar. [[AWS temporal para la hackathon y cierre]] tiene precedencia en acceso humano y vida útil: cuenta independiente, propuesta de usuarios IAM/MFA con `aws login` para conservar créditos, sin Organizations; retirar también bootstrap/state cloud después del destroy y exportación privada local. Durante el ensayo se conservan red/TLS/aislamiento/backups/protección RDS. El servidor n8n propio y recursos ajenos al proyecto quedan fuera de la limpieza. B-35/V-32 se adaptan al login temporal; B-36/V-33 incorporan cierre completo.
+
