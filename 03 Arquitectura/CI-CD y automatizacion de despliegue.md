@@ -271,3 +271,17 @@ Se elevaron los workflows de GitHub Actions al estándar enterprise basado en pa
 
 8. **Comprobación de Integridad de Datos en la Compuerta de QA**:
    - En cada ejecución del pipeline de despliegue, el job `backend-qa` ejecuta `tools/Schema95Check` para verificar que las 95 tablas, el aislamiento tenant RLS, claves foráneas, tipos y snapshots se mantengan conformes antes de proceder a la construcción de contenedores Docker.
+
+### Estructura y Taxonomía de Scripts Operativos (`scripts/`)
+
+Para desacoplar la ejecución automatizada de GitHub Actions del mantenimiento manual del operador humano por SSH, los scripts están organizados en subcarpetas semánticas:
+- **`scripts/ops/`**:
+  - `user-data.sh`: Aprovisionamiento desatendido Cloud-Init de nuevas instancias EC2.
+  - `init-debian-host.sh`: Inicialización manual para servidores Debian.
+  - `prune-host.sh`: Poda de almacenamiento, vaciado de `journalctl` (50M) y rotación de imágenes locales (últimas 3 versiones).
+- **`scripts/backup/`**:
+  - `backup-db.sh`: Generación manual y segura de snapshots comprimidos de PostgreSQL (`istpetdev_db`).
+- **`scripts/deploy/`**:
+  - `deploy-local-host.sh`: Despliegue y levantamiento local desatendido desde el servidor sin pasar por CI.
+- **`scripts/db/`**:
+  - Verificación de aislamiento RLS, migración personal y cheques de runtime de Schema 95.
