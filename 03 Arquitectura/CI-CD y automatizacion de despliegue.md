@@ -242,3 +242,21 @@ Para que el levantamiento de cualquier nueva instancia EC2 (Debian o Ubuntu) sea
 1. **Script User Data**: Se implementó [scripts/ops/user-data.sh](file:///scripts/ops/user-data.sh). Al crear la instancia en la consola de AWS, se pega este contenido en *Detalles avanzados -> Datos de usuario*.
 2. **Auto-aprovisionamiento**: El script instala Docker CE oficial, Docker Compose plugin, habilita UFW con rate limit en SSH y puertos 80/443 abiertos, crea /var/www/istpetdev con usuario operativo y auto-genera certificados SSL locales para soporte inmediato de Cloudflare en modo Flexible o Full.
 3. **Pipeline Inmutable**: El workflow deploy.yml sincroniza Compose y Nginx vía SCP y recrea contenedores de inmediato.
+
+### Optimizaciones Enterprise del Pipeline CI/CD — 12 de octubre de 2026
+
+Se elevaron los workflows de GitHub Actions al estándar enterprise basado en patrones de producción de alta eficiencia:
+1. **Detección Inteligente de Cambios (DAG con dorny/paths-filter@v3)**:
+   - Evaluación selectiva de rutas para backend (`src/**`, `infra/docker/backend/**`, `IstpetDev.sln`) y frontend (`apps/web/**`, `libs/shared-core/**`, `infra/docker/web/**`).
+   - Evita recompilar imágenes pesadas de Docker cuando el commit solo afecta a una de las capas.
+2. **Fallback Inteligente de Imágenes GHCR (`docker manifest inspect`)**:
+   - Si un componente no necesitó recompilarse en el commit actual, el orquestador detecta automáticamente la ausencia del tag SHA e inyecta la etiqueta `:latest` preexistente en GHCR, recortando tiempos de build y despliegue a menos de 2 minutos.
+3. **Mantenimiento Preventivo de Almacenamiento en Host**:
+   - Rotación y poda automática de logs del sistema (`journalctl --vacuum-size=50M`) y paquetes apt (`apt-get clean`).
+   - Política de retención local de las últimas 3 versiones de cada imagen para garantizar rollback local instantáneo sin saturar el disco.
+4. **Respaldo Preventivo y Reseteo Controlado**:
+   - Cada despliegue genera un snapshot comprimido de la base de datos PostgreSQL (`backups/pre_deploy_*.sql.gz`) antes de actualizar contenedores.
+   - Parámetro `reset_database` en `workflow_dispatch` con backup preventivo automático para inicializaciones limpias en entornos de prueba.
+5. **Workflow de Rollback Enterprise (<30s)**:
+   - Permite revertir de inmediato a cualquier SHA previo sin rebuild ni esperas de CI.
+   - Incluye autenticación GHCR, verificación en vivo con reintentos hacia `/health/live` y reporte ejecutivo en GitHub Step Summary.
